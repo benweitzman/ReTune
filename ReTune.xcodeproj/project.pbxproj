@@ -1,0 +1,446 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA9A4C2115200DA0006C9E9D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9A4C2015200DA0006C9E9D /* UIKit.framework */; };
+		DA9A4C2315200DA0006C9E9D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9A4C2215200DA0006C9E9D /* Foundation.framework */; };
+		DA9A4C2515200DA0006C9E9D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9A4C2415200DA0006C9E9D /* CoreGraphics.framework */; };
+		DA9A4C2B15200DA0006C9E9D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA9A4C2915200DA0006C9E9D /* InfoPlist.strings */; };
+		DA9A4C2D15200DA0006C9E9D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9A4C2C15200DA0006C9E9D /* main.m */; };
+		DA9A4C3115200DA0006C9E9D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9A4C3015200DA0006C9E9D /* AppDelegate.m */; };
+		DA9A4C3415200DA0006C9E9D /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA9A4C3215200DA0006C9E9D /* MainStoryboard.storyboard */; };
+		DA9A4C3715200DA0006C9E9D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9A4C3615200DA0006C9E9D /* ViewController.m */; };
+		DA9A4C3F15200DA0006C9E9D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9A4C3E15200DA0006C9E9D /* SenTestingKit.framework */; };
+		DA9A4C4015200DA0006C9E9D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9A4C2015200DA0006C9E9D /* UIKit.framework */; };
+		DA9A4C4115200DA0006C9E9D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9A4C2215200DA0006C9E9D /* Foundation.framework */; };
+		DA9A4C4915200DA0006C9E9D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA9A4C4715200DA0006C9E9D /* InfoPlist.strings */; };
+		DA9A4C4C15200DA0006C9E9D /* ReTuneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9A4C4B15200DA0006C9E9D /* ReTuneTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA9A4C4215200DA0006C9E9D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA9A4C1315200D9F006C9E9D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA9A4C1B15200DA0006C9E9D;
+			remoteInfo = ReTune;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DA9A4C1C15200DA0006C9E9D /* ReTune.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReTune.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA9A4C2015200DA0006C9E9D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DA9A4C2215200DA0006C9E9D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DA9A4C2415200DA0006C9E9D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DA9A4C2815200DA0006C9E9D /* ReTune-Info.plist */ = {isa = PBXFileReference; path = "ReTune-Info.plist"; sourceTree = "<group>"; };
+		DA9A4C2A15200DA0006C9E9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA9A4C2C15200DA0006C9E9D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DA9A4C2E15200DA0006C9E9D /* ReTune-Prefix.pch */ = {isa = PBXFileReference; path = "ReTune-Prefix.pch"; sourceTree = "<group>"; };
+		DA9A4C2F15200DA0006C9E9D /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		DA9A4C3015200DA0006C9E9D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DA9A4C3315200DA0006C9E9D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		DA9A4C3515200DA0006C9E9D /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
+		DA9A4C3615200DA0006C9E9D /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DA9A4C3D15200DA0006C9E9D /* ReTuneTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReTuneTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA9A4C3E15200DA0006C9E9D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		DA9A4C4615200DA0006C9E9D /* ReTuneTests-Info.plist */ = {isa = PBXFileReference; path = "ReTuneTests-Info.plist"; sourceTree = "<group>"; };
+		DA9A4C4815200DA0006C9E9D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA9A4C4A15200DA0006C9E9D /* ReTuneTests.h */ = {isa = PBXFileReference; path = ReTuneTests.h; sourceTree = "<group>"; };
+		DA9A4C4B15200DA0006C9E9D /* ReTuneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReTuneTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA9A4C1915200DA0006C9E9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA9A4C2115200DA0006C9E9D /* UIKit.framework in Frameworks */,
+				DA9A4C2315200DA0006C9E9D /* Foundation.framework in Frameworks */,
+				DA9A4C2515200DA0006C9E9D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA9A4C3915200DA0006C9E9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA9A4C3F15200DA0006C9E9D /* SenTestingKit.framework in Frameworks */,
+				DA9A4C4015200DA0006C9E9D /* UIKit.framework in Frameworks */,
+				DA9A4C4115200DA0006C9E9D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA9A4C1115200D9F006C9E9D = {
+			isa = PBXGroup;
+			children = (
+				DA9A4C2615200DA0006C9E9D /* ReTune */,
+				DA9A4C4415200DA0006C9E9D /* ReTuneTests */,
+				DA9A4C1F15200DA0006C9E9D /* Frameworks */,
+				DA9A4C1D15200DA0006C9E9D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA9A4C1D15200DA0006C9E9D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA9A4C1C15200DA0006C9E9D /* ReTune.app */,
+				DA9A4C3D15200DA0006C9E9D /* ReTuneTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA9A4C1F15200DA0006C9E9D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA9A4C2015200DA0006C9E9D /* UIKit.framework */,
+				DA9A4C2215200DA0006C9E9D /* Foundation.framework */,
+				DA9A4C2415200DA0006C9E9D /* CoreGraphics.framework */,
+				DA9A4C3E15200DA0006C9E9D /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA9A4C2615200DA0006C9E9D /* ReTune */ = {
+			isa = PBXGroup;
+			children = (
+				DA9A4C2F15200DA0006C9E9D /* AppDelegate.h */,
+				DA9A4C3015200DA0006C9E9D /* AppDelegate.m */,
+				DA9A4C3215200DA0006C9E9D /* MainStoryboard.storyboard */,
+				DA9A4C3515200DA0006C9E9D /* ViewController.h */,
+				DA9A4C3615200DA0006C9E9D /* ViewController.m */,
+				DA9A4C2715200DA0006C9E9D /* Supporting Files */,
+			);
+			path = ReTune;
+			sourceTree = "<group>";
+		};
+		DA9A4C2715200DA0006C9E9D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA9A4C2815200DA0006C9E9D /* ReTune-Info.plist */,
+				DA9A4C2915200DA0006C9E9D /* InfoPlist.strings */,
+				DA9A4C2C15200DA0006C9E9D /* main.m */,
+				DA9A4C2E15200DA0006C9E9D /* ReTune-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA9A4C4415200DA0006C9E9D /* ReTuneTests */ = {
+			isa = PBXGroup;
+			children = (
+				DA9A4C4A15200DA0006C9E9D /* ReTuneTests.h */,
+				DA9A4C4B15200DA0006C9E9D /* ReTuneTests.m */,
+				DA9A4C4515200DA0006C9E9D /* Supporting Files */,
+			);
+			path = ReTuneTests;
+			sourceTree = "<group>";
+		};
+		DA9A4C4515200DA0006C9E9D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA9A4C4615200DA0006C9E9D /* ReTuneTests-Info.plist */,
+				DA9A4C4715200DA0006C9E9D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DA9A4C1B15200DA0006C9E9D /* ReTune */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA9A4C4F15200DA0006C9E9D /* Build configuration list for PBXNativeTarget "ReTune" */;
+			buildPhases = (
+				DA9A4C1815200DA0006C9E9D /* Sources */,
+				DA9A4C1915200DA0006C9E9D /* Frameworks */,
+				DA9A4C1A15200DA0006C9E9D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ReTune;
+			productName = ReTune;
+			productReference = DA9A4C1C15200DA0006C9E9D /* ReTune.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DA9A4C3C15200DA0006C9E9D /* ReTuneTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA9A4C5215200DA0006C9E9D /* Build configuration list for PBXNativeTarget "ReTuneTests" */;
+			buildPhases = (
+				DA9A4C3815200DA0006C9E9D /* Sources */,
+				DA9A4C3915200DA0006C9E9D /* Frameworks */,
+				DA9A4C3A15200DA0006C9E9D /* Resources */,
+				DA9A4C3B15200DA0006C9E9D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA9A4C4315200DA0006C9E9D /* PBXTargetDependency */,
+			);
+			name = ReTuneTests;
+			productName = ReTuneTests;
+			productReference = DA9A4C3D15200DA0006C9E9D /* ReTuneTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA9A4C1315200D9F006C9E9D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = DA9A4C1615200D9F006C9E9D /* Build configuration list for PBXProject "ReTune" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DA9A4C1115200D9F006C9E9D;
+			productRefGroup = DA9A4C1D15200DA0006C9E9D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA9A4C1B15200DA0006C9E9D /* ReTune */,
+				DA9A4C3C15200DA0006C9E9D /* ReTuneTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA9A4C1A15200DA0006C9E9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA9A4C2B15200DA0006C9E9D /* InfoPlist.strings in Resources */,
+				DA9A4C3415200DA0006C9E9D /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA9A4C3A15200DA0006C9E9D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA9A4C4915200DA0006C9E9D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DA9A4C3B15200DA0006C9E9D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA9A4C1815200DA0006C9E9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA9A4C2D15200DA0006C9E9D /* main.m in Sources */,
+				DA9A4C3115200DA0006C9E9D /* AppDelegate.m in Sources */,
+				DA9A4C3715200DA0006C9E9D /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA9A4C3815200DA0006C9E9D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA9A4C4C15200DA0006C9E9D /* ReTuneTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA9A4C4315200DA0006C9E9D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA9A4C1B15200DA0006C9E9D /* ReTune */;
+			targetProxy = DA9A4C4215200DA0006C9E9D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DA9A4C2915200DA0006C9E9D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA9A4C2A15200DA0006C9E9D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DA9A4C3215200DA0006C9E9D /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA9A4C3315200DA0006C9E9D /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		DA9A4C4715200DA0006C9E9D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA9A4C4815200DA0006C9E9D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DA9A4C4D15200DA0006C9E9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		DA9A4C4E15200DA0006C9E9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DA9A4C5015200DA0006C9E9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ReTune/ReTune-Prefix.pch";
+				INFOPLIST_FILE = "ReTune/ReTune-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DA9A4C5115200DA0006C9E9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ReTune/ReTune-Prefix.pch";
+				INFOPLIST_FILE = "ReTune/ReTune-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		DA9A4C5315200DA0006C9E9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ReTune.app/ReTune";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ReTune/ReTune-Prefix.pch";
+				INFOPLIST_FILE = "ReTuneTests/ReTuneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		DA9A4C5415200DA0006C9E9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ReTune.app/ReTune";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ReTune/ReTune-Prefix.pch";
+				INFOPLIST_FILE = "ReTuneTests/ReTuneTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA9A4C1615200D9F006C9E9D /* Build configuration list for PBXProject "ReTune" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA9A4C4D15200DA0006C9E9D /* Debug */,
+				DA9A4C4E15200DA0006C9E9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA9A4C4F15200DA0006C9E9D /* Build configuration list for PBXNativeTarget "ReTune" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA9A4C5015200DA0006C9E9D /* Debug */,
+				DA9A4C5115200DA0006C9E9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DA9A4C5215200DA0006C9E9D /* Build configuration list for PBXNativeTarget "ReTuneTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA9A4C5315200DA0006C9E9D /* Debug */,
+				DA9A4C5415200DA0006C9E9D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DA9A4C1315200D9F006C9E9D /* Project object */;
+}
