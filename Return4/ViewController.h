@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ObjectAL.h"
 #import <Foundation/Foundation.h>
+#import "MidiParser.h"
 
 @class PGMidi;
 
@@ -32,14 +33,23 @@ typedef struct {
     //ALSource* source;
 	//ALBuffer* buffer;
      PGMidi *midi;
+    MidiParser *parser;
+    bool playing, stopped, paused;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
 @property (strong) NSMutableArray* majorScale;
 @property (strong) NSMutableArray* buffers;
 @property (strong) NSArray* soundFiles;
+
+@property (nonatomic,strong) IBOutlet UIButton    *playButton;
+
+
 @property (nonatomic,strong) PGMidi *midi;
 -(IBAction)buttonTriggered:(id)sender;
+-(IBAction)stopMidi:(id)sender;
+-(IBAction)playMidi:(id)sender;
+-(IBAction)pauseMidi:(id)sender;
 -(void)noteOn:(int)noteValue;
 
 

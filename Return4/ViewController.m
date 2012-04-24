@@ -20,6 +20,7 @@
 
 @implementation ViewController
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi;
+@synthesize playButton;
 
 - (bufferInfo) bufferFromPitch:(float)pitch {
     float minDifference = 1000000;
@@ -109,6 +110,16 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+/*-(void)^playMidiFile:(MidiParser *)parser = ^{
+    NSMutableArray *noteOns = parser.noteOns;
+    //int ticksPerSecond = [parser 
+    for (int i=0;i<[noteOns count];i++) {
+        NoteObject *currentNote = [noteOns objectAtIndex:i];
+        [NSThread sleepForTimeInterval:(currentNote.time/480.0f)];
+        [self noteOn:currentNote.note];
+    }  
+}*/
+
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -131,6 +142,9 @@
     [self initPitches];
     [self initBuffers];
     currentOctave = 0;
+    playing = false;
+    stopped = false;
+    paused = false;
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource: @"Bass_sample2" ofType: @"mid"]];
 	NSMutableArray * byteArray = [[NSMutableArray alloc] init];
     for (int i=0;i<[data length];i++) {
@@ -139,16 +153,9 @@
         [data getBytes:&dataBuffer range:range];
         [byteArray addObject:[[NSNumber alloc] initWithUnsignedInt:dataBuffer]];
     }
-    MidiParser *parser = [[MidiParser alloc] init];
+    parser = [[MidiParser alloc] init];
     [parser parseData:data];
     //NSLog(@"%@",[parser log]);
-    NSMutableArray *noteOns = parser.noteOns;
-    //int ticksPerSecond = [parser 
-    for (int i=0;i<[noteOns count];i++) {
-        NoteObject *currentNote = [noteOns objectAtIndex:i];
-        [NSThread sleepForTimeInterval:(currentNote.time/480.0f)];
-        [self noteOn:currentNote.note];
-    }
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -327,6 +334,49 @@
             }
         }
         packet = MIDIPacketNext(packet);
+    }
+}
+
+-(void)stopMidi:(id)sender{
+    stopped = true;
+    paused = false;
+}
+
+-(void)pauseMidi:(id)sender {
+    paused = true;
+    playButton.enabled = true;
+}
+
+- (IBAction)playMidi:(id)sender {
+    UIButton *button = (UIButton*)sender;
+    button.enabled = false;
+    if (!playing) {
+        playing = true;
+        paused = false;
+        stopped = false;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSMutableArray *noteOns = parser.noteOns;
+            //int ticksPerSecond = [parser 
+            for (int i=0;i<[noteOns count];i++) {
+                while (paused) {
+                    
+                }
+                if (stopped) break;
+                NoteObject *currentNote = [noteOns objectAtIndex:i];
+                [NSThread sleepForTimeInterval:(currentNote.time/480.0f)];
+                while (paused) {
+                    
+                }
+                if (stopped) break;
+                [self noteOn:currentNote.note];
+            } 
+            NSLog(@"finished playing");
+            playing = false;
+            stopped = false;
+            button.enabled = true;
+        });
+    } else {
+        paused = false;
     }
 }
 
