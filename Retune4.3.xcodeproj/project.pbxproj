@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA03121915465EBF00781172 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA03121815465EBF00781172 /* QuartzCore.framework */; };
 		DA3AC6781545EFDA00E1D705 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6771545EFDA00E1D705 /* UIKit.framework */; };
 		DA3AC67A1545EFDA00E1D705 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6791545EFDA00E1D705 /* Foundation.framework */; };
 		DA3AC67C1545EFDA00E1D705 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */; };
@@ -90,14 +91,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA03121815465EBF00781172 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DA3AC6731545EFDA00E1D705 /* Retune4.3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retune4.3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3AC6771545EFDA00E1D705 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DA3AC6791545EFDA00E1D705 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		DA3AC67F1545EFDA00E1D705 /* Retune4.3-Info.plist */ = {isa = PBXFileReference; path = "Retune4.3-Info.plist"; sourceTree = "<group>"; };
+		DA3AC67F1545EFDA00E1D705 /* Retune4.3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Retune4.3-Info.plist"; sourceTree = "<group>"; };
 		DA3AC6811545EFDA00E1D705 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DA3AC6831545EFDA00E1D705 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DA3AC6851545EFDA00E1D705 /* Retune4.3-Prefix.pch */ = {isa = PBXFileReference; path = "Retune4.3-Prefix.pch"; sourceTree = "<group>"; };
+		DA3AC6851545EFDA00E1D705 /* Retune4.3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Retune4.3-Prefix.pch"; sourceTree = "<group>"; };
 		DA3AC6861545EFDA00E1D705 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DA3AC6871545EFDA00E1D705 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DA3AC6891545EFDA00E1D705 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -105,7 +107,7 @@
 		DA3AC68D1545EFDA00E1D705 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		DA3AC6941545EFDA00E1D705 /* Retune4.3Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Retune4.3Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3AC6951545EFDA00E1D705 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		DA3AC69D1545EFDA00E1D705 /* Retune4.3Tests-Info.plist */ = {isa = PBXFileReference; path = "Retune4.3Tests-Info.plist"; sourceTree = "<group>"; };
+		DA3AC69D1545EFDA00E1D705 /* Retune4.3Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Retune4.3Tests-Info.plist"; sourceTree = "<group>"; };
 		DA3AC69F1545EFDA00E1D705 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DA3AC6A11545EFDA00E1D705 /* Return4Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Return4Tests.h; sourceTree = "<group>"; };
 		DA3AC6A21545EFDA00E1D705 /* Return4Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Return4Tests.m; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA03121915465EBF00781172 /* QuartzCore.framework in Frameworks */,
 				DA3AC74A1545F53000E1D705 /* CoreMIDI.framework in Frameworks */,
 				DA3AC73A1545F09200E1D705 /* AudioToolbox.framework in Frameworks */,
 				DA3AC7381545F08600E1D705 /* OpenAL.framework in Frameworks */,
@@ -239,6 +242,7 @@
 		DA3AC6681545EFDA00E1D705 = {
 			isa = PBXGroup;
 			children = (
+				DA03121815465EBF00781172 /* QuartzCore.framework */,
 				DA3AC73B1545F4DC00E1D705 /* PGMidi */,
 				DA3AC6AC1545F05C00E1D705 /* ObjectAL */,
 				DA3AC6EF1545F05C00E1D705 /* Sounds */,

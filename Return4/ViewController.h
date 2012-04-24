@@ -34,13 +34,15 @@ typedef struct {
 	//ALBuffer* buffer;
      PGMidi *midi;
     MidiParser *parser;
-    bool playing, stopped, paused;
+    double recordTimer;
+    bool playing, stopped, paused, recording;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
 @property (strong) NSMutableArray* majorScale;
 @property (strong) NSMutableArray* buffers;
 @property (strong) NSArray* soundFiles;
+@property (strong) NSMutableArray* recordedNotes;
 
 @property (nonatomic,strong) IBOutlet UIButton    *playButton;
 
@@ -50,6 +52,7 @@ typedef struct {
 -(IBAction)stopMidi:(id)sender;
 -(IBAction)playMidi:(id)sender;
 -(IBAction)pauseMidi:(id)sender;
+-(IBAction)recordMidi:(id)sender;
 -(void)noteOn:(int)noteValue;
 
 

@@ -11,6 +11,7 @@
 #import "PGMidi.h"
 #import "iOSVersionDetection.h"
 #import "MidiParser.h"
+#import <QuartzCore/CAAnimation.h>
 #import <CoreMIDI/CoreMIDI.h>
 
 @interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate>
@@ -19,7 +20,7 @@
 
 
 @implementation ViewController
-@synthesize buffers, pitches, ratios, soundFiles, majorScale, midi;
+@synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes;
 @synthesize playButton;
 
 - (bufferInfo) bufferFromPitch:(float)pitch {
@@ -145,6 +146,10 @@
     playing = false;
     stopped = false;
     paused = false;
+    recordTimer = -1;
+    //NSLog(@"current time: %f",CACurrentMediaTime());
+    recording = false;
+    recordedNotes = [[NSMutableArray alloc] init];
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource: @"Bass_sample2" ofType: @"mid"]];
 	NSMutableArray * byteArray = [[NSMutableArray alloc] init];
     for (int i=0;i<[data length];i++) {
@@ -219,6 +224,15 @@
 
 - (void) noteOn:(int)noteValue {
     if (noteValue>=0 && noteValue<127) {
+        if (recording) {
+            double currentTime = CACurrentMediaTime();
+            int deltaTime = (int)(currentTime*1000-recordTimer*1000);
+            NoteObject * recordedNote = [[NoteObject alloc] init];
+            recordedNote.note = noteValue;
+            recordedNote.time = deltaTime;
+            [recordedNotes addObject:recordedNote];
+            recordTimer = currentTime;
+        }
         //float pitch = [[pitches objectAtIndex:noteValue] floatValue];
         ALBuffer* toPlay = [[self buffers] objectAtIndex:noteValue];
         if (toPlay != [NSNull null]) {
@@ -337,9 +351,40 @@
     }
 }
 
+-(void)startRecording {
+    recordTimer = CACurrentMediaTime();
+    recordedNotes = nil;
+    recordedNotes = [[NSMutableArray alloc] init];
+    recording = true;
+}
+
+-(void)stopRecording {
+    recording = false;
+    parser.noteOns = nil;
+    parser.noteOns = [[NSMutableArray alloc] init];
+    for (int i=0;i<[recordedNotes count];i++) {
+        NoteObject * currentNote = [recordedNotes objectAtIndex:i];
+        NSLog(@"recorded note:%d at %d",currentNote.note,currentNote.time);
+        currentNote.time *= 480.0f/1000;
+        [parser.noteOns addObject:currentNote];
+    }
+}
+
+-(void)recordMidi:(id)sender {
+    if (!recording) {
+        [self startRecording];
+    } else {
+        [self stopRecording];
+    }
+}
+
+
 -(void)stopMidi:(id)sender{
     stopped = true;
     paused = false;
+    if (recording) {
+        [self stopRecording];
+    }
 }
 
 -(void)pauseMidi:(id)sender {
@@ -358,21 +403,18 @@
             NSMutableArray *noteOns = parser.noteOns;
             //int ticksPerSecond = [parser 
             for (int i=0;i<[noteOns count];i++) {
-                while (paused) {
-                    
-                }
+                while (paused);
                 if (stopped) break;
                 NoteObject *currentNote = [noteOns objectAtIndex:i];
                 [NSThread sleepForTimeInterval:(currentNote.time/480.0f)];
-                while (paused) {
-                    
-                }
+                while (paused);
                 if (stopped) break;
                 [self noteOn:currentNote.note];
             } 
             NSLog(@"finished playing");
             playing = false;
             stopped = false;
+            paused = false;
             button.enabled = true;
         });
     } else {
