@@ -1,0 +1,830 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA3AC6781545EFDA00E1D705 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6771545EFDA00E1D705 /* UIKit.framework */; };
+		DA3AC67A1545EFDA00E1D705 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6791545EFDA00E1D705 /* Foundation.framework */; };
+		DA3AC67C1545EFDA00E1D705 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */; };
+		DA3AC6821545EFDA00E1D705 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6801545EFDA00E1D705 /* InfoPlist.strings */; };
+		DA3AC6841545EFDA00E1D705 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6831545EFDA00E1D705 /* main.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC6881545EFDA00E1D705 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6871545EFDA00E1D705 /* AppDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC68B1545EFDA00E1D705 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC68A1545EFDA00E1D705 /* ViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC68E1545EFDA00E1D705 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC68C1545EFDA00E1D705 /* ViewController.xib */; };
+		DA3AC6961545EFDA00E1D705 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6951545EFDA00E1D705 /* SenTestingKit.framework */; };
+		DA3AC6971545EFDA00E1D705 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6771545EFDA00E1D705 /* UIKit.framework */; };
+		DA3AC6981545EFDA00E1D705 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6791545EFDA00E1D705 /* Foundation.framework */; };
+		DA3AC6A01545EFDA00E1D705 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC69E1545EFDA00E1D705 /* InfoPlist.strings */; };
+		DA3AC6A31545EFDA00E1D705 /* Return4Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6A21545EFDA00E1D705 /* Return4Tests.m */; };
+		DA3AC7051545F05C00E1D705 /* OALAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6B01545F05C00E1D705 /* OALAction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7061545F05C00E1D705 /* OALActionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6B21545F05C00E1D705 /* OALActionManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7071545F05C00E1D705 /* OALAudioActions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6B41545F05C00E1D705 /* OALAudioActions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7081545F05C00E1D705 /* OALFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6B61545F05C00E1D705 /* OALFunction.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7091545F05C00E1D705 /* OALUtilityActions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6B81545F05C00E1D705 /* OALUtilityActions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC70A1545F05C00E1D705 /* OALAudioTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6BB1545F05C00E1D705 /* OALAudioTrack.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC70B1545F05C00E1D705 /* OALAudioTrackNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6BD1545F05C00E1D705 /* OALAudioTrackNotifications.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC70C1545F05C00E1D705 /* OALAudioTracks.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6BF1545F05C00E1D705 /* OALAudioTracks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC70D1545F05C00E1D705 /* LICENSE.ObjectAL.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6C01545F05C00E1D705 /* LICENSE.ObjectAL.txt */; };
+		DA3AC70E1545F05C00E1D705 /* OALSimpleAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6C21545F05C00E1D705 /* OALSimpleAudio.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC70F1545F05C00E1D705 /* ALBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6C71545F05C00E1D705 /* ALBuffer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7101545F05C00E1D705 /* ALCaptureDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6C91545F05C00E1D705 /* ALCaptureDevice.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7111545F05C00E1D705 /* ALChannelSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6CB1545F05C00E1D705 /* ALChannelSource.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7121545F05C00E1D705 /* ALContext.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6CD1545F05C00E1D705 /* ALContext.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7131545F05C00E1D705 /* ALDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6CF1545F05C00E1D705 /* ALDevice.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7141545F05C00E1D705 /* ALListener.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6D11545F05C00E1D705 /* ALListener.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7151545F05C00E1D705 /* ALSoundSourcePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6D41545F05C00E1D705 /* ALSoundSourcePool.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7161545F05C00E1D705 /* ALSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6D61545F05C00E1D705 /* ALSource.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7171545F05C00E1D705 /* ALWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6D91545F05C00E1D705 /* ALWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7181545F05C00E1D705 /* OpenALManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6DB1545F05C00E1D705 /* OpenALManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7191545F05C00E1D705 /* OALAudioSession.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6DE1545F05C00E1D705 /* OALAudioSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC71A1545F05C00E1D705 /* OALSuspendHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6E01545F05C00E1D705 /* OALSuspendHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC71B1545F05C00E1D705 /* IOSVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6E31545F05C00E1D705 /* IOSVersion.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC71C1545F05C00E1D705 /* mach_timing.c in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6E41545F05C00E1D705 /* mach_timing.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC71D1545F05C00E1D705 /* NSMutableArray+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6E71545F05C00E1D705 /* NSMutableArray+WeakReferences.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC71E1545F05C00E1D705 /* OALAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6E91545F05C00E1D705 /* OALAudioFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC71F1545F05C00E1D705 /* OALTools.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6EC1545F05C00E1D705 /* OALTools.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7201545F05C00E1D705 /* P200 Piano A#2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F01545F05C00E1D705 /* P200 Piano A#2.caf */; };
+		DA3AC7211545F05C00E1D705 /* P200 Piano A#3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F11545F05C00E1D705 /* P200 Piano A#3.caf */; };
+		DA3AC7221545F05C00E1D705 /* P200 Piano A#4.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F21545F05C00E1D705 /* P200 Piano A#4.caf */; };
+		DA3AC7231545F05C00E1D705 /* P200 Piano A#5.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F31545F05C00E1D705 /* P200 Piano A#5.caf */; };
+		DA3AC7241545F05C00E1D705 /* P200 Piano A#7.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F41545F05C00E1D705 /* P200 Piano A#7.caf */; };
+		DA3AC7251545F05C00E1D705 /* P200 Piano C10.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F51545F05C00E1D705 /* P200 Piano C10.caf */; };
+		DA3AC7261545F05C00E1D705 /* P200 Piano C7.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F61545F05C00E1D705 /* P200 Piano C7.caf */; };
+		DA3AC7271545F05C00E1D705 /* P200 Piano D#8.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F71545F05C00E1D705 /* P200 Piano D#8.caf */; };
+		DA3AC7281545F05C00E1D705 /* P200 Piano D2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F81545F05C00E1D705 /* P200 Piano D2.caf */; };
+		DA3AC7291545F05C00E1D705 /* P200 Piano D3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F91545F05C00E1D705 /* P200 Piano D3.caf */; };
+		DA3AC72A1545F05C00E1D705 /* P200 Piano D4.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FA1545F05C00E1D705 /* P200 Piano D4.caf */; };
+		DA3AC72B1545F05C00E1D705 /* P200 Piano D5.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FB1545F05C00E1D705 /* P200 Piano D5.caf */; };
+		DA3AC72C1545F05C00E1D705 /* P200 Piano D6.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FC1545F05C00E1D705 /* P200 Piano D6.caf */; };
+		DA3AC72D1545F05C00E1D705 /* P200 Piano F#2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FD1545F05C00E1D705 /* P200 Piano F#2.caf */; };
+		DA3AC72E1545F05D00E1D705 /* P200 Piano F#3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FE1545F05C00E1D705 /* P200 Piano F#3.caf */; };
+		DA3AC72F1545F05D00E1D705 /* P200 Piano F#4.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FF1545F05C00E1D705 /* P200 Piano F#4.caf */; };
+		DA3AC7301545F05D00E1D705 /* P200 Piano F#5.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7001545F05C00E1D705 /* P200 Piano F#5.caf */; };
+		DA3AC7311545F05D00E1D705 /* P200 Piano F#6.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7011545F05C00E1D705 /* P200 Piano F#6.caf */; };
+		DA3AC7321545F05D00E1D705 /* P200 Piano F#7.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7021545F05C00E1D705 /* P200 Piano F#7.caf */; };
+		DA3AC7331545F05D00E1D705 /* P200 Piano G#9.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7031545F05C00E1D705 /* P200 Piano G#9.caf */; };
+		DA3AC7341545F05D00E1D705 /* Piano.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7041545F05C00E1D705 /* Piano.plist */; };
+		DA3AC7361545F08200E1D705 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7351545F08200E1D705 /* AVFoundation.framework */; };
+		DA3AC7381545F08600E1D705 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7371545F08600E1D705 /* OpenAL.framework */; };
+		DA3AC73A1545F09200E1D705 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7391545F09200E1D705 /* AudioToolbox.framework */; };
+		DA3AC7441545F4DC00E1D705 /* PGMidi.mm in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC73F1545F4DC00E1D705 /* PGMidi.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7451545F4DC00E1D705 /* PGMidiAllSources.mm in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7411545F4DC00E1D705 /* PGMidiAllSources.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC7461545F4DC00E1D705 /* PGMidiFind.mm in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7431545F4DC00E1D705 /* PGMidiFind.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		DA3AC74A1545F53000E1D705 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7491545F53000E1D705 /* CoreMIDI.framework */; };
+		DA3AC74C154616D500E1D705 /* Bass_sample2.mid in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC74B154616D500E1D705 /* Bass_sample2.mid */; };
+		DA3AC7531546283900E1D705 /* MidiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7521546283900E1D705 /* MidiParser.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA3AC6991545EFDA00E1D705 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA3AC66A1545EFDA00E1D705 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA3AC6721545EFDA00E1D705;
+			remoteInfo = Return4;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DA3AC6731545EFDA00E1D705 /* Retune4.3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retune4.3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA3AC6771545EFDA00E1D705 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DA3AC6791545EFDA00E1D705 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DA3AC67F1545EFDA00E1D705 /* Retune4.3-Info.plist */ = {isa = PBXFileReference; path = "Retune4.3-Info.plist"; sourceTree = "<group>"; };
+		DA3AC6811545EFDA00E1D705 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA3AC6831545EFDA00E1D705 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DA3AC6851545EFDA00E1D705 /* Retune4.3-Prefix.pch */ = {isa = PBXFileReference; path = "Retune4.3-Prefix.pch"; sourceTree = "<group>"; };
+		DA3AC6861545EFDA00E1D705 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		DA3AC6871545EFDA00E1D705 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		DA3AC6891545EFDA00E1D705 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		DA3AC68A1545EFDA00E1D705 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DA3AC68D1545EFDA00E1D705 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		DA3AC6941545EFDA00E1D705 /* Retune4.3Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Retune4.3Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA3AC6951545EFDA00E1D705 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		DA3AC69D1545EFDA00E1D705 /* Retune4.3Tests-Info.plist */ = {isa = PBXFileReference; path = "Retune4.3Tests-Info.plist"; sourceTree = "<group>"; };
+		DA3AC69F1545EFDA00E1D705 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DA3AC6A11545EFDA00E1D705 /* Return4Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Return4Tests.h; sourceTree = "<group>"; };
+		DA3AC6A21545EFDA00E1D705 /* Return4Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Return4Tests.m; sourceTree = "<group>"; };
+		DA3AC6AE1545F05C00E1D705 /* OALAction+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OALAction+Private.h"; sourceTree = "<group>"; };
+		DA3AC6AF1545F05C00E1D705 /* OALAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALAction.h; sourceTree = "<group>"; };
+		DA3AC6B01545F05C00E1D705 /* OALAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALAction.m; sourceTree = "<group>"; };
+		DA3AC6B11545F05C00E1D705 /* OALActionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALActionManager.h; sourceTree = "<group>"; };
+		DA3AC6B21545F05C00E1D705 /* OALActionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALActionManager.m; sourceTree = "<group>"; };
+		DA3AC6B31545F05C00E1D705 /* OALAudioActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALAudioActions.h; sourceTree = "<group>"; };
+		DA3AC6B41545F05C00E1D705 /* OALAudioActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALAudioActions.m; sourceTree = "<group>"; };
+		DA3AC6B51545F05C00E1D705 /* OALFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALFunction.h; sourceTree = "<group>"; };
+		DA3AC6B61545F05C00E1D705 /* OALFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALFunction.m; sourceTree = "<group>"; };
+		DA3AC6B71545F05C00E1D705 /* OALUtilityActions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALUtilityActions.h; sourceTree = "<group>"; };
+		DA3AC6B81545F05C00E1D705 /* OALUtilityActions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALUtilityActions.m; sourceTree = "<group>"; };
+		DA3AC6BA1545F05C00E1D705 /* OALAudioTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALAudioTrack.h; sourceTree = "<group>"; };
+		DA3AC6BB1545F05C00E1D705 /* OALAudioTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALAudioTrack.m; sourceTree = "<group>"; };
+		DA3AC6BC1545F05C00E1D705 /* OALAudioTrackNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALAudioTrackNotifications.h; sourceTree = "<group>"; };
+		DA3AC6BD1545F05C00E1D705 /* OALAudioTrackNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALAudioTrackNotifications.m; sourceTree = "<group>"; };
+		DA3AC6BE1545F05C00E1D705 /* OALAudioTracks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALAudioTracks.h; sourceTree = "<group>"; };
+		DA3AC6BF1545F05C00E1D705 /* OALAudioTracks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALAudioTracks.m; sourceTree = "<group>"; };
+		DA3AC6C01545F05C00E1D705 /* LICENSE.ObjectAL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.ObjectAL.txt; sourceTree = "<group>"; };
+		DA3AC6C11545F05C00E1D705 /* OALSimpleAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALSimpleAudio.h; sourceTree = "<group>"; };
+		DA3AC6C21545F05C00E1D705 /* OALSimpleAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALSimpleAudio.m; sourceTree = "<group>"; };
+		DA3AC6C31545F05C00E1D705 /* ObjectAL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectAL.h; sourceTree = "<group>"; };
+		DA3AC6C41545F05C00E1D705 /* ObjectALConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectALConfig.h; sourceTree = "<group>"; };
+		DA3AC6C61545F05C00E1D705 /* ALBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALBuffer.h; sourceTree = "<group>"; };
+		DA3AC6C71545F05C00E1D705 /* ALBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALBuffer.m; sourceTree = "<group>"; };
+		DA3AC6C81545F05C00E1D705 /* ALCaptureDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALCaptureDevice.h; sourceTree = "<group>"; };
+		DA3AC6C91545F05C00E1D705 /* ALCaptureDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALCaptureDevice.m; sourceTree = "<group>"; };
+		DA3AC6CA1545F05C00E1D705 /* ALChannelSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALChannelSource.h; sourceTree = "<group>"; };
+		DA3AC6CB1545F05C00E1D705 /* ALChannelSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALChannelSource.m; sourceTree = "<group>"; };
+		DA3AC6CC1545F05C00E1D705 /* ALContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALContext.h; sourceTree = "<group>"; };
+		DA3AC6CD1545F05C00E1D705 /* ALContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALContext.m; sourceTree = "<group>"; };
+		DA3AC6CE1545F05C00E1D705 /* ALDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALDevice.h; sourceTree = "<group>"; };
+		DA3AC6CF1545F05C00E1D705 /* ALDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALDevice.m; sourceTree = "<group>"; };
+		DA3AC6D01545F05C00E1D705 /* ALListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALListener.h; sourceTree = "<group>"; };
+		DA3AC6D11545F05C00E1D705 /* ALListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALListener.m; sourceTree = "<group>"; };
+		DA3AC6D21545F05C00E1D705 /* ALSoundSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSoundSource.h; sourceTree = "<group>"; };
+		DA3AC6D31545F05C00E1D705 /* ALSoundSourcePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSoundSourcePool.h; sourceTree = "<group>"; };
+		DA3AC6D41545F05C00E1D705 /* ALSoundSourcePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSoundSourcePool.m; sourceTree = "<group>"; };
+		DA3AC6D51545F05C00E1D705 /* ALSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALSource.h; sourceTree = "<group>"; };
+		DA3AC6D61545F05C00E1D705 /* ALSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALSource.m; sourceTree = "<group>"; };
+		DA3AC6D71545F05C00E1D705 /* ALTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALTypes.h; sourceTree = "<group>"; };
+		DA3AC6D81545F05C00E1D705 /* ALWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ALWrapper.h; sourceTree = "<group>"; };
+		DA3AC6D91545F05C00E1D705 /* ALWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ALWrapper.m; sourceTree = "<group>"; };
+		DA3AC6DA1545F05C00E1D705 /* OpenALManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenALManager.h; sourceTree = "<group>"; };
+		DA3AC6DB1545F05C00E1D705 /* OpenALManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenALManager.m; sourceTree = "<group>"; };
+		DA3AC6DD1545F05C00E1D705 /* OALAudioSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALAudioSession.h; sourceTree = "<group>"; };
+		DA3AC6DE1545F05C00E1D705 /* OALAudioSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALAudioSession.m; sourceTree = "<group>"; };
+		DA3AC6DF1545F05C00E1D705 /* OALSuspendHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALSuspendHandler.h; sourceTree = "<group>"; };
+		DA3AC6E01545F05C00E1D705 /* OALSuspendHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALSuspendHandler.m; sourceTree = "<group>"; };
+		DA3AC6E21545F05C00E1D705 /* IOSVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOSVersion.h; sourceTree = "<group>"; };
+		DA3AC6E31545F05C00E1D705 /* IOSVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IOSVersion.m; sourceTree = "<group>"; };
+		DA3AC6E41545F05C00E1D705 /* mach_timing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mach_timing.c; sourceTree = "<group>"; };
+		DA3AC6E51545F05C00E1D705 /* mach_timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mach_timing.h; sourceTree = "<group>"; };
+		DA3AC6E61545F05C00E1D705 /* NSMutableArray+WeakReferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+WeakReferences.h"; sourceTree = "<group>"; };
+		DA3AC6E71545F05C00E1D705 /* NSMutableArray+WeakReferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+WeakReferences.m"; sourceTree = "<group>"; };
+		DA3AC6E81545F05C00E1D705 /* OALAudioFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALAudioFile.h; sourceTree = "<group>"; };
+		DA3AC6E91545F05C00E1D705 /* OALAudioFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALAudioFile.m; sourceTree = "<group>"; };
+		DA3AC6EA1545F05C00E1D705 /* OALNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALNotifications.h; sourceTree = "<group>"; };
+		DA3AC6EB1545F05C00E1D705 /* OALTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OALTools.h; sourceTree = "<group>"; };
+		DA3AC6EC1545F05C00E1D705 /* OALTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALTools.m; sourceTree = "<group>"; };
+		DA3AC6ED1545F05C00E1D705 /* ObjectALMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectALMacros.h; sourceTree = "<group>"; };
+		DA3AC6EE1545F05C00E1D705 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		DA3AC6F01545F05C00E1D705 /* P200 Piano A#2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#2.caf"; sourceTree = "<group>"; };
+		DA3AC6F11545F05C00E1D705 /* P200 Piano A#3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#3.caf"; sourceTree = "<group>"; };
+		DA3AC6F21545F05C00E1D705 /* P200 Piano A#4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#4.caf"; sourceTree = "<group>"; };
+		DA3AC6F31545F05C00E1D705 /* P200 Piano A#5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#5.caf"; sourceTree = "<group>"; };
+		DA3AC6F41545F05C00E1D705 /* P200 Piano A#7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#7.caf"; sourceTree = "<group>"; };
+		DA3AC6F51545F05C00E1D705 /* P200 Piano C10.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano C10.caf"; sourceTree = "<group>"; };
+		DA3AC6F61545F05C00E1D705 /* P200 Piano C7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano C7.caf"; sourceTree = "<group>"; };
+		DA3AC6F71545F05C00E1D705 /* P200 Piano D#8.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D#8.caf"; sourceTree = "<group>"; };
+		DA3AC6F81545F05C00E1D705 /* P200 Piano D2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D2.caf"; sourceTree = "<group>"; };
+		DA3AC6F91545F05C00E1D705 /* P200 Piano D3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D3.caf"; sourceTree = "<group>"; };
+		DA3AC6FA1545F05C00E1D705 /* P200 Piano D4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D4.caf"; sourceTree = "<group>"; };
+		DA3AC6FB1545F05C00E1D705 /* P200 Piano D5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D5.caf"; sourceTree = "<group>"; };
+		DA3AC6FC1545F05C00E1D705 /* P200 Piano D6.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D6.caf"; sourceTree = "<group>"; };
+		DA3AC6FD1545F05C00E1D705 /* P200 Piano F#2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#2.caf"; sourceTree = "<group>"; };
+		DA3AC6FE1545F05C00E1D705 /* P200 Piano F#3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#3.caf"; sourceTree = "<group>"; };
+		DA3AC6FF1545F05C00E1D705 /* P200 Piano F#4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#4.caf"; sourceTree = "<group>"; };
+		DA3AC7001545F05C00E1D705 /* P200 Piano F#5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#5.caf"; sourceTree = "<group>"; };
+		DA3AC7011545F05C00E1D705 /* P200 Piano F#6.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#6.caf"; sourceTree = "<group>"; };
+		DA3AC7021545F05C00E1D705 /* P200 Piano F#7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#7.caf"; sourceTree = "<group>"; };
+		DA3AC7031545F05C00E1D705 /* P200 Piano G#9.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano G#9.caf"; sourceTree = "<group>"; };
+		DA3AC7041545F05C00E1D705 /* Piano.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Piano.plist; sourceTree = "<group>"; };
+		DA3AC7351545F08200E1D705 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		DA3AC7371545F08600E1D705 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		DA3AC7391545F09200E1D705 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DA3AC73C1545F4DC00E1D705 /* iOSVersionDetection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSVersionDetection.h; sourceTree = "<group>"; };
+		DA3AC73D1545F4DC00E1D705 /* PGArc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGArc.h; sourceTree = "<group>"; };
+		DA3AC73E1545F4DC00E1D705 /* PGMidi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidi.h; sourceTree = "<group>"; };
+		DA3AC73F1545F4DC00E1D705 /* PGMidi.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidi.mm; sourceTree = "<group>"; };
+		DA3AC7401545F4DC00E1D705 /* PGMidiAllSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiAllSources.h; sourceTree = "<group>"; };
+		DA3AC7411545F4DC00E1D705 /* PGMidiAllSources.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiAllSources.mm; sourceTree = "<group>"; };
+		DA3AC7421545F4DC00E1D705 /* PGMidiFind.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMidiFind.h; sourceTree = "<group>"; };
+		DA3AC7431545F4DC00E1D705 /* PGMidiFind.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PGMidiFind.mm; sourceTree = "<group>"; };
+		DA3AC7491545F53000E1D705 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		DA3AC74B154616D500E1D705 /* Bass_sample2.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = Bass_sample2.mid; path = ../Bass_sample2.mid; sourceTree = "<group>"; };
+		DA3AC7511546283900E1D705 /* MidiParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiParser.h; sourceTree = "<group>"; };
+		DA3AC7521546283900E1D705 /* MidiParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiParser.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA3AC6701545EFDA00E1D705 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA3AC74A1545F53000E1D705 /* CoreMIDI.framework in Frameworks */,
+				DA3AC73A1545F09200E1D705 /* AudioToolbox.framework in Frameworks */,
+				DA3AC7381545F08600E1D705 /* OpenAL.framework in Frameworks */,
+				DA3AC7361545F08200E1D705 /* AVFoundation.framework in Frameworks */,
+				DA3AC6781545EFDA00E1D705 /* UIKit.framework in Frameworks */,
+				DA3AC67A1545EFDA00E1D705 /* Foundation.framework in Frameworks */,
+				DA3AC67C1545EFDA00E1D705 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA3AC6901545EFDA00E1D705 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA3AC6961545EFDA00E1D705 /* SenTestingKit.framework in Frameworks */,
+				DA3AC6971545EFDA00E1D705 /* UIKit.framework in Frameworks */,
+				DA3AC6981545EFDA00E1D705 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA3AC6681545EFDA00E1D705 = {
+			isa = PBXGroup;
+			children = (
+				DA3AC73B1545F4DC00E1D705 /* PGMidi */,
+				DA3AC6AC1545F05C00E1D705 /* ObjectAL */,
+				DA3AC6EF1545F05C00E1D705 /* Sounds */,
+				DA3AC67D1545EFDA00E1D705 /* Retune4.3 */,
+				DA3AC69B1545EFDA00E1D705 /* Retune4.3 */,
+				DA3AC6761545EFDA00E1D705 /* Frameworks */,
+				DA3AC6741545EFDA00E1D705 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA3AC6741545EFDA00E1D705 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6731545EFDA00E1D705 /* Retune4.3.app */,
+				DA3AC6941545EFDA00E1D705 /* Retune4.3Tests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA3AC6761545EFDA00E1D705 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC7491545F53000E1D705 /* CoreMIDI.framework */,
+				DA3AC7391545F09200E1D705 /* AudioToolbox.framework */,
+				DA3AC7371545F08600E1D705 /* OpenAL.framework */,
+				DA3AC7351545F08200E1D705 /* AVFoundation.framework */,
+				DA3AC6771545EFDA00E1D705 /* UIKit.framework */,
+				DA3AC6791545EFDA00E1D705 /* Foundation.framework */,
+				DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */,
+				DA3AC6951545EFDA00E1D705 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA3AC67D1545EFDA00E1D705 /* Retune4.3 */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6861545EFDA00E1D705 /* AppDelegate.h */,
+				DA3AC6871545EFDA00E1D705 /* AppDelegate.m */,
+				DA3AC6891545EFDA00E1D705 /* ViewController.h */,
+				DA3AC68A1545EFDA00E1D705 /* ViewController.m */,
+				DA3AC68C1545EFDA00E1D705 /* ViewController.xib */,
+				DA3AC67E1545EFDA00E1D705 /* Supporting Files */,
+				DA3AC7511546283900E1D705 /* MidiParser.h */,
+				DA3AC7521546283900E1D705 /* MidiParser.m */,
+			);
+			name = Retune4.3;
+			path = Return4;
+			sourceTree = "<group>";
+		};
+		DA3AC67E1545EFDA00E1D705 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC67F1545EFDA00E1D705 /* Retune4.3-Info.plist */,
+				DA3AC6801545EFDA00E1D705 /* InfoPlist.strings */,
+				DA3AC6831545EFDA00E1D705 /* main.m */,
+				DA3AC6851545EFDA00E1D705 /* Retune4.3-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA3AC69B1545EFDA00E1D705 /* Retune4.3 */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6A11545EFDA00E1D705 /* Return4Tests.h */,
+				DA3AC6A21545EFDA00E1D705 /* Return4Tests.m */,
+				DA3AC69C1545EFDA00E1D705 /* Supporting Files */,
+			);
+			name = Retune4.3;
+			path = Return4Tests;
+			sourceTree = "<group>";
+		};
+		DA3AC69C1545EFDA00E1D705 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC69D1545EFDA00E1D705 /* Retune4.3Tests-Info.plist */,
+				DA3AC69E1545EFDA00E1D705 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DA3AC6AC1545F05C00E1D705 /* ObjectAL */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6AD1545F05C00E1D705 /* Actions */,
+				DA3AC6B91545F05C00E1D705 /* AudioTrack */,
+				DA3AC6C01545F05C00E1D705 /* LICENSE.ObjectAL.txt */,
+				DA3AC6C11545F05C00E1D705 /* OALSimpleAudio.h */,
+				DA3AC6C21545F05C00E1D705 /* OALSimpleAudio.m */,
+				DA3AC6C31545F05C00E1D705 /* ObjectAL.h */,
+				DA3AC6C41545F05C00E1D705 /* ObjectALConfig.h */,
+				DA3AC6C51545F05C00E1D705 /* OpenAL */,
+				DA3AC6DC1545F05C00E1D705 /* Session */,
+				DA3AC6E11545F05C00E1D705 /* Support */,
+			);
+			name = ObjectAL;
+			path = Return4/ObjectAL;
+			sourceTree = "<group>";
+		};
+		DA3AC6AD1545F05C00E1D705 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6AE1545F05C00E1D705 /* OALAction+Private.h */,
+				DA3AC6AF1545F05C00E1D705 /* OALAction.h */,
+				DA3AC6B01545F05C00E1D705 /* OALAction.m */,
+				DA3AC6B11545F05C00E1D705 /* OALActionManager.h */,
+				DA3AC6B21545F05C00E1D705 /* OALActionManager.m */,
+				DA3AC6B31545F05C00E1D705 /* OALAudioActions.h */,
+				DA3AC6B41545F05C00E1D705 /* OALAudioActions.m */,
+				DA3AC6B51545F05C00E1D705 /* OALFunction.h */,
+				DA3AC6B61545F05C00E1D705 /* OALFunction.m */,
+				DA3AC6B71545F05C00E1D705 /* OALUtilityActions.h */,
+				DA3AC6B81545F05C00E1D705 /* OALUtilityActions.m */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		DA3AC6B91545F05C00E1D705 /* AudioTrack */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6BA1545F05C00E1D705 /* OALAudioTrack.h */,
+				DA3AC6BB1545F05C00E1D705 /* OALAudioTrack.m */,
+				DA3AC6BC1545F05C00E1D705 /* OALAudioTrackNotifications.h */,
+				DA3AC6BD1545F05C00E1D705 /* OALAudioTrackNotifications.m */,
+				DA3AC6BE1545F05C00E1D705 /* OALAudioTracks.h */,
+				DA3AC6BF1545F05C00E1D705 /* OALAudioTracks.m */,
+			);
+			path = AudioTrack;
+			sourceTree = "<group>";
+		};
+		DA3AC6C51545F05C00E1D705 /* OpenAL */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6C61545F05C00E1D705 /* ALBuffer.h */,
+				DA3AC6C71545F05C00E1D705 /* ALBuffer.m */,
+				DA3AC6C81545F05C00E1D705 /* ALCaptureDevice.h */,
+				DA3AC6C91545F05C00E1D705 /* ALCaptureDevice.m */,
+				DA3AC6CA1545F05C00E1D705 /* ALChannelSource.h */,
+				DA3AC6CB1545F05C00E1D705 /* ALChannelSource.m */,
+				DA3AC6CC1545F05C00E1D705 /* ALContext.h */,
+				DA3AC6CD1545F05C00E1D705 /* ALContext.m */,
+				DA3AC6CE1545F05C00E1D705 /* ALDevice.h */,
+				DA3AC6CF1545F05C00E1D705 /* ALDevice.m */,
+				DA3AC6D01545F05C00E1D705 /* ALListener.h */,
+				DA3AC6D11545F05C00E1D705 /* ALListener.m */,
+				DA3AC6D21545F05C00E1D705 /* ALSoundSource.h */,
+				DA3AC6D31545F05C00E1D705 /* ALSoundSourcePool.h */,
+				DA3AC6D41545F05C00E1D705 /* ALSoundSourcePool.m */,
+				DA3AC6D51545F05C00E1D705 /* ALSource.h */,
+				DA3AC6D61545F05C00E1D705 /* ALSource.m */,
+				DA3AC6D71545F05C00E1D705 /* ALTypes.h */,
+				DA3AC6D81545F05C00E1D705 /* ALWrapper.h */,
+				DA3AC6D91545F05C00E1D705 /* ALWrapper.m */,
+				DA3AC6DA1545F05C00E1D705 /* OpenALManager.h */,
+				DA3AC6DB1545F05C00E1D705 /* OpenALManager.m */,
+			);
+			path = OpenAL;
+			sourceTree = "<group>";
+		};
+		DA3AC6DC1545F05C00E1D705 /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6DD1545F05C00E1D705 /* OALAudioSession.h */,
+				DA3AC6DE1545F05C00E1D705 /* OALAudioSession.m */,
+				DA3AC6DF1545F05C00E1D705 /* OALSuspendHandler.h */,
+				DA3AC6E01545F05C00E1D705 /* OALSuspendHandler.m */,
+			);
+			path = Session;
+			sourceTree = "<group>";
+		};
+		DA3AC6E11545F05C00E1D705 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC6E21545F05C00E1D705 /* IOSVersion.h */,
+				DA3AC6E31545F05C00E1D705 /* IOSVersion.m */,
+				DA3AC6E41545F05C00E1D705 /* mach_timing.c */,
+				DA3AC6E51545F05C00E1D705 /* mach_timing.h */,
+				DA3AC6E61545F05C00E1D705 /* NSMutableArray+WeakReferences.h */,
+				DA3AC6E71545F05C00E1D705 /* NSMutableArray+WeakReferences.m */,
+				DA3AC6E81545F05C00E1D705 /* OALAudioFile.h */,
+				DA3AC6E91545F05C00E1D705 /* OALAudioFile.m */,
+				DA3AC6EA1545F05C00E1D705 /* OALNotifications.h */,
+				DA3AC6EB1545F05C00E1D705 /* OALTools.h */,
+				DA3AC6EC1545F05C00E1D705 /* OALTools.m */,
+				DA3AC6ED1545F05C00E1D705 /* ObjectALMacros.h */,
+				DA3AC6EE1545F05C00E1D705 /* SynthesizeSingleton.h */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		DA3AC6EF1545F05C00E1D705 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC74B154616D500E1D705 /* Bass_sample2.mid */,
+				DA3AC6F01545F05C00E1D705 /* P200 Piano A#2.caf */,
+				DA3AC6F11545F05C00E1D705 /* P200 Piano A#3.caf */,
+				DA3AC6F21545F05C00E1D705 /* P200 Piano A#4.caf */,
+				DA3AC6F31545F05C00E1D705 /* P200 Piano A#5.caf */,
+				DA3AC6F41545F05C00E1D705 /* P200 Piano A#7.caf */,
+				DA3AC6F51545F05C00E1D705 /* P200 Piano C10.caf */,
+				DA3AC6F61545F05C00E1D705 /* P200 Piano C7.caf */,
+				DA3AC6F71545F05C00E1D705 /* P200 Piano D#8.caf */,
+				DA3AC6F81545F05C00E1D705 /* P200 Piano D2.caf */,
+				DA3AC6F91545F05C00E1D705 /* P200 Piano D3.caf */,
+				DA3AC6FA1545F05C00E1D705 /* P200 Piano D4.caf */,
+				DA3AC6FB1545F05C00E1D705 /* P200 Piano D5.caf */,
+				DA3AC6FC1545F05C00E1D705 /* P200 Piano D6.caf */,
+				DA3AC6FD1545F05C00E1D705 /* P200 Piano F#2.caf */,
+				DA3AC6FE1545F05C00E1D705 /* P200 Piano F#3.caf */,
+				DA3AC6FF1545F05C00E1D705 /* P200 Piano F#4.caf */,
+				DA3AC7001545F05C00E1D705 /* P200 Piano F#5.caf */,
+				DA3AC7011545F05C00E1D705 /* P200 Piano F#6.caf */,
+				DA3AC7021545F05C00E1D705 /* P200 Piano F#7.caf */,
+				DA3AC7031545F05C00E1D705 /* P200 Piano G#9.caf */,
+				DA3AC7041545F05C00E1D705 /* Piano.plist */,
+			);
+			name = Sounds;
+			path = Return4/Sounds;
+			sourceTree = "<group>";
+		};
+		DA3AC73B1545F4DC00E1D705 /* PGMidi */ = {
+			isa = PBXGroup;
+			children = (
+				DA3AC73C1545F4DC00E1D705 /* iOSVersionDetection.h */,
+				DA3AC73D1545F4DC00E1D705 /* PGArc.h */,
+				DA3AC73E1545F4DC00E1D705 /* PGMidi.h */,
+				DA3AC73F1545F4DC00E1D705 /* PGMidi.mm */,
+				DA3AC7401545F4DC00E1D705 /* PGMidiAllSources.h */,
+				DA3AC7411545F4DC00E1D705 /* PGMidiAllSources.mm */,
+				DA3AC7421545F4DC00E1D705 /* PGMidiFind.h */,
+				DA3AC7431545F4DC00E1D705 /* PGMidiFind.mm */,
+			);
+			path = PGMidi;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DA3AC6721545EFDA00E1D705 /* Retune4.3 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA3AC6A61545EFDA00E1D705 /* Build configuration list for PBXNativeTarget "Retune4.3" */;
+			buildPhases = (
+				DA3AC66F1545EFDA00E1D705 /* Sources */,
+				DA3AC6701545EFDA00E1D705 /* Frameworks */,
+				DA3AC6711545EFDA00E1D705 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Retune4.3;
+			productName = Return4;
+			productReference = DA3AC6731545EFDA00E1D705 /* Retune4.3.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DA3AC6931545EFDA00E1D705 /* Retune4.3Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA3AC6A91545EFDA00E1D705 /* Build configuration list for PBXNativeTarget "Retune4.3Tests" */;
+			buildPhases = (
+				DA3AC68F1545EFDA00E1D705 /* Sources */,
+				DA3AC6901545EFDA00E1D705 /* Frameworks */,
+				DA3AC6911545EFDA00E1D705 /* Resources */,
+				DA3AC6921545EFDA00E1D705 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA3AC69A1545EFDA00E1D705 /* PBXTargetDependency */,
+			);
+			name = Retune4.3Tests;
+			productName = Return4Tests;
+			productReference = DA3AC6941545EFDA00E1D705 /* Retune4.3Tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA3AC66A1545EFDA00E1D705 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = DA3AC66D1545EFDA00E1D705 /* Build configuration list for PBXProject "Retune4.3" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DA3AC6681545EFDA00E1D705;
+			productRefGroup = DA3AC6741545EFDA00E1D705 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA3AC6721545EFDA00E1D705 /* Retune4.3 */,
+				DA3AC6931545EFDA00E1D705 /* Retune4.3Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA3AC6711545EFDA00E1D705 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA3AC6821545EFDA00E1D705 /* InfoPlist.strings in Resources */,
+				DA3AC68E1545EFDA00E1D705 /* ViewController.xib in Resources */,
+				DA3AC70D1545F05C00E1D705 /* LICENSE.ObjectAL.txt in Resources */,
+				DA3AC7201545F05C00E1D705 /* P200 Piano A#2.caf in Resources */,
+				DA3AC7211545F05C00E1D705 /* P200 Piano A#3.caf in Resources */,
+				DA3AC7221545F05C00E1D705 /* P200 Piano A#4.caf in Resources */,
+				DA3AC7231545F05C00E1D705 /* P200 Piano A#5.caf in Resources */,
+				DA3AC7241545F05C00E1D705 /* P200 Piano A#7.caf in Resources */,
+				DA3AC7251545F05C00E1D705 /* P200 Piano C10.caf in Resources */,
+				DA3AC7261545F05C00E1D705 /* P200 Piano C7.caf in Resources */,
+				DA3AC7271545F05C00E1D705 /* P200 Piano D#8.caf in Resources */,
+				DA3AC7281545F05C00E1D705 /* P200 Piano D2.caf in Resources */,
+				DA3AC7291545F05C00E1D705 /* P200 Piano D3.caf in Resources */,
+				DA3AC72A1545F05C00E1D705 /* P200 Piano D4.caf in Resources */,
+				DA3AC72B1545F05C00E1D705 /* P200 Piano D5.caf in Resources */,
+				DA3AC72C1545F05C00E1D705 /* P200 Piano D6.caf in Resources */,
+				DA3AC72D1545F05C00E1D705 /* P200 Piano F#2.caf in Resources */,
+				DA3AC72E1545F05D00E1D705 /* P200 Piano F#3.caf in Resources */,
+				DA3AC72F1545F05D00E1D705 /* P200 Piano F#4.caf in Resources */,
+				DA3AC7301545F05D00E1D705 /* P200 Piano F#5.caf in Resources */,
+				DA3AC7311545F05D00E1D705 /* P200 Piano F#6.caf in Resources */,
+				DA3AC7321545F05D00E1D705 /* P200 Piano F#7.caf in Resources */,
+				DA3AC7331545F05D00E1D705 /* P200 Piano G#9.caf in Resources */,
+				DA3AC7341545F05D00E1D705 /* Piano.plist in Resources */,
+				DA3AC74C154616D500E1D705 /* Bass_sample2.mid in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA3AC6911545EFDA00E1D705 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA3AC6A01545EFDA00E1D705 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DA3AC6921545EFDA00E1D705 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA3AC66F1545EFDA00E1D705 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA3AC6841545EFDA00E1D705 /* main.m in Sources */,
+				DA3AC6881545EFDA00E1D705 /* AppDelegate.m in Sources */,
+				DA3AC68B1545EFDA00E1D705 /* ViewController.m in Sources */,
+				DA3AC7051545F05C00E1D705 /* OALAction.m in Sources */,
+				DA3AC7061545F05C00E1D705 /* OALActionManager.m in Sources */,
+				DA3AC7071545F05C00E1D705 /* OALAudioActions.m in Sources */,
+				DA3AC7081545F05C00E1D705 /* OALFunction.m in Sources */,
+				DA3AC7091545F05C00E1D705 /* OALUtilityActions.m in Sources */,
+				DA3AC70A1545F05C00E1D705 /* OALAudioTrack.m in Sources */,
+				DA3AC70B1545F05C00E1D705 /* OALAudioTrackNotifications.m in Sources */,
+				DA3AC70C1545F05C00E1D705 /* OALAudioTracks.m in Sources */,
+				DA3AC70E1545F05C00E1D705 /* OALSimpleAudio.m in Sources */,
+				DA3AC70F1545F05C00E1D705 /* ALBuffer.m in Sources */,
+				DA3AC7101545F05C00E1D705 /* ALCaptureDevice.m in Sources */,
+				DA3AC7111545F05C00E1D705 /* ALChannelSource.m in Sources */,
+				DA3AC7121545F05C00E1D705 /* ALContext.m in Sources */,
+				DA3AC7131545F05C00E1D705 /* ALDevice.m in Sources */,
+				DA3AC7141545F05C00E1D705 /* ALListener.m in Sources */,
+				DA3AC7151545F05C00E1D705 /* ALSoundSourcePool.m in Sources */,
+				DA3AC7161545F05C00E1D705 /* ALSource.m in Sources */,
+				DA3AC7171545F05C00E1D705 /* ALWrapper.m in Sources */,
+				DA3AC7181545F05C00E1D705 /* OpenALManager.m in Sources */,
+				DA3AC7191545F05C00E1D705 /* OALAudioSession.m in Sources */,
+				DA3AC71A1545F05C00E1D705 /* OALSuspendHandler.m in Sources */,
+				DA3AC71B1545F05C00E1D705 /* IOSVersion.m in Sources */,
+				DA3AC71C1545F05C00E1D705 /* mach_timing.c in Sources */,
+				DA3AC71D1545F05C00E1D705 /* NSMutableArray+WeakReferences.m in Sources */,
+				DA3AC71E1545F05C00E1D705 /* OALAudioFile.m in Sources */,
+				DA3AC71F1545F05C00E1D705 /* OALTools.m in Sources */,
+				DA3AC7441545F4DC00E1D705 /* PGMidi.mm in Sources */,
+				DA3AC7451545F4DC00E1D705 /* PGMidiAllSources.mm in Sources */,
+				DA3AC7461545F4DC00E1D705 /* PGMidiFind.mm in Sources */,
+				DA3AC7531546283900E1D705 /* MidiParser.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA3AC68F1545EFDA00E1D705 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA3AC6A31545EFDA00E1D705 /* Return4Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA3AC69A1545EFDA00E1D705 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA3AC6721545EFDA00E1D705 /* Retune4.3 */;
+			targetProxy = DA3AC6991545EFDA00E1D705 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DA3AC6801545EFDA00E1D705 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA3AC6811545EFDA00E1D705 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DA3AC68C1545EFDA00E1D705 /* ViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA3AC68D1545EFDA00E1D705 /* en */,
+			);
+			name = ViewController.xib;
+			sourceTree = "<group>";
+		};
+		DA3AC69E1545EFDA00E1D705 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA3AC69F1545EFDA00E1D705 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DA3AC6A41545EFDA00E1D705 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		DA3AC6A51545EFDA00E1D705 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DA3AC6A71545EFDA00E1D705 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Return4/Retune4.3-Prefix.pch";
+				INFOPLIST_FILE = "Return4/Retune4.3-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = Retune4.3;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DA3AC6A81545EFDA00E1D705 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Return4/Retune4.3-Prefix.pch";
+				INFOPLIST_FILE = "Return4/Retune4.3-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				PRODUCT_NAME = Retune4.3;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		DA3AC6AA1545EFDA00E1D705 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Return4.app/Return4";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Return4/Return4-Prefix.pch";
+				INFOPLIST_FILE = "Return4Tests/Retune4.3Tests-Info.plist";
+				PRODUCT_NAME = Retune4.3Tests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		DA3AC6AB1545EFDA00E1D705 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Return4.app/Return4";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Return4/Return4-Prefix.pch";
+				INFOPLIST_FILE = "Return4Tests/Retune4.3Tests-Info.plist";
+				PRODUCT_NAME = Retune4.3Tests;
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA3AC66D1545EFDA00E1D705 /* Build configuration list for PBXProject "Retune4.3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA3AC6A41545EFDA00E1D705 /* Debug */,
+				DA3AC6A51545EFDA00E1D705 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA3AC6A61545EFDA00E1D705 /* Build configuration list for PBXNativeTarget "Retune4.3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA3AC6A71545EFDA00E1D705 /* Debug */,
+				DA3AC6A81545EFDA00E1D705 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA3AC6A91545EFDA00E1D705 /* Build configuration list for PBXNativeTarget "Retune4.3Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA3AC6AA1545EFDA00E1D705 /* Debug */,
+				DA3AC6AB1545EFDA00E1D705 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DA3AC66A1545EFDA00E1D705 /* Project object */;
+}
