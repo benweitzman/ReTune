@@ -113,16 +113,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-/*-(void)^playMidiFile:(MidiParser *)parser = ^{
-    NSMutableArray *noteOns = parser.noteOns;
-    //int ticksPerSecond = [parser 
-    for (int i=0;i<[noteOns count];i++) {
-        NoteObject *currentNote = [noteOns objectAtIndex:i];
-        [NSThread sleepForTimeInterval:(currentNote.time/480.0f)];
-        [self noteOn:currentNote.note];
-    }  
-}*/
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -153,6 +143,7 @@
     recording = false;
     recordedNotes = [[NSMutableArray alloc] init];
     parser = [[MidiParser alloc] init];
+    saving = false;
     //NSLog(@"%@",[parser log]);
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -215,6 +206,21 @@
     [self attachToAllExistingSources];
 }
 
+- (void) noteOff:(int)noteValue {
+    if (noteValue>=0 && noteValue<127) {
+        if (recording) {
+            double currentTime = CACurrentMediaTime();
+            int deltaTime = (int)(currentTime*1000-recordTimer*1000);
+            NoteObject * recordedNote = [[NoteObject alloc] init];
+            recordedNote.note = noteValue;
+            recordedNote.time = deltaTime;
+            recordedNote.noteOn = false;
+            [recordedNotes addObject:recordedNote];
+            recordTimer = currentTime;
+        }
+    }
+}
+
 - (void) noteOn:(int)noteValue {
     if (noteValue>=0 && noteValue<127) {
         if (recording) {
@@ -223,6 +229,7 @@
             NoteObject * recordedNote = [[NoteObject alloc] init];
             recordedNote.note = noteValue;
             recordedNote.time = deltaTime;
+            recordedNote.noteOn = true;
             [recordedNotes addObject:recordedNote];
             recordTimer = currentTime;
         }
@@ -353,13 +360,15 @@
 
 -(void)stopRecording {
     recording = false;
-    parser.noteOns = nil;
-    parser.noteOns = [[NSMutableArray alloc] init];
+    parser.events = nil;
+    parser.events = [[NSMutableArray alloc] init];
+    parser.ticksPerSecond = 480;
+    parser.bpm = 120;
     for (int i=0;i<[recordedNotes count];i++) {
         NoteObject * currentNote = [recordedNotes objectAtIndex:i];
-        NSLog(@"recorded note:%d at %d",currentNote.note,currentNote.time);
-        currentNote.time *= 480.0f/1000;
-        [parser.noteOns addObject:currentNote];
+        NSLog(@"recorded note:%d at %d %d",currentNote.note,currentNote.time,currentNote.noteOn);
+        currentNote.time *= parser.ticksPerSecond/1000;
+        [parser.events addObject:currentNote];
     }
 }
 
@@ -393,20 +402,24 @@
         paused = false;
         stopped = false;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSMutableArray *noteOns = parser.noteOns;
+            NSMutableArray *events = parser.events;
             double ticksPerSecond = [parser ticksPerSecond];
             //int ticksPerSecond = [parser 
-            for (int i=0;i<[noteOns count];i++) {
+            for (int i=0;i<[events count];i++) {
                 while (paused);
                 if (stopped) break;
-                NoteObject *currentNote = [noteOns objectAtIndex:i];
-                if (i== 0) {
+                NoteObject *currentNote = [events objectAtIndex:i];
+                if (i==0) {
                     currentNote.time = 0;
                 }
                 [NSThread sleepForTimeInterval:(currentNote.time/ticksPerSecond)];
                 while (paused);
                 if (stopped) break;
-                [self noteOn:currentNote.note];
+                if (currentNote.noteOn) {
+                    [self noteOn:currentNote.note];
+                } else {
+                    [self noteOff:currentNote.note];
+                }
             } 
             NSLog(@"finished playing");
             playing = false;
@@ -417,6 +430,13 @@
     } else {
         paused = false;
     }
+}
+
+- (IBAction)saveMidi:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save" message:@"Save you midi file?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+    //[alert release];
 }
 
 - (IBAction)loadMidi:(id)sender {
@@ -431,19 +451,42 @@
         [pc dismissPopoverAnimated:YES];
     }
     else {
+        ac = nil;
+        pc = nil;
+        ac = [[LoadMidiController alloc] initWithNibName:@"LoadMidiController" bundle:nil];
+        pc = [[UIPopoverController alloc] initWithContentViewController:ac];
+        //ac.delegate = self;
+        ac.delegate = self;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save first" 
                                                         message:@"If you load a new midi file, any midi data that you have recorded and haven't saved will be deleted. Do you want to continue?"  
                                                        delegate:self 
                                               cancelButtonTitle:@"Cancel" 
-                                              otherButtonTitles:@"Yes", nil];
+                                              otherButtonTitles:@"Continue Without Saving",@"Save And Continue", nil];
         [alert show];
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if (title == @"Yes") {
+    if (title == @"Continue Without Saving") {
         [pc presentPopoverFromRect:[loadMidiButton bounds] inView:loadMidiButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    } else if (title == @"Save And Continue") {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save" message:@"Save you midi file?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+        saving = true;
+    } else if (title == @"Save") {
+        [self writeNotesToFile:[[alertView textFieldAtIndex:0] text]];
+        if (saving) {
+            saving = false;
+            ac = nil;
+            pc = nil;
+            ac = [[LoadMidiController alloc] initWithNibName:@"LoadMidiController" bundle:nil];
+            pc = [[UIPopoverController alloc] initWithContentViewController:ac];
+            //ac.delegate = self;
+            ac.delegate = self;
+            [pc presentPopoverFromRect:[loadMidiButton bounds] inView:loadMidiButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
     }
 }
 
@@ -451,6 +494,12 @@
     NSLog(@"%@",selection);
     [pc dismissPopoverAnimated:YES];
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:selection ofType: @"mid"]];
+    if ([data length] == 0) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        data = nil;
+        data = [[NSData alloc] initWithContentsOfFile:[NSBundle pathForResource:selection ofType:@"mid" inDirectory:documentsDirectory]];
+    }
 	NSMutableArray * byteArray = [[NSMutableArray alloc] init];
     for (int i=0;i<[data length];i++) {
         NSRange range = NSMakeRange(i,1);
@@ -461,6 +510,61 @@
     
     [parser parseData:data];
     NSLog(@"ticks per second: %f",parser.ticksPerSecond);
+}
+
+-(NSEnumerator *)convertToVLQ:(int)value {
+    NSMutableArray *bytes = [[NSMutableArray alloc] init];
+    char out = value&0x7F;
+    [bytes addObject:[[NSNumber alloc] initWithChar:out]];
+    while ((value>>=7) != 0) {
+        out = (value&0x7F)|0x80;
+        [bytes addObject:[[NSNumber alloc] initWithChar:out]];
+    }
+    return [bytes reverseObjectEnumerator];
+}
+
+- (void)writeNotesToFile:(NSString *)file {
+    int ticksPerBeat = parser.ticksPerSecond/(float)parser.bpm*60;
+    char header[22] = {'M','T','h','d',
+                    0x00,0x00,0x00,0x06,
+                    0x00,0x00,
+                    0x00,0x01,
+                    (ticksPerBeat&0xFF00)<<8,ticksPerBeat&0xFF,
+                    'M','T','r','k',
+                    0x00,0xff,0x00,0x90};
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *writeFile = [documentsDirectory stringByAppendingPathComponent:[file stringByAppendingPathExtension:@"mid"]];
+    NSMutableData *data = [NSMutableData dataWithLength:0];
+    [data appendBytes:&header length:sizeof(header)];
+    int tempo = 60000000.0f/parser.bpm;
+    char metaTime[7] = {0x00, 0xFF,0x51,0x03,(tempo>>16)&0xff,(tempo>>8)&0xff,tempo&0xff};
+    [data appendBytes:&metaTime length:7];
+    for (int i=0;i<[parser.events count];i++) {
+        NoteObject *currentNote = [parser.events objectAtIndex:i];
+        int time = currentNote.time;
+        
+        NSEnumerator *bytes = [self convertToVLQ:time];
+        NSNumber *byte;
+        while ((byte = [bytes nextObject])) {
+            char out = [byte charValue]&0xff;
+            [data appendBytes:&out length:1];
+        }
+        if (currentNote.noteOn) {
+            NSLog(@"saving note: %x",currentNote.note&0xff);
+            char midiEvent[3] = {0x90,(char)(currentNote.note)&0xff,0x7f}; 
+            [data appendBytes:&midiEvent length:3];
+
+        } else {
+            char midiEvent[3] = {0x80,(char)(currentNote.note)&0xff,0x00}; 
+            [data appendBytes:&midiEvent length:3];
+        
+        }
+    }
+    
+    [data writeToFile:writeFile atomically:YES];
+    NSLog(@"%@",writeFile);
+    
 }
 
 

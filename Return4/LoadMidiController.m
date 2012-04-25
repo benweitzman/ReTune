@@ -45,6 +45,17 @@
             [midiFiles addObject:[filename stringByDeletingPathExtension]];
         }
     }
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    fm = [NSFileManager defaultManager];
+    direnum = [fm enumeratorAtPath:documentsDirectory];
+    //midiFiles = [[NSMutableArray alloc] init];
+    while ((filename = [direnum nextObject])) {
+        if ([filename hasSuffix:@".mid"]){
+            NSLog(@"%@",filename);
+            [midiFiles addObject:[filename stringByDeletingPathExtension]];
+        }
+    }
     
 
     // Uncomment the following line to preserve selection between presentations.

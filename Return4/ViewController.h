@@ -36,6 +36,7 @@ typedef struct {
      PGMidi *midi;
     MidiParser *parser;
     double recordTimer;
+    bool saving;
     bool playing, stopped, paused, recording;
 }
 @property (strong) NSMutableArray* pitches;
@@ -59,7 +60,10 @@ typedef struct {
 -(IBAction)pauseMidi:(id)sender;
 -(IBAction)recordMidi:(id)sender;
 -(IBAction)loadMidi:(id)sender;
+-(IBAction)saveMidi:(id)sender;
 -(void)noteOn:(int)noteValue;
+
+-(void)writeNotesToFile:(NSString *)file;
 
 
 @end

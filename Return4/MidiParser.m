@@ -42,18 +42,19 @@
 
 @implementation NoteObject
 
-@synthesize time, note;
+@synthesize time, note, noteOn;
 
 @end
 
 @implementation MidiParser
 
-@synthesize log,noteOns;
+@synthesize log,events;
 
 @synthesize format;
 @synthesize trackCount;
 @synthesize timeFormat;
 @synthesize ticksPerSecond;
+@synthesize bpm;
 
 
 - (UInt32) readDWord
@@ -298,7 +299,7 @@
 {
     BOOL success = YES;
     self.log = [[NSMutableString alloc] init];
-    self.noteOns = [[NSMutableArray alloc] init];
+    self.events = [[NSMutableArray alloc] init];
     @try 
     {
         // Parse data
@@ -310,10 +311,12 @@
         
         // If size is less than header size, then abort
         NSUInteger dataLength = [data length];
+        NSLog(@"data length: %d",dataLength);
         if((offset + MAIN_HEADER_SIZE) > dataLength)
         {
             NSException *ex = [NSException exceptionWithName:kFileCorrupt 
                                                       reason:kFileCorrupt userInfo:nil];
+            NSLog(@"ex a");
             @throw ex;
         }
         
@@ -322,6 +325,7 @@
         {
             NSException *ex = [NSException exceptionWithName:kFileCorrupt  
                                                       reason:kInvalidHeader userInfo:nil];
+               NSLog(@"ex b");
             @throw ex;
         }
         offset += 4;
@@ -368,6 +372,7 @@
             {
                 NSException *ex = [NSException exceptionWithName:kFileCorrupt  
                                                           reason:kInvalidTrackHeader userInfo:nil];
+                   NSLog(@"ex c");
                 @throw ex;
             }
             offset += 4;
@@ -495,6 +500,14 @@
                         {
                             p1 = [self readByte];
                             p2 = [self readByte];
+                            if (channel != 9) {
+                                NoteObject *new = [[NoteObject alloc] init];
+                                new.time = noteOnDelta;
+                                new.note = p1;
+                                new.noteOn = false;
+                                [events addObject:new];
+                                noteOnDelta = 0;
+                            }
                             [self readNoteOff: channel parameter1: p1 parameter2: p2];
                         }
                             break;
@@ -503,11 +516,16 @@
                         case CHANNEL_NOTE_ON:{
                             p1 = [self readByte];
                             p2 = [self readByte];
-                            if (p2 != 0 && channel != 9) {
+                            if (channel != 9) {
                                 NoteObject *new = [[NoteObject alloc] init];
                                 new.time = noteOnDelta;
                                 new.note = p1;
-                                [noteOns addObject:new];
+                                if (p2 != 0) {
+                                    new.noteOn = true;
+                                } else {
+                                    new.noteOn = false;
+                                }
+                                [events addObject:new];
                                 noteOnDelta = 0;
                             }
                             [self readNoteOn:channel parameter1:p1 parameter2:p2];
@@ -566,6 +584,7 @@
         ticksPerSecond = ticksPerBeat*bpm/60;
     }
     NSLog(@"bpm: %d",bpm);
+    NSLog(@"%@",log);
     return success;
 }
 
