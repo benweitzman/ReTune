@@ -78,6 +78,10 @@
 		DA3AC74A1545F53000E1D705 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7491545F53000E1D705 /* CoreMIDI.framework */; };
 		DA3AC74C154616D500E1D705 /* Bass_sample2.mid in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC74B154616D500E1D705 /* Bass_sample2.mid */; };
 		DA3AC7531546283900E1D705 /* MidiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7521546283900E1D705 /* MidiParser.m */; };
+		DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */; };
+		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
+		DADBF5A515479F61001FD191 /* LoadMidiController.m in Sources */ = {isa = PBXBuildFile; fileRef = DADBF5A315479F61001FD191 /* LoadMidiController.m */; };
+		DADBF5A615479F61001FD191 /* LoadMidiController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADBF5A415479F61001FD191 /* LoadMidiController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -208,6 +212,11 @@
 		DA3AC74B154616D500E1D705 /* Bass_sample2.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = Bass_sample2.mid; path = ../Bass_sample2.mid; sourceTree = "<group>"; };
 		DA3AC7511546283900E1D705 /* MidiParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiParser.h; sourceTree = "<group>"; };
 		DA3AC7521546283900E1D705 /* MidiParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiParser.m; sourceTree = "<group>"; };
+		DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = EightDaysAWeek.mid; path = ../EightDaysAWeek.mid; sourceTree = "<group>"; };
+		DABA59031547B8860044B869 /* dixie.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = dixie.mid; sourceTree = "<group>"; };
+		DADBF5A215479F61001FD191 /* LoadMidiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMidiController.h; sourceTree = "<group>"; };
+		DADBF5A315479F61001FD191 /* LoadMidiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMidiController.m; sourceTree = "<group>"; };
+		DADBF5A415479F61001FD191 /* LoadMidiController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadMidiController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +291,9 @@
 			children = (
 				DA3AC6861545EFDA00E1D705 /* AppDelegate.h */,
 				DA3AC6871545EFDA00E1D705 /* AppDelegate.m */,
+				DADBF5A215479F61001FD191 /* LoadMidiController.h */,
+				DADBF5A315479F61001FD191 /* LoadMidiController.m */,
+				DADBF5A415479F61001FD191 /* LoadMidiController.xib */,
 				DA3AC6891545EFDA00E1D705 /* ViewController.h */,
 				DA3AC68A1545EFDA00E1D705 /* ViewController.m */,
 				DA3AC68C1545EFDA00E1D705 /* ViewController.xib */,
@@ -436,6 +448,8 @@
 		DA3AC6EF1545F05C00E1D705 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */,
+				DABA59031547B8860044B869 /* dixie.mid */,
 				DA3AC74B154616D500E1D705 /* Bass_sample2.mid */,
 				DA3AC6F01545F05C00E1D705 /* P200 Piano A#2.caf */,
 				DA3AC6F11545F05C00E1D705 /* P200 Piano A#3.caf */,
@@ -573,6 +587,9 @@
 				DA3AC7331545F05D00E1D705 /* P200 Piano G#9.caf in Resources */,
 				DA3AC7341545F05D00E1D705 /* Piano.plist in Resources */,
 				DA3AC74C154616D500E1D705 /* Bass_sample2.mid in Resources */,
+				DADBF5A615479F61001FD191 /* LoadMidiController.xib in Resources */,
+				DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */,
+				DABA59041547B8860044B869 /* dixie.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +657,7 @@
 				DA3AC7451545F4DC00E1D705 /* PGMidiAllSources.mm in Sources */,
 				DA3AC7461545F4DC00E1D705 /* PGMidiFind.mm in Sources */,
 				DA3AC7531546283900E1D705 /* MidiParser.m in Sources */,
+				DADBF5A515479F61001FD191 /* LoadMidiController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,6 +763,7 @@
 				GCC_PREFIX_HEADER = "Return4/Retune4.3-Prefix.pch";
 				INFOPLIST_FILE = "Return4/Retune4.3-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				NSAutoreleaseHaltOnNoPool = YES;
 				PRODUCT_NAME = Retune4.3;
 				WRAPPER_EXTENSION = app;
 			};
@@ -759,6 +778,7 @@
 				GCC_PREFIX_HEADER = "Return4/Retune4.3-Prefix.pch";
 				INFOPLIST_FILE = "Return4/Retune4.3-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				NSAutoreleaseHaltOnNoPool = YES;
 				PRODUCT_NAME = Retune4.3;
 				WRAPPER_EXTENSION = app;
 			};

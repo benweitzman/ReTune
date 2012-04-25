@@ -53,6 +53,7 @@
 @synthesize format;
 @synthesize trackCount;
 @synthesize timeFormat;
+@synthesize ticksPerSecond;
 
 
 - (UInt32) readDWord
@@ -187,7 +188,7 @@
     microPerQuarter <<= 8;
     microPerQuarter |= [self readByteAtRelativeOffset:2];
     
-    UInt32 bpm = MICRO_PER_MINUTE / microPerQuarter;
+    bpm = MICRO_PER_MINUTE / microPerQuarter;
     [self.log appendFormat:@"Meta Set Tempo: Micro Per Quarter: %d, Beats Per Minute: %d\n", microPerQuarter, bpm];
 }
 
@@ -304,6 +305,7 @@
         data = midiData;
         int currentTime = 0;
         int noteOnDelta = 0;
+        bpm = 0;
         offset = 0;
         
         // If size is less than header size, then abort
@@ -442,7 +444,11 @@
                             break;
                             
                         case META_SET_TEMPO:
-                            [self readMetaSetTempo];
+                        {
+                            if (bpm == 0) {
+                                [self readMetaSetTempo];
+                            }
+                        }
                             break;
                             
                         case META_SMPTE_OFFSET:
@@ -497,11 +503,13 @@
                         case CHANNEL_NOTE_ON:{
                             p1 = [self readByte];
                             p2 = [self readByte];
-                            NoteObject *new = [[NoteObject alloc] init];
-                            new.time = noteOnDelta;
-                            new.note = p1;
-                            [noteOns addObject:new];
-                            noteOnDelta = 0;
+                            if (p2 != 0 && channel != 9) {
+                                NoteObject *new = [[NoteObject alloc] init];
+                                new.time = noteOnDelta;
+                                new.note = p1;
+                                [noteOns addObject:new];
+                                noteOnDelta = 0;
+                            }
                             [self readNoteOn:channel parameter1:p1 parameter2:p2];
                         }
                             break;
@@ -548,10 +556,16 @@
         success = NO;
         [self.log appendString:[exception reason]];
     }
-    for (int i=0;i<[noteOns count];i++) {
+    /*for (int i=0;i<[noteOns count];i++) {
         NoteObject *current = [noteOns objectAtIndex:i];
         NSLog(@"%d %d",current.time,current.note);
+    }*/
+    if (timeFormat == MidiTimeFormatFramesPerSecond) {
+        ticksPerSecond = framesPerSecond*ticksPerFrame;
+    } else {
+        ticksPerSecond = ticksPerBeat*bpm/60;
     }
+    NSLog(@"bpm: %d",bpm);
     return success;
 }
 

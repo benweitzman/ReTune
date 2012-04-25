@@ -34,12 +34,15 @@ typedef enum tagMidiTimeFormat
     UInt16 ticksPerBeat;
     UInt16 framesPerSecond;
     UInt16 ticksPerFrame;
+    double ticksPerSecond;
+    UInt32 bpm;
     
     NSMutableArray *noteOns;
 }
 
 @property (nonatomic, strong) NSMutableString *log;
 @property (nonatomic, strong) NSMutableArray *noteOns;
+@property (nonatomic) double ticksPerSecond;
 
 @property (readonly) UInt16 format;
 @property (readonly) UInt16 trackCount;

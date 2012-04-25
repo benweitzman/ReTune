@@ -13,8 +13,9 @@
 #import "MidiParser.h"
 #import <QuartzCore/CAAnimation.h>
 #import <CoreMIDI/CoreMIDI.h>
+#import "LoadMidiController.h"
 
-@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate>
+@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate>
 - (void) addString:(NSString*)string;
 @end
 
@@ -22,6 +23,7 @@
 @implementation ViewController
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes;
 @synthesize playButton;
+@synthesize loadMidiButton, pc, ac;
 
 - (bufferInfo) bufferFromPitch:(float)pitch {
     float minDifference = 1000000;
@@ -50,7 +52,7 @@
                   [NSValue value:&(File){@"P200 Piano A#3.caf",233.082} withObjCType:@encode(File)],
                   [NSValue value:&(File){@"P200 Piano A#4.caf",466.164} withObjCType:@encode(File)],
                   [NSValue value:&(File){@"P200 Piano A#5.caf",932.328} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#7.caf",1864.66} withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano A#7.caf",3729.32} withObjCType:@encode(File)],
                   [NSValue value:&(File){@"P200 Piano C10.caf",16744.0f} withObjCType:@encode(File)],
                   [NSValue value:&(File){@"P200 Piano C7.caf",2093.0f} withObjCType:@encode(File)],
                   [NSValue value:&(File){@"P200 Piano D#8.caf",4978.03} withObjCType:@encode(File)],
@@ -150,16 +152,7 @@
     //NSLog(@"current time: %f",CACurrentMediaTime());
     recording = false;
     recordedNotes = [[NSMutableArray alloc] init];
-    NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource: @"Bass_sample2" ofType: @"mid"]];
-	NSMutableArray * byteArray = [[NSMutableArray alloc] init];
-    for (int i=0;i<[data length];i++) {
-        NSRange range = NSMakeRange(i,1);
-        char dataBuffer;
-        [data getBytes:&dataBuffer range:range];
-        [byteArray addObject:[[NSNumber alloc] initWithUnsignedInt:dataBuffer]];
-    }
     parser = [[MidiParser alloc] init];
-    [parser parseData:data];
     //NSLog(@"%@",[parser log]);
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -401,12 +394,16 @@
         stopped = false;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSMutableArray *noteOns = parser.noteOns;
+            double ticksPerSecond = [parser ticksPerSecond];
             //int ticksPerSecond = [parser 
             for (int i=0;i<[noteOns count];i++) {
                 while (paused);
                 if (stopped) break;
                 NoteObject *currentNote = [noteOns objectAtIndex:i];
-                [NSThread sleepForTimeInterval:(currentNote.time/480.0f)];
+                if (i== 0) {
+                    currentNote.time = 0;
+                }
+                [NSThread sleepForTimeInterval:(currentNote.time/ticksPerSecond)];
                 while (paused);
                 if (stopped) break;
                 [self noteOn:currentNote.note];
@@ -420,6 +417,50 @@
     } else {
         paused = false;
     }
+}
+
+- (IBAction)loadMidi:(id)sender {
+    
+    if (ac == nil && pc == nil) {
+        ac = [[LoadMidiController alloc] initWithNibName:@"LoadMidiController" bundle:nil];
+        pc = [[UIPopoverController alloc] initWithContentViewController:ac];
+        //ac.delegate = self;
+        ac.delegate = self;
+    }
+    if ([pc isPopoverVisible]) {
+        [pc dismissPopoverAnimated:YES];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save first" 
+                                                        message:@"If you load a new midi file, any midi data that you have recorded and haven't saved will be deleted. Do you want to continue?"  
+                                                       delegate:self 
+                                              cancelButtonTitle:@"Cancel" 
+                                              otherButtonTitles:@"Yes", nil];
+        [alert show];
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if (title == @"Yes") {
+        [pc presentPopoverFromRect:[loadMidiButton bounds] inView:loadMidiButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+}
+
+- (void)LoadMidiController:(LoadMidiController *)midiController didFinishWithSelection:(NSString*)selection {
+    NSLog(@"%@",selection);
+    [pc dismissPopoverAnimated:YES];
+    NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:selection ofType: @"mid"]];
+	NSMutableArray * byteArray = [[NSMutableArray alloc] init];
+    for (int i=0;i<[data length];i++) {
+        NSRange range = NSMakeRange(i,1);
+        char dataBuffer;
+        [data getBytes:&dataBuffer range:range];
+        [byteArray addObject:[[NSNumber alloc] initWithUnsignedInt:dataBuffer]];
+    }
+    
+    [parser parseData:data];
+    NSLog(@"ticks per second: %f",parser.ticksPerSecond);
 }
 
 

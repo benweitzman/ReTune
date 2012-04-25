@@ -10,6 +10,7 @@
 #import "ObjectAL.h"
 #import <Foundation/Foundation.h>
 #import "MidiParser.h"
+#import "LoadMidiController.h"
 
 @class PGMidi;
 
@@ -44,6 +45,10 @@ typedef struct {
 @property (strong) NSArray* soundFiles;
 @property (strong) NSMutableArray* recordedNotes;
 
+@property (strong, nonatomic) IBOutlet UIButton *loadMidiButton;
+@property (strong, nonatomic) LoadMidiController *ac;
+@property (strong, nonatomic) UIPopoverController *pc;
+
 @property (nonatomic,strong) IBOutlet UIButton    *playButton;
 
 
@@ -53,6 +58,7 @@ typedef struct {
 -(IBAction)playMidi:(id)sender;
 -(IBAction)pauseMidi:(id)sender;
 -(IBAction)recordMidi:(id)sender;
+-(IBAction)loadMidi:(id)sender;
 -(void)noteOn:(int)noteValue;
 
 
