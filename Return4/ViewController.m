@@ -14,8 +14,9 @@
 #import <QuartzCore/CAAnimation.h>
 #import <CoreMIDI/CoreMIDI.h>
 #import "LoadMidiController.h"
+#import "LoadScaleController.h"
 
-@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate>
+@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate>
 - (void) addString:(NSString*)string;
 @end
 
@@ -23,7 +24,11 @@
 @implementation ViewController
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes;
 @synthesize playButton;
-@synthesize loadMidiButton, pc, ac;
+@synthesize loadMidiButton, pc, ac, spc, sac;
+@synthesize pressRecognizer, tapRecognizer;
+@synthesize sliders;
+
+@synthesize hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, hotKeys, tempSlot0, tempSlot1,tempSlot2,tempSlots,tempScales,hotScales;
 
 - (bufferInfo) bufferFromPitch:(float)pitch {
     float minDifference = 1000000;
@@ -93,16 +98,11 @@
     buffers = [[NSMutableArray alloc] init];
     ratios  = [[NSMutableArray alloc] init];
     
-    NSLog(@"A4: %f",[[pitches objectAtIndex:69] floatValue]);
+    //NSLog(@"A4: %f",[[pitches objectAtIndex:69] floatValue]);
     for (int i=0;i<127;i++) {
-        if (i>=0 && i<127) {
-            bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:i] floatValue]];
-            [buffers addObject:info.buffer];
-            [ratios addObject:[[NSNumber alloc] initWithFloat:info.scale]];
-        } else {
-            [buffers addObject:[NSNull null]];
-            [ratios addObject:[NSNull null]];
-        }
+        bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:i] floatValue]];
+        [buffers addObject:info.buffer];
+        [ratios addObject:[[NSNumber alloc] initWithFloat:info.scale]];
     }
     majorScale = [[NSMutableArray alloc] initWithArray:pitches copyItems:YES];
 }
@@ -144,8 +144,124 @@
     recordedNotes = [[NSMutableArray alloc] init];
     parser = [[MidiParser alloc] init];
     saving = false;
-    //NSLog(@"%@",[parser log]);
+    
+    /*sliders = [sliders sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+        return NSOrderedSame;
+    }];*/
+    NSLog(@"sliders: %d",[sliders count]);
+    
+    tempScales = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] init],
+                                                         [[NSMutableArray alloc] init],
+                                                         [[NSMutableArray alloc] init],nil];
+    hotScales = nil;
+    
+    hotKeys = [[NSMutableArray alloc] initWithObjects:hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, nil];
+    
+    tempSlots = [[NSMutableArray alloc] initWithObjects:tempSlot0,tempSlot1,tempSlot2,nil];
+    
+    for (int i=0;i<[tempSlots count];i++) {
+        pressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTempPress:)];
+        pressRecognizer.minimumPressDuration = 0.8;
+        tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTempTap:)];
+        tapRecognizer.numberOfTapsRequired = 2;
+        tapRecognizer.numberOfTouchesRequired = 1;
+        UIButton *tempSlot = [tempSlots objectAtIndex:i];
+        [tempSlot addGestureRecognizer:pressRecognizer];
+        [tempSlot addGestureRecognizer:tapRecognizer];
+        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" forState:UIControlStateNormal]; 
+        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" 
+                forState:UIControlStateHighlighted]; 
+        tempSlot.titleLabel.font = [UIFont systemFontOfSize:12];
+        tempSlot.titleLabel.lineBreakMode = UILineBreakModeCharacterWrap;
+        tempSlot.titleLabel.textAlignment = UITextAlignmentCenter;
+    }
+    // Add gesture recognizer to the view
+    for (int i=0;i<[hotKeys count];i++) {
+        pressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handlePress:)]; // Absolutely need ":" after handleTaps
+    
+    // The number of fingers that must be on the screen
+        pressRecognizer.minimumPressDuration = 0.8;
+        UIButton * hotKey = [hotKeys objectAtIndex:i];
+        
+        [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateNormal]; 
+        [hotKey setTitle:@"Press and hold\nto load a scale" 
+                forState:UIControlStateHighlighted]; 
+        hotKey.titleLabel.font = [UIFont systemFontOfSize:12];
+        hotKey.titleLabel.lineBreakMode = UILineBreakModeCharacterWrap;
+        hotKey.titleLabel.textAlignment = UITextAlignmentCenter;
+        [hotKey addGestureRecognizer:pressRecognizer];
+    }
+    
     // Do any additional setup after loading the view, typically from a nib.
+}
+
+- (IBAction)playTemp:(id)sender {
+    UIButton * button = sender;
+    if ([[tempScales objectAtIndex:button.tag] count] != 0) {
+        for (int i=0;i<127;i++) {
+            float lowPitch = [[[tempScales objectAtIndex:button.tag] objectAtIndex:i%12] floatValue];
+            int octave = i/12;
+            float newPitch = pow(2,octave)*lowPitch;
+            //NSLog(@"degree: %d, octave: %d, oldPitch: %f, newPitch: %f",i%12,i/12+1,[[pitches objectAtIndex:i] floatValue], newPitch);
+            [pitches replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:newPitch]];
+            if (octave == 0) {
+                float ratio = newPitch/[[majorScale objectAtIndex:i] floatValue];
+                float newValue = (log2f(ratio)*12+1)/2;
+                UISlider *slider = [sliders objectAtIndex:i];
+                NSLog(@"slider value: %f",slider.value);
+                [slider setValue:newValue animated:YES];
+            }
+        }
+    }
+    [self initBuffers];
+    //NSLog(@"playing temp slot %d",button.tag);
+}
+
+- (void)handleTempTap:(UITapGestureRecognizer *)sender {
+    UIView *view = sender.view;
+    //UIButton *button = (UIButton *)sender.view;
+    NSLog(@"save temp slot %d",view.tag);
+}
+
+- (void) handleTempPress:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        UIView *view = sender.view;
+        UIButton *button = (UIButton* )sender.view;
+        NSMutableArray *currentScale = [[NSMutableArray alloc] init];
+        for (int i=0;i<12;i++) {
+            [currentScale addObject:[pitches objectAtIndex:i]];
+        }
+        [tempScales replaceObjectAtIndex:view.tag withObject:currentScale];
+        [button setTitle:@"Tap to play\nDouble tap to save" forState:UIControlStateNormal]; 
+        [button setTitle:@"Tap to play\nDouble tap to play" 
+                  forState:UIControlStateHighlighted]; 
+        //NSLog(@"load current scale to temp slot %d",view.tag);
+    }
+}
+
+- (void) handlePress:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        UIView *view = sender.view;
+        NSLog(@"long press: %d",view.tag);
+        if (sac == nil && spc == nil) {
+            sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
+            spc = [[UIPopoverController alloc] initWithContentViewController:sac];
+            sac.delegate = self;
+        }
+        if ([spc isPopoverVisible]) {
+            [spc dismissPopoverAnimated:YES];
+        }
+        else {
+            sac = nil;
+            spc = nil;
+            sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
+            spc = [[UIPopoverController alloc] initWithContentViewController:sac];
+            sac.delegate = self;
+            [spc presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+    }
 }
 
 - (void)viewDidUnload
@@ -235,7 +351,7 @@
         }
         //float pitch = [[pitches objectAtIndex:noteValue] floatValue];
         ALBuffer* toPlay = [[self buffers] objectAtIndex:noteValue];
-        if (toPlay != [NSNull null]) {
+        if ([toPlay isKindOfClass:[NSNull class]]) {
             float pitchToPlay = [[ratios objectAtIndex:noteValue] floatValue];
             [channel play:toPlay gain:1.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
         } else {
@@ -490,6 +606,10 @@
     }
 }
 
+-(void)LoadScaleController:(LoadScaleController *)scaleController didFinishWithSelection:(NSString *)selection {
+    
+}
+
 - (void)LoadMidiController:(LoadMidiController *)midiController didFinishWithSelection:(NSString*)selection {
     NSLog(@"%@",selection);
     [pc dismissPopoverAnimated:YES];
@@ -565,6 +685,11 @@
     [data writeToFile:writeFile atomically:YES];
     NSLog(@"%@",writeFile);
     
+}
+
+-(IBAction)loadScale:(id)sender {
+    UIButton * button = sender;
+    NSLog(@"loading scale for button: %d",button.tag);
 }
 
 

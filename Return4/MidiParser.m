@@ -583,8 +583,8 @@
     } else {
         ticksPerSecond = ticksPerBeat*bpm/60;
     }
-    NSLog(@"bpm: %d",bpm);
-    NSLog(@"%@",log);
+    //NSLog(@"bpm: %d",bpm);
+    //NSLog(@"%@",log);
     return success;
 }
 

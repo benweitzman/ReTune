@@ -457,8 +457,7 @@ BOOL checkIfSuccessfulWithDevice(const char* contextInfo, ALCdevice* device)
 }
 
 + (bool) makeContextCurrent:(ALCcontext*) context deviceReference:(ALCdevice*) deviceReference
-{
-	@synchronized(self)
+{	@synchronized(self)
 	{
 		if(!alcMakeContextCurrent(context))
 		{

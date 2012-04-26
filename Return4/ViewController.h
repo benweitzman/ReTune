@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #import "MidiParser.h"
 #import "LoadMidiController.h"
+#import "LoadScaleController.h"
 
 @class PGMidi;
 
@@ -48,9 +49,18 @@ typedef struct {
 
 @property (strong, nonatomic) IBOutlet UIButton *loadMidiButton;
 @property (strong, nonatomic) LoadMidiController *ac;
-@property (strong, nonatomic) UIPopoverController *pc;
+@property (strong, nonatomic) LoadScaleController *sac;
+@property (strong, nonatomic) UIPopoverController *pc, *spc;
 
 @property (nonatomic,strong) IBOutlet UIButton    *playButton;
+@property (nonatomic, retain) UILongPressGestureRecognizer * pressRecognizer;
+@property (nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
+
+@property (nonatomic,strong) IBOutlet UIButton *hotKey0,*hotKey1,*hotKey2,*hotKey3,*hotKey4,*hotKey5,*hotKey6,*hotKey7,*hotKey8,*hotKey9,*hotKey10,*hotKey11,*tempSlot0,*tempSlot1,*tempSlot2;
+
+@property (nonatomic, retain) IBOutletCollection(UISlider) NSArray* sliders;
+
+@property (nonatomic, strong) NSMutableArray *hotKeys,*tempSlots,*tempScales,*hotScales;
 
 
 @property (nonatomic,strong) PGMidi *midi;
@@ -61,9 +71,14 @@ typedef struct {
 -(IBAction)recordMidi:(id)sender;
 -(IBAction)loadMidi:(id)sender;
 -(IBAction)saveMidi:(id)sender;
+-(IBAction)loadScale:(id)sender;
+-(IBAction)playTemp:(id)sender;
 -(void)noteOn:(int)noteValue;
 
 -(void)writeNotesToFile:(NSString *)file;
+
+-(void)handleTempPress:(UILongPressGestureRecognizer *)sender;
+
 
 
 @end

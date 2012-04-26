@@ -24,7 +24,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
+    //self.window.rootViewController = self.viewController;
+    [self.window addSubview:self.viewController.view];
     [self.window makeKeyAndVisible];
     IF_IOS_HAS_COREMIDI
     (

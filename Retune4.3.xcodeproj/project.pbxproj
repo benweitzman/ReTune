@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		DA03121915465EBF00781172 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA03121815465EBF00781172 /* QuartzCore.framework */; };
 		DA18CB321548BC6A007B4DD7 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB311548BC6A007B4DD7 /* Default-Landscape~ipad.png */; };
+		DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */; };
+		DA18CB3B1548CBCA007B4DD7 /* LoadScaleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */; };
 		DA3AC6781545EFDA00E1D705 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6771545EFDA00E1D705 /* UIKit.framework */; };
 		DA3AC67A1545EFDA00E1D705 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6791545EFDA00E1D705 /* Foundation.framework */; };
 		DA3AC67C1545EFDA00E1D705 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */; };
@@ -80,9 +82,7 @@
 		DA3AC74C154616D500E1D705 /* Bass_sample2.mid in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC74B154616D500E1D705 /* Bass_sample2.mid */; };
 		DA3AC7531546283900E1D705 /* MidiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7521546283900E1D705 /* MidiParser.m */; };
 		DAAB03E91548AD8B00E70868 /* binaryData.mid in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03E81548AD8B00E70868 /* binaryData.mid */; };
-		DAAB03EF1548B8EC00E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03EE1548B8EC00E70868 /* ipad_icon.png */; };
 		DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F11548B92600E70868 /* ipad_icon.png */; };
-		DAAB03F41548BBF400E70868 /* ipad_load_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F31548BBF400E70868 /* ipad_load_bg.png */; };
 		DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */; };
 		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
 		DADBF5A515479F61001FD191 /* LoadMidiController.m in Sources */ = {isa = PBXBuildFile; fileRef = DADBF5A315479F61001FD191 /* LoadMidiController.m */; };
@@ -102,6 +102,9 @@
 /* Begin PBXFileReference section */
 		DA03121815465EBF00781172 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DA18CB311548BC6A007B4DD7 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		DA18CB371548CBCA007B4DD7 /* LoadScaleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadScaleController.h; sourceTree = "<group>"; };
+		DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadScaleController.m; sourceTree = "<group>"; };
+		DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadScaleController.xib; sourceTree = "<group>"; };
 		DA3AC6731545EFDA00E1D705 /* Retune4.3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retune4.3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3AC6771545EFDA00E1D705 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DA3AC6791545EFDA00E1D705 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -219,9 +222,7 @@
 		DA3AC7511546283900E1D705 /* MidiParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiParser.h; sourceTree = "<group>"; };
 		DA3AC7521546283900E1D705 /* MidiParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiParser.m; sourceTree = "<group>"; };
 		DAAB03E81548AD8B00E70868 /* binaryData.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = binaryData.mid; path = ../../binaryData.mid; sourceTree = "<group>"; };
-		DAAB03EE1548B8EC00E70868 /* ipad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipad_icon.png; sourceTree = "<group>"; };
 		DAAB03F11548B92600E70868 /* ipad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipad_icon.png; sourceTree = "<group>"; };
-		DAAB03F31548BBF400E70868 /* ipad_load_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ipad_load_bg.png; path = ../../../../Desktop/ipad_load_bg.png; sourceTree = "<group>"; };
 		DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = EightDaysAWeek.mid; path = ../EightDaysAWeek.mid; sourceTree = "<group>"; };
 		DABA59031547B8860044B869 /* dixie.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = dixie.mid; sourceTree = "<group>"; };
 		DADBF5A215479F61001FD191 /* LoadMidiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMidiController.h; sourceTree = "<group>"; };
@@ -307,6 +308,9 @@
 				DADBF5A215479F61001FD191 /* LoadMidiController.h */,
 				DADBF5A315479F61001FD191 /* LoadMidiController.m */,
 				DADBF5A415479F61001FD191 /* LoadMidiController.xib */,
+				DA18CB371548CBCA007B4DD7 /* LoadScaleController.h */,
+				DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */,
+				DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */,
 				DA3AC6891545EFDA00E1D705 /* ViewController.h */,
 				DA3AC68A1545EFDA00E1D705 /* ViewController.m */,
 				DA3AC68C1545EFDA00E1D705 /* ViewController.xib */,
@@ -509,8 +513,6 @@
 		DAAB03F01548B8F600E70868 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				DAAB03F31548BBF400E70868 /* ipad_load_bg.png */,
-				DAAB03EE1548B8EC00E70868 /* ipad_icon.png */,
 			);
 			name = Images;
 			path = Return4;
@@ -615,10 +617,9 @@
 				DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */,
 				DABA59041547B8860044B869 /* dixie.mid in Resources */,
 				DAAB03E91548AD8B00E70868 /* binaryData.mid in Resources */,
-				DAAB03EF1548B8EC00E70868 /* ipad_icon.png in Resources */,
 				DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */,
-				DAAB03F41548BBF400E70868 /* ipad_load_bg.png in Resources */,
 				DA18CB321548BC6A007B4DD7 /* Default-Landscape~ipad.png in Resources */,
+				DA18CB3B1548CBCA007B4DD7 /* LoadScaleController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,6 +688,7 @@
 				DA3AC7461545F4DC00E1D705 /* PGMidiFind.mm in Sources */,
 				DA3AC7531546283900E1D705 /* MidiParser.m in Sources */,
 				DADBF5A515479F61001FD191 /* LoadMidiController.m in Sources */,
+				DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
