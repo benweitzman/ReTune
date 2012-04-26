@@ -12,6 +12,8 @@
 		DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */; };
 		DA18CB3B1548CBCA007B4DD7 /* LoadScaleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */; };
 		DA18CB3D1548E8BF007B4DD7 /* binaryData.mid in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB3C1548E8BF007B4DD7 /* binaryData.mid */; };
+		DA3055A2154904730099DE59 /* Pythagorean C.scale in Resources */ = {isa = PBXBuildFile; fileRef = DA3055A1154904730099DE59 /* Pythagorean C.scale */; };
+		DA3055A4154904CD0099DE59 /* Equal Temperament.scale in Resources */ = {isa = PBXBuildFile; fileRef = DA3055A3154904CD0099DE59 /* Equal Temperament.scale */; };
 		DA3AC6781545EFDA00E1D705 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6771545EFDA00E1D705 /* UIKit.framework */; };
 		DA3AC67A1545EFDA00E1D705 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6791545EFDA00E1D705 /* Foundation.framework */; };
 		DA3AC67C1545EFDA00E1D705 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */; };
@@ -106,6 +108,8 @@
 		DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadScaleController.m; sourceTree = "<group>"; };
 		DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadScaleController.xib; sourceTree = "<group>"; };
 		DA18CB3C1548E8BF007B4DD7 /* binaryData.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = binaryData.mid; sourceTree = "<group>"; };
+		DA3055A1154904730099DE59 /* Pythagorean C.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Pythagorean C.scale"; sourceTree = "<group>"; };
+		DA3055A3154904CD0099DE59 /* Equal Temperament.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Equal Temperament.scale"; sourceTree = "<group>"; };
 		DA3AC6731545EFDA00E1D705 /* Retune4.3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retune4.3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3AC6771545EFDA00E1D705 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DA3AC6791545EFDA00E1D705 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -259,9 +263,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA30559F154904490099DE59 /* Scales */ = {
+			isa = PBXGroup;
+			children = (
+				DA3055A3154904CD0099DE59 /* Equal Temperament.scale */,
+				DA3055A1154904730099DE59 /* Pythagorean C.scale */,
+			);
+			name = Scales;
+			sourceTree = "<group>";
+		};
 		DA3AC6681545EFDA00E1D705 = {
 			isa = PBXGroup;
 			children = (
+				DA30559F154904490099DE59 /* Scales */,
 				DA18CB311548BC6A007B4DD7 /* Default-Landscape~ipad.png */,
 				DAAB03F11548B92600E70868 /* ipad_icon.png */,
 				DAAB03F01548B8F600E70868 /* Images */,
@@ -620,6 +634,8 @@
 				DA18CB321548BC6A007B4DD7 /* Default-Landscape~ipad.png in Resources */,
 				DA18CB3B1548CBCA007B4DD7 /* LoadScaleController.xib in Resources */,
 				DA18CB3D1548E8BF007B4DD7 /* binaryData.mid in Resources */,
+				DA3055A2154904730099DE59 /* Pythagorean C.scale in Resources */,
+				DA3055A4154904CD0099DE59 /* Equal Temperament.scale in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

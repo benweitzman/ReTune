@@ -31,6 +31,7 @@ typedef struct {
     ALDevice* device;
     ALContext* context;
     ALChannelSource* channel;
+    NSMutableArray *channels;
     int currentOctave;
     //ALSource* source;
 	//ALBuffer* buffer;
@@ -39,6 +40,7 @@ typedef struct {
     double recordTimer;
     bool saving;
     bool playing, stopped, paused, recording;
+    NSMutableArray *scaleToSave;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -59,6 +61,7 @@ typedef struct {
 @property (nonatomic,strong) IBOutlet UIButton *hotKey0,*hotKey1,*hotKey2,*hotKey3,*hotKey4,*hotKey5,*hotKey6,*hotKey7,*hotKey8,*hotKey9,*hotKey10,*hotKey11,*tempSlot0,*tempSlot1,*tempSlot2;
 
 @property (nonatomic, retain) IBOutletCollection(UISlider) NSArray* sliders;
+@property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* frequencyLabels;
 
 @property (nonatomic, strong) NSMutableArray *hotKeys,*tempSlots,*tempScales,*hotScales;
 

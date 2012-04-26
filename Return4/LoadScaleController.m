@@ -10,7 +10,7 @@
 
 @implementation LoadScaleController
 
-@synthesize delegate;
+@synthesize delegate,button;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,6 +34,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    
+    NSString * bundleRoot = [[NSBundle mainBundle] bundlePath];
+    NSFileManager * fm = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:bundleRoot];
+    NSString *filename;
+    scales = [[NSMutableArray alloc] init];
+    while ((filename = [direnum nextObject])) {
+        if ([filename hasSuffix:@".scale"]){
+            NSLog(@"%@",filename);
+            [scales addObject:[filename stringByDeletingPathExtension]];
+        }
+    }
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    fm = [NSFileManager defaultManager];
+    direnum = [fm enumeratorAtPath:documentsDirectory];
+    //midiFiles = [[NSMutableArray alloc] init];
+    while ((filename = [direnum nextObject])) {
+        if ([filename hasSuffix:@".scale"]){
+            NSLog(@"%@",filename);
+            [scales addObject:[filename stringByDeletingPathExtension]];
+        }
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -81,14 +105,14 @@
 {
 //#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+     return [scales count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,6 +123,9 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+    cell.textLabel.text = [scales objectAtIndex:indexPath.row];
+
     
     // Configure the cell...
     
@@ -148,6 +175,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    [delegate LoadScaleController:self didFinishWithSelection:[scales objectAtIndex:indexPath.row]];
     // Navigation logic may go here. Create and push another view controller.
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];

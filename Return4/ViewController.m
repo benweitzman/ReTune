@@ -26,7 +26,7 @@
 @synthesize playButton;
 @synthesize loadMidiButton, pc, ac, spc, sac;
 @synthesize pressRecognizer, tapRecognizer;
-@synthesize sliders;
+@synthesize sliders, frequencyLabels;
 
 @synthesize hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, hotKeys, tempSlot0, tempSlot1,tempSlot2,tempSlots,tempScales,hotScales;
 
@@ -92,19 +92,33 @@
     for (int i=0;i<127;i++) {
         [pitches addObject:[NSNumber numberWithFloat:powf(2.0f,(i-69.0f)/12)*440]];
     }
+    majorScale = [[NSMutableArray alloc] initWithArray:pitches copyItems:YES];
+
 }
 
 - (void) initBuffers {
-    buffers = [[NSMutableArray alloc] init];
+    //buffers = nil;
+    ratios = nil;
+    channel = nil;
+    channel = [[ALChannelSource alloc] initWithSources:32];
+    if (buffers == nil) {
+        buffers = [[NSMutableArray alloc] init];
+        for (int i=0;i<127;i++) {
+            bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:i] floatValue]];
+            [buffers addObject:info.buffer];
+        }
+    }
     ratios  = [[NSMutableArray alloc] init];
     
     //NSLog(@"A4: %f",[[pitches objectAtIndex:69] floatValue]);
     for (int i=0;i<127;i++) {
         bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:i] floatValue]];
-        [buffers addObject:info.buffer];
         [ratios addObject:[[NSNumber alloc] initWithFloat:info.scale]];
+        if (i/12 == 5) {
+            UILabel * label =[frequencyLabels objectAtIndex:i%12];
+            [label setText:[NSString stringWithFormat:@"%.2f", [[pitches objectAtIndex:i] floatValue]]];
+        }
     }
-    majorScale = [[NSMutableArray alloc] initWithArray:pitches copyItems:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,6 +132,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    frequencyLabels = [[NSArray alloc] initWithArray:[frequencyLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+        return NSOrderedSame;
+    }]];
+    
+    sliders = [[NSArray alloc] initWithArray:[sliders sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+        return NSOrderedSame;
+    }]];
+    
     device = [[ALDevice alloc] initWithDeviceSpecifier:nil];
     context = [ALContext contextOnDevice:device attributes:nil];
     [OpenALManager sharedInstance].currentContext = context;
@@ -130,7 +157,11 @@
     [OALAudioSession sharedInstance].honorSilentSwitch = YES;
     // Take all 32 sources for this channel.
     // (we probably won’t use that many but what the heck!)
-    channel = [[ALChannelSource alloc] initWithSources:32];
+    channel = [[ALChannelSource alloc] initWithSources:127];
+    channels = [[NSMutableArray alloc] init];
+    //for (int i=0;i<127;i++) {
+    //    [channels addObject:[[ALSoundSo
+    //}
     [self initSoundFiles];
     [self initPitches];
     [self initBuffers];
@@ -144,18 +175,13 @@
     recordedNotes = [[NSMutableArray alloc] init];
     parser = [[MidiParser alloc] init];
     saving = false;
-    
-    /*sliders = [sliders sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
-        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
-        return NSOrderedSame;
-    }];*/
-    NSLog(@"sliders: %d",[sliders count]);
+
     
     tempScales = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] init],
                                                          [[NSMutableArray alloc] init],
                                                          [[NSMutableArray alloc] init],nil];
-    hotScales = nil;
+    hotScales = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init],[[NSMutableArray alloc] init], nil];
+    scaleToSave = nil;
     
     hotKeys = [[NSMutableArray alloc] initWithObjects:hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, nil];
     
@@ -214,15 +240,19 @@
                 [slider setValue:newValue animated:YES];
             }
         }
+        [self initBuffers];
     }
-    [self initBuffers];
+    
     //NSLog(@"playing temp slot %d",button.tag);
 }
 
 - (void)handleTempTap:(UITapGestureRecognizer *)sender {
     UIView *view = sender.view;
     //UIButton *button = (UIButton *)sender.view;
-    NSLog(@"save temp slot %d",view.tag);
+    scaleToSave = [[NSMutableArray alloc] initWithArray:[tempScales objectAtIndex:view.tag ] copyItems:YES];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save" message:@"Save your scale?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save Scale", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
 }
 
 - (void) handleTempPress:(UILongPressGestureRecognizer *)sender {
@@ -249,6 +279,7 @@
             sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
             spc = [[UIPopoverController alloc] initWithContentViewController:sac];
             sac.delegate = self;
+            sac.button = (UIButton *)sender.view;
         }
         if ([spc isPopoverVisible]) {
             [spc dismissPopoverAnimated:YES];
@@ -259,6 +290,7 @@
             sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
             spc = [[UIPopoverController alloc] initWithContentViewController:sac];
             sac.delegate = self;
+            sac.button = (UIButton *)sender.view;
             [spc presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
     }
@@ -351,15 +383,17 @@
         }
         //float pitch = [[pitches objectAtIndex:noteValue] floatValue];
         ALBuffer* toPlay = [[self buffers] objectAtIndex:noteValue];
-        if ([toPlay isKindOfClass:[NSNull class]]) {
+        NSLog(@"buffers count: %d, note value: %d, buffer: %@, ratio: %f",[buffers count],noteValue,toPlay, [[ratios objectAtIndex:noteValue] floatValue]);
             float pitchToPlay = [[ratios objectAtIndex:noteValue] floatValue];
+            NSLog(@"%f",pitchToPlay);
             [channel play:toPlay gain:1.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
-        } else {
+        //channel = [[ALChannelSource alloc] initWithSources:32];
+        /*} else {
             bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:noteValue] floatValue]];
             [buffers replaceObjectAtIndex:noteValue withObject:info.buffer];
             [ratios replaceObjectAtIndex:noteValue withObject:[[NSNumber alloc] initWithFloat:info.scale]];
             [channel play:info.buffer gain:1.0f pitch:info.scale pan:0.0f loop:FALSE];
-        }
+        }*/
     }
 }
 
@@ -384,6 +418,10 @@
     float newPitch = newRatio*[[majorScale objectAtIndex:slider.tag] floatValue];
     NSLog(@"new pitch for degree %u: %f",slider.tag,newPitch);
     [self changeNote:slider.tag to:newPitch];
+    NSLog(@"slider %d",slider.tag);
+    UILabel * label = [frequencyLabels objectAtIndex:slider.tag];
+    //NSLog(@"%d",[frequencyLabels count]);
+    [label setText:[NSString stringWithFormat:@"%.2f",newPitch*(2<<4)]];
 }
 
 - (IBAction) octaveChanged:(id)sender {
@@ -460,6 +498,7 @@
         if (packet->length == 3) {
             if ((packet->data[0]&0xF0) == 0x90) {
                 [self noteOn:packet->data[1]];
+                NSLog(@"midi note: %d on",packet->data[1]);
                 
             }
         }
@@ -549,7 +588,7 @@
 }
 
 - (IBAction)saveMidi:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save" message:@"Save you midi file?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save" message:@"Save your midi file?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alert show];
     //[alert release];
@@ -603,11 +642,35 @@
             ac.delegate = self;
             [pc presentPopoverFromRect:[loadMidiButton bounds] inView:loadMidiButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
+    } else if (title == @"Save Scale" ) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *file = [documentsDirectory stringByAppendingPathComponent:[[[alertView textFieldAtIndex:0] text] stringByAppendingPathExtension:@"scale"]];
+        NSLog(@"%@",file);
+        [scaleToSave writeToFile:file atomically:YES];
     }
 }
 
 -(void)LoadScaleController:(LoadScaleController *)scaleController didFinishWithSelection:(NSString *)selection {
-    
+    NSMutableArray *loadedScale = [[NSMutableArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:selection ofType: @"scale"]];
+    if ([loadedScale count] == 0) {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        loadedScale = nil;
+        loadedScale = [[NSMutableArray alloc] initWithContentsOfFile:[NSBundle pathForResource:selection ofType:@"scale" inDirectory:documentsDirectory]];
+    }
+    for (int i=0;i<[loadedScale count];i++) {
+       // NSLog(@"%f",[[loadedScale objectAtIndex:i] floatValue]);
+    }
+    UIButton *button = scaleController.button;
+    [button setTitle:selection forState:UIControlStateNormal]; 
+    [button setTitle:selection forState:UIControlStateHighlighted];
+    NSLog(@"%d",button.tag);
+    NSLog(@"%@",loadedScale);
+    [hotScales replaceObjectAtIndex:button.tag withObject:[[NSMutableArray alloc] initWithArray:loadedScale copyItems:YES]];
+    NSLog(@"%@",[hotScales objectAtIndex:button.tag]);
+    [spc dismissPopoverAnimated:YES];
+    NSLog(@"%@",pitches);
 }
 
 - (void)LoadMidiController:(LoadMidiController *)midiController didFinishWithSelection:(NSString*)selection {
@@ -684,12 +747,33 @@
     
     [data writeToFile:writeFile atomically:YES];
     NSLog(@"%@",writeFile);
-    
 }
 
 -(IBAction)loadScale:(id)sender {
     UIButton * button = sender;
-    NSLog(@"loading scale for button: %d",button.tag);
+    NSLog(@"%d",button.tag);
+    NSMutableArray *newScale = [hotScales objectAtIndex:button.tag];
+    NSLog(@"%@",newScale);
+    if ([newScale count] != 0) {
+        for (int i=0;i<127;i++) {
+            //NSLog(@"%@",newScale);
+            float lowPitch = [[newScale objectAtIndex:i%12] floatValue];
+            int octave = i/12;
+            float newPitch = pow(2,octave)*lowPitch;
+            //NSLog(@"degree: %d, octave: %d, oldPitch: %f, newPitch: %f",i%12,i/12+1,[[pitches objectAtIndex:i] floatValue], newPitch);
+            [pitches replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:newPitch]];
+            if (octave == 0) {
+                float ratio = newPitch/[[majorScale objectAtIndex:i] floatValue];
+                float newValue = (log2f(ratio)*12+1)/2;
+                UISlider *slider = [sliders objectAtIndex:i];
+                NSLog(@"slider value: %f",slider.value);
+                [slider setValue:newValue animated:YES];
+            }
+        }
+        
+        [self initBuffers];
+    }
+    NSLog(@"%@",pitches);
 }
 
 

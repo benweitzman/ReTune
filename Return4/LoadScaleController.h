@@ -17,6 +17,7 @@
 }
 
 @property (nonatomic, strong) id<LoadScaleControllerDelegate> delegate;
+@property (nonatomic, strong) UIButton* button;
 
 @end
 
