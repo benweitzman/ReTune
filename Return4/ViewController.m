@@ -26,7 +26,7 @@
 @synthesize playButton;
 @synthesize loadMidiButton, pc, ac, spc, sac;
 @synthesize pressRecognizer, tapRecognizer;
-@synthesize sliders, frequencyLabels;
+@synthesize sliders, frequencyLabels, centsLabels, ratioLabels;
 
 @synthesize hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, hotKeys, tempSlot0, tempSlot1,tempSlot2,tempSlots,tempScales,hotScales;
 
@@ -117,6 +117,17 @@
         if (i/12 == 5) {
             UILabel * label =[frequencyLabels objectAtIndex:i%12];
             [label setText:[NSString stringWithFormat:@"%.2f", [[pitches objectAtIndex:i] floatValue]]];
+            label = [centsLabels objectAtIndex:i%12];
+            float ratio = [[pitches objectAtIndex:i] floatValue]/[[majorScale objectAtIndex:i] floatValue];
+            float cents = roundf((1200*log2f(ratio))*10)/10;
+            if (cents >= 0) {
+                [label setText:[NSString stringWithFormat:@"+%.1f",fabsf(cents)]];
+            } else {
+                [label setText:[NSString stringWithFormat:@"%.1f",cents]];
+            }
+            label = [ratioLabels objectAtIndex:i%12];
+            float noteRatio = [[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:i-1] floatValue];
+            [label setText:[NSString stringWithFormat:@"%.4f",noteRatio]];
         }
     }
 }
@@ -134,6 +145,22 @@
     [super viewDidLoad];
     
     frequencyLabels = [[NSArray alloc] initWithArray:[frequencyLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+        return NSOrderedSame;
+    }]];
+    
+    centsLabels = [[NSArray alloc] initWithArray:[centsLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        ((UILabel*)obj1).textAlignment = UITextAlignmentCenter;
+        ((UILabel*)obj2).textAlignment = UITextAlignmentCenter;
+        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+        return NSOrderedSame;
+    }]];
+    
+    ratioLabels = [[NSArray alloc] initWithArray:[ratioLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        ((UILabel*)obj1).textAlignment = UITextAlignmentCenter;
+        ((UILabel*)obj2).textAlignment = UITextAlignmentCenter;
         if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
         else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
         return NSOrderedSame;
@@ -422,6 +449,14 @@
     UILabel * label = [frequencyLabels objectAtIndex:slider.tag];
     //NSLog(@"%d",[frequencyLabels count]);
     [label setText:[NSString stringWithFormat:@"%.2f",newPitch*(2<<4)]];
+    label = [centsLabels objectAtIndex:slider.tag];
+    [label setText:[NSString stringWithFormat:@"%.1f",1200*log2f(newRatio)]];
+    label = [ratioLabels objectAtIndex:slider.tag];
+    float displayRatio = newPitch*2/[[pitches objectAtIndex:(slider.tag-1)+12] floatValue];
+    [label setText:[NSString stringWithFormat:@"%.4f",displayRatio]];
+    label = [ratioLabels objectAtIndex:(slider.tag+1)%12];
+    displayRatio = [[pitches objectAtIndex:(slider.tag+1+12)] floatValue]/(newPitch*2);
+    [label setText:[NSString stringWithFormat:@"%.4f",displayRatio]];
 }
 
 - (IBAction) octaveChanged:(id)sender {

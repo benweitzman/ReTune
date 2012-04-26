@@ -14,6 +14,7 @@
 		DA18CB3D1548E8BF007B4DD7 /* binaryData.mid in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB3C1548E8BF007B4DD7 /* binaryData.mid */; };
 		DA3055A2154904730099DE59 /* Pythagorean C.scale in Resources */ = {isa = PBXBuildFile; fileRef = DA3055A1154904730099DE59 /* Pythagorean C.scale */; };
 		DA3055A4154904CD0099DE59 /* Equal Temperament.scale in Resources */ = {isa = PBXBuildFile; fileRef = DA3055A3154904CD0099DE59 /* Equal Temperament.scale */; };
+		DA3055A61549BB620099DE59 /* Just Intonation C.scale in Resources */ = {isa = PBXBuildFile; fileRef = DA3055A51549BB620099DE59 /* Just Intonation C.scale */; };
 		DA3AC6781545EFDA00E1D705 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6771545EFDA00E1D705 /* UIKit.framework */; };
 		DA3AC67A1545EFDA00E1D705 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6791545EFDA00E1D705 /* Foundation.framework */; };
 		DA3AC67C1545EFDA00E1D705 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */; };
@@ -110,6 +111,7 @@
 		DA18CB3C1548E8BF007B4DD7 /* binaryData.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = binaryData.mid; sourceTree = "<group>"; };
 		DA3055A1154904730099DE59 /* Pythagorean C.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Pythagorean C.scale"; sourceTree = "<group>"; };
 		DA3055A3154904CD0099DE59 /* Equal Temperament.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Equal Temperament.scale"; sourceTree = "<group>"; };
+		DA3055A51549BB620099DE59 /* Just Intonation C.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Just Intonation C.scale"; sourceTree = "<group>"; };
 		DA3AC6731545EFDA00E1D705 /* Retune4.3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retune4.3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3AC6771545EFDA00E1D705 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DA3AC6791545EFDA00E1D705 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -268,6 +270,7 @@
 			children = (
 				DA3055A3154904CD0099DE59 /* Equal Temperament.scale */,
 				DA3055A1154904730099DE59 /* Pythagorean C.scale */,
+				DA3055A51549BB620099DE59 /* Just Intonation C.scale */,
 			);
 			name = Scales;
 			sourceTree = "<group>";
@@ -636,6 +639,7 @@
 				DA18CB3D1548E8BF007B4DD7 /* binaryData.mid in Resources */,
 				DA3055A2154904730099DE59 /* Pythagorean C.scale in Resources */,
 				DA3055A4154904CD0099DE59 /* Equal Temperament.scale in Resources */,
+				DA3055A61549BB620099DE59 /* Just Intonation C.scale in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

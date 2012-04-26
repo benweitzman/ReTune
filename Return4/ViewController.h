@@ -62,6 +62,7 @@ typedef struct {
 
 @property (nonatomic, retain) IBOutletCollection(UISlider) NSArray* sliders;
 @property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* frequencyLabels;
+@property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* centsLabels, *ratioLabels;
 
 @property (nonatomic, strong) NSMutableArray *hotKeys,*tempSlots,*tempScales,*hotScales;
 
