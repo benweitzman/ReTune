@@ -227,7 +227,7 @@
         [tempSlot setTitle:@"Press and hold\nto grab current\nscale" 
                 forState:UIControlStateHighlighted]; 
         tempSlot.titleLabel.font = [UIFont systemFontOfSize:12];
-        tempSlot.titleLabel.lineBreakMode = UILineBreakModeCharacterWrap;
+        tempSlot.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         tempSlot.titleLabel.textAlignment = UITextAlignmentCenter;
     }
     // Add gesture recognizer to the view
@@ -242,7 +242,7 @@
         [hotKey setTitle:@"Press and hold\nto load a scale" 
                 forState:UIControlStateHighlighted]; 
         hotKey.titleLabel.font = [UIFont systemFontOfSize:12];
-        hotKey.titleLabel.lineBreakMode = UILineBreakModeCharacterWrap;
+        hotKey.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         hotKey.titleLabel.textAlignment = UITextAlignmentCenter;
         [hotKey addGestureRecognizer:pressRecognizer];
     }

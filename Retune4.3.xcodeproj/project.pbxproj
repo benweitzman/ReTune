@@ -85,6 +85,13 @@
 		DA3AC74A1545F53000E1D705 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7491545F53000E1D705 /* CoreMIDI.framework */; };
 		DA3AC74C154616D500E1D705 /* Bass_sample2.mid in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC74B154616D500E1D705 /* Bass_sample2.mid */; };
 		DA3AC7531546283900E1D705 /* MidiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7521546283900E1D705 /* MidiParser.m */; };
+		DA80B72C154A2EA500D33D7E /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B727154A2EA500D33D7E /* black.png */; };
+		DA80B72D154A2EA500D33D7E /* blackPianoDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B728154A2EA500D33D7E /* blackPianoDown.png */; };
+		DA80B72E154A2EA500D33D7E /* blackPianoUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B729154A2EA500D33D7E /* blackPianoUp.png */; };
+		DA80B72F154A2EA500D33D7E /* whitePianoDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B72A154A2EA500D33D7E /* whitePianoDown.png */; };
+		DA80B730154A2EA500D33D7E /* whitePianoUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B72B154A2EA500D33D7E /* whitePianoUp.png */; };
+		DA80B732154A339F00D33D7E /* hotKeyUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B731154A339F00D33D7E /* hotKeyUp.png */; };
+		DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B733154A35AA00D33D7E /* hotKeyDown.png */; };
 		DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F11548B92600E70868 /* ipad_icon.png */; };
 		DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */; };
 		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
@@ -228,6 +235,13 @@
 		DA3AC74B154616D500E1D705 /* Bass_sample2.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = Bass_sample2.mid; path = ../Bass_sample2.mid; sourceTree = "<group>"; };
 		DA3AC7511546283900E1D705 /* MidiParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MidiParser.h; sourceTree = "<group>"; };
 		DA3AC7521546283900E1D705 /* MidiParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MidiParser.m; sourceTree = "<group>"; };
+		DA80B727154A2EA500D33D7E /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Images/black.png; sourceTree = SOURCE_ROOT; };
+		DA80B728154A2EA500D33D7E /* blackPianoDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackPianoDown.png; path = Images/blackPianoDown.png; sourceTree = SOURCE_ROOT; };
+		DA80B729154A2EA500D33D7E /* blackPianoUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackPianoUp.png; path = Images/blackPianoUp.png; sourceTree = SOURCE_ROOT; };
+		DA80B72A154A2EA500D33D7E /* whitePianoDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whitePianoDown.png; path = Images/whitePianoDown.png; sourceTree = SOURCE_ROOT; };
+		DA80B72B154A2EA500D33D7E /* whitePianoUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whitePianoUp.png; path = Images/whitePianoUp.png; sourceTree = SOURCE_ROOT; };
+		DA80B731154A339F00D33D7E /* hotKeyUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyUp.png; path = Images/hotKeyUp.png; sourceTree = SOURCE_ROOT; };
+		DA80B733154A35AA00D33D7E /* hotKeyDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyDown.png; path = Images/hotKeyDown.png; sourceTree = SOURCE_ROOT; };
 		DAAB03F11548B92600E70868 /* ipad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipad_icon.png; sourceTree = "<group>"; };
 		DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = EightDaysAWeek.mid; path = ../EightDaysAWeek.mid; sourceTree = "<group>"; };
 		DABA59031547B8860044B869 /* dixie.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = dixie.mid; sourceTree = "<group>"; };
@@ -530,6 +544,13 @@
 		DAAB03F01548B8F600E70868 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				DA80B733154A35AA00D33D7E /* hotKeyDown.png */,
+				DA80B731154A339F00D33D7E /* hotKeyUp.png */,
+				DA80B727154A2EA500D33D7E /* black.png */,
+				DA80B728154A2EA500D33D7E /* blackPianoDown.png */,
+				DA80B729154A2EA500D33D7E /* blackPianoUp.png */,
+				DA80B72A154A2EA500D33D7E /* whitePianoDown.png */,
+				DA80B72B154A2EA500D33D7E /* whitePianoUp.png */,
 			);
 			name = Images;
 			path = Return4;
@@ -640,6 +661,13 @@
 				DA3055A2154904730099DE59 /* Pythagorean C.scale in Resources */,
 				DA3055A4154904CD0099DE59 /* Equal Temperament.scale in Resources */,
 				DA3055A61549BB620099DE59 /* Just Intonation C.scale in Resources */,
+				DA80B72C154A2EA500D33D7E /* black.png in Resources */,
+				DA80B72D154A2EA500D33D7E /* blackPianoDown.png in Resources */,
+				DA80B72E154A2EA500D33D7E /* blackPianoUp.png in Resources */,
+				DA80B72F154A2EA500D33D7E /* whitePianoDown.png in Resources */,
+				DA80B730154A2EA500D33D7E /* whitePianoUp.png in Resources */,
+				DA80B732154A339F00D33D7E /* hotKeyUp.png in Resources */,
+				DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
