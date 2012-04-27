@@ -97,7 +97,8 @@
 }
 
 - (void) initBuffers {
-    //buffers = nil;
+    [buffers release];
+    buffers = nil;
     ratios = nil;
     channel = nil;
     channel = [[ALChannelSource alloc] initWithSources:32];
@@ -226,7 +227,7 @@
         [tempSlot setTitle:@"Press and hold\nto grab current\nscale" forState:UIControlStateNormal]; 
         [tempSlot setTitle:@"Press and hold\nto grab current\nscale" 
                 forState:UIControlStateHighlighted]; 
-        tempSlot.titleLabel.font = [UIFont systemFontOfSize:12];
+        tempSlot.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];
         tempSlot.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         tempSlot.titleLabel.textAlignment = UITextAlignmentCenter;
     }
@@ -241,7 +242,7 @@
         [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateNormal]; 
         [hotKey setTitle:@"Press and hold\nto load a scale" 
                 forState:UIControlStateHighlighted]; 
-        hotKey.titleLabel.font = [UIFont systemFontOfSize:12];
+        hotKey.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];      
         hotKey.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         hotKey.titleLabel.textAlignment = UITextAlignmentCenter;
         [hotKey addGestureRecognizer:pressRecognizer];

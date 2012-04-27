@@ -92,6 +92,7 @@
 		DA80B730154A2EA500D33D7E /* whitePianoUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B72B154A2EA500D33D7E /* whitePianoUp.png */; };
 		DA80B732154A339F00D33D7E /* hotKeyUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B731154A339F00D33D7E /* hotKeyUp.png */; };
 		DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B733154A35AA00D33D7E /* hotKeyDown.png */; };
+		DAA6A7B2154A3E4100BE8199 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = DAA6A7B1154A3E4100BE8199 /* bg.png */; };
 		DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F11548B92600E70868 /* ipad_icon.png */; };
 		DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */; };
 		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
@@ -242,6 +243,7 @@
 		DA80B72B154A2EA500D33D7E /* whitePianoUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whitePianoUp.png; path = Images/whitePianoUp.png; sourceTree = SOURCE_ROOT; };
 		DA80B731154A339F00D33D7E /* hotKeyUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyUp.png; path = Images/hotKeyUp.png; sourceTree = SOURCE_ROOT; };
 		DA80B733154A35AA00D33D7E /* hotKeyDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyDown.png; path = Images/hotKeyDown.png; sourceTree = SOURCE_ROOT; };
+		DAA6A7B1154A3E4100BE8199 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg.png; path = Images/bg.png; sourceTree = SOURCE_ROOT; };
 		DAAB03F11548B92600E70868 /* ipad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipad_icon.png; sourceTree = "<group>"; };
 		DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = EightDaysAWeek.mid; path = ../EightDaysAWeek.mid; sourceTree = "<group>"; };
 		DABA59031547B8860044B869 /* dixie.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = dixie.mid; sourceTree = "<group>"; };
@@ -544,6 +546,7 @@
 		DAAB03F01548B8F600E70868 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				DAA6A7B1154A3E4100BE8199 /* bg.png */,
 				DA80B733154A35AA00D33D7E /* hotKeyDown.png */,
 				DA80B731154A339F00D33D7E /* hotKeyUp.png */,
 				DA80B727154A2EA500D33D7E /* black.png */,
@@ -668,6 +671,7 @@
 				DA80B730154A2EA500D33D7E /* whitePianoUp.png in Resources */,
 				DA80B732154A339F00D33D7E /* hotKeyUp.png in Resources */,
 				DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */,
+				DAA6A7B2154A3E4100BE8199 /* bg.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
