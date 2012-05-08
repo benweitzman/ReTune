@@ -41,6 +41,9 @@ typedef struct {
     bool saving;
     bool playing, stopped, paused, recording;
     NSMutableArray *scaleToSave;
+    bool loadingScale, changingPitch;
+    int currentScaleDegree;
+    NSMutableArray *scaleRatios;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -60,6 +63,8 @@ typedef struct {
 
 @property (nonatomic,strong) IBOutlet UIButton *hotKey0,*hotKey1,*hotKey2,*hotKey3,*hotKey4,*hotKey5,*hotKey6,*hotKey7,*hotKey8,*hotKey9,*hotKey10,*hotKey11,*tempSlot0,*tempSlot1,*tempSlot2;
 
+@property (nonatomic, strong) IBOutlet UISegmentedControl *rootNote;
+
 @property (nonatomic, retain) IBOutletCollection(UISlider) NSArray* sliders;
 @property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* frequencyLabels;
 @property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* centsLabels, *ratioLabels;
@@ -69,6 +74,7 @@ typedef struct {
 
 @property (nonatomic,strong) PGMidi *midi;
 -(IBAction)buttonTriggered:(id)sender;
+-(IBAction) sliderChanged:(id)sender;
 -(IBAction)stopMidi:(id)sender;
 -(IBAction)playMidi:(id)sender;
 -(IBAction)pauseMidi:(id)sender;
@@ -77,6 +83,7 @@ typedef struct {
 -(IBAction)saveMidi:(id)sender;
 -(IBAction)loadScale:(id)sender;
 -(IBAction)playTemp:(id)sender;
+-(IBAction)changeRootNote:(id)sender;
 -(void)noteOn:(int)noteValue;
 
 -(void)writeNotesToFile:(NSString *)file;

@@ -20,6 +20,30 @@
 - (void) addString:(NSString*)string;
 @end
 
+@interface UIColor (UIColorCategory)
+- (BOOL)isEqualToColor:(UIColor *)otherColor;
+@end
+
+@implementation UIColor (UIColorCategory)
+- (BOOL)isEqualToColor:(UIColor *)otherColor {
+    CGColorSpaceRef colorSpaceRGB = CGColorSpaceCreateDeviceRGB();
+    
+    UIColor *(^convertColorToRGBSpace)(UIColor*) = ^(UIColor *color) {
+        if(CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor)) == kCGColorSpaceModelMonochrome) {
+            const CGFloat *oldComponents = CGColorGetComponents(color.CGColor);
+            CGFloat components[4] = {oldComponents[0], oldComponents[0], oldComponents[0], oldComponents[1]};
+            return [UIColor colorWithCGColor:CGColorCreate(colorSpaceRGB, components)];
+        } else
+            return color;
+    };
+    
+    UIColor *selfColor = convertColorToRGBSpace(self);
+    otherColor = convertColorToRGBSpace(otherColor);
+    CGColorSpaceRelease(colorSpaceRGB);
+    
+    return [selfColor isEqual:otherColor];
+}
+@end
 
 @implementation ViewController
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes;
@@ -29,6 +53,42 @@
 @synthesize sliders, frequencyLabels, centsLabels, ratioLabels;
 
 @synthesize hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, hotKeys, tempSlot0, tempSlot1,tempSlot2,tempSlots,tempScales,hotScales;
+
+@synthesize rootNote;
+
+- (NSString *) fractionFromFloat:(float)number {
+    NSLog(@"solving for %f",number);
+    float z = number;
+    float dminus1 = 0;
+    float d = 1;
+    float n = 0;
+    int i = 0;
+    float tolerance = 0.0001;
+    int iterations = 10;
+    if (fabsf(z-roundf(z))<=tolerance) {
+     return [NSString stringWithFormat:@"%d/1",(int)roundf(number)];   
+    }
+    for (i = 0;i<iterations;i++) {
+        if (z-floorf(z) != 0 && fabsf(n/d-number)>tolerance) {
+            z = 1/(z-floorf(z));
+            float nextD = d*floorf(z)+dminus1;
+            n = roundf(nextD*number);
+            dminus1 = d;
+            d = nextD;
+        } else {
+            break;
+        }
+        NSLog(@"%d/%d = %f",(int)n,(int)d,n/d);
+       // 
+    }
+    if (i==iterations || log10f(n)>=3) {
+        NSLog(@"%.4f",number);
+        return [NSString stringWithFormat:@"%.4f",number];
+    } else {
+        NSLog(@"%d/%d",(int)n,(int)d);
+        return [NSString stringWithFormat:@"%d/%d",(int)n,(int)d];
+    }
+}
 
 - (bufferInfo) bufferFromPitch:(float)pitch {
     float minDifference = 1000000;
@@ -77,20 +137,32 @@
 }
 
 - (void) changeNote:(int) degree to:(float) pitch {
+    NSLog(@"degree change: %d",degree);
+    [[scaleRatios objectAtIndex:degree] release];
+    float ratio = [[pitches objectAtIndex:degree] floatValue]/[[pitches objectAtIndex:0] floatValue];
+    [scaleRatios replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:ratio]];
     while (degree < 127) {
         bufferInfo info = [self bufferFromPitch:pitch];
-        [pitches replaceObjectAtIndex:degree withObject:[NSNumber numberWithFloat:pitch]];
+        [[pitches objectAtIndex:degree] release];
+        [pitches replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:pitch]];
+        [[ratios objectAtIndex:degree] release];
         [ratios replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:info.scale]];
         [buffers replaceObjectAtIndex:degree withObject:info.buffer];
         pitch *= 2;
         degree += 12;
     }
+    
 }
 
 - (void) initPitches {
     pitches = [[NSMutableArray alloc] init];
     for (int i=0;i<127;i++) {
-        [pitches addObject:[NSNumber numberWithFloat:powf(2.0f,(i-69.0f)/12)*440]];
+        [pitches addObject:[[NSNumber alloc] initWithFloat:powf(2.0f,(i-69.0f)/12)*440]];
+    }
+    scaleRatios = [[NSMutableArray alloc] init]; 
+    for (int i=0;i<12;i++) {
+        float ratio = [[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:0] floatValue];
+        [scaleRatios addObject:[[NSNumber alloc] initWithFloat:ratio]];
     }
     majorScale = [[NSMutableArray alloc] initWithArray:pitches copyItems:YES];
 
@@ -99,9 +171,12 @@
 - (void) initBuffers {
     [buffers release];
     buffers = nil;
-    ratios = nil;
-    channel = nil;
-    channel = [[ALChannelSource alloc] initWithSources:32];
+    //ratios = nil;
+    if (channel != nil) {
+        //[channel release];
+    } else {
+        channel = [[ALChannelSource alloc] initWithSources:32];
+    }
     if (buffers == nil) {
         buffers = [[NSMutableArray alloc] init];
         for (int i=0;i<127;i++) {
@@ -109,7 +184,13 @@
             [buffers addObject:info.buffer];
         }
     }
-    ratios  = [[NSMutableArray alloc] init];
+    for (int i=0;i<[ratios count];i++ ) {
+        NSNumber * num = [ratios objectAtIndex:i];
+        [num release];
+    }
+    [ratios release];
+    ratios  = [[NSMutableArray alloc] initWithCapacity:127];
+    NSLog(@"ratios size: %d",[ratios count]);
     
     //NSLog(@"A4: %f",[[pitches objectAtIndex:69] floatValue]);
     for (int i=0;i<127;i++) {
@@ -127,8 +208,8 @@
                 [label setText:[NSString stringWithFormat:@"%.1f",cents]];
             }
             label = [ratioLabels objectAtIndex:i%12];
-            float noteRatio = [[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:i-1] floatValue];
-            [label setText:[NSString stringWithFormat:@"%.4f",noteRatio]];
+            float noteRatio = [[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:(i/12)*12+currentScaleDegree] floatValue];
+            [label setText:[self fractionFromFloat:noteRatio]];
         }
     }
 }
@@ -144,6 +225,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //[self fractionFromFloat:0.263157894737];
     
     frequencyLabels = [[NSArray alloc] initWithArray:[frequencyLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
@@ -167,11 +249,37 @@
         return NSOrderedSame;
     }]];
     
-    sliders = [[NSArray alloc] initWithArray:[sliders sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+    sliders = [[NSArray alloc] initWithArray:[sliders sortedArrayUsingComparator:^NSComparisonResult(UISlider* obj1, UISlider* obj2) {
+       /* obj1.transform = CGAffineTransformRotate(obj1.transform, 270.0/180*M_PI);
+        obj2.transform = CGAffineTransformRotate(obj2.transform, 270.0/180*M_PI);*/
         if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
         else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
         return NSOrderedSame;
     }]];
+    for (int i=0;i<[sliders count];i++) {
+        UISlider * slider = [sliders objectAtIndex:i];
+        CGRect rect = slider.frame;
+        slider.frame = CGRectMake(584.0f/12*i-50, 350, rect.size.width, rect.size.height);
+        UITapGestureRecognizer * tapsRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSliderTap:)];
+        tapsRecognizer.numberOfTapsRequired = 2;
+        tapsRecognizer.numberOfTouchesRequired = 1;
+        [slider addGestureRecognizer:tapsRecognizer];
+        float centerX = slider.frame.origin.x+slider.frame.size.width/2;
+        UILabel * label = [ratioLabels objectAtIndex:i];
+        rect = label.frame;
+        label.frame = CGRectMake(centerX-rect.size.width/2, 200, rect.size.width, rect.size.height);
+        label = [frequencyLabels objectAtIndex:i];
+        rect = label.frame;
+        label.frame = CGRectMake(centerX-rect.size.width/2, 250, rect.size.width, rect.size.height);
+        label = [centsLabels objectAtIndex:i];
+        rect = label.frame;
+        label.frame = CGRectMake(centerX-rect.size.width/2,225, rect.size.width, rect.size.height);
+        if ([slider.minimumTrackTintColor isEqualToColor:[UIColor blackColor]]) {
+            /* black keys */
+           //slider.frame = CGRectMake(584.0f/12*i-50, 330, rect.size.width, rect.size.height);
+        }
+        slider.transform = CGAffineTransformRotate(slider.transform, 270.0/180*M_PI);
+    }
     
     device = [[ALDevice alloc] initWithDeviceSpecifier:nil];
     context = [ALContext contextOnDevice:device attributes:nil];
@@ -203,7 +311,9 @@
     recordedNotes = [[NSMutableArray alloc] init];
     parser = [[MidiParser alloc] init];
     saving = false;
-
+    loadingScale = false;
+    changingPitch = false;
+    currentScaleDegree = 0;
     
     tempScales = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] init],
                                                          [[NSMutableArray alloc] init],
@@ -247,6 +357,8 @@
         hotKey.titleLabel.textAlignment = UITextAlignmentCenter;
         [hotKey addGestureRecognizer:pressRecognizer];
     }
+    UISlider * rootSlider = [sliders objectAtIndex:currentScaleDegree];
+    rootSlider.enabled = false;
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -259,6 +371,7 @@
             int octave = i/12;
             float newPitch = pow(2,octave)*lowPitch;
             //NSLog(@"degree: %d, octave: %d, oldPitch: %f, newPitch: %f",i%12,i/12+1,[[pitches objectAtIndex:i] floatValue], newPitch);
+            [[pitches objectAtIndex:i] release];
             [pitches replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:newPitch]];
             if (octave == 0) {
                 float ratio = newPitch/[[majorScale objectAtIndex:i] floatValue];
@@ -272,6 +385,11 @@
     }
     
     //NSLog(@"playing temp slot %d",button.tag);
+}
+- (void)handleSliderTap:(UITapGestureRecognizer *)sender {
+    UISlider *slider = (UISlider *)sender.view;
+    [slider setValue:0.5 animated:YES];
+    [self sliderChanged:slider];
 }
 
 - (void)handleTempTap:(UITapGestureRecognizer *)sender {
@@ -293,7 +411,7 @@
         }
         [tempScales replaceObjectAtIndex:view.tag withObject:currentScale];
         [button setTitle:@"Tap to play\nDouble tap to save" forState:UIControlStateNormal]; 
-        [button setTitle:@"Tap to play\nDouble tap to play" 
+        [button setTitle:@"Tap to play\nDouble tap to save" 
                   forState:UIControlStateHighlighted]; 
         //NSLog(@"load current scale to temp slot %d",view.tag);
     }
@@ -362,7 +480,10 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return YES;
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void) attachToAllExistingSources
@@ -410,6 +531,7 @@
             recordTimer = currentTime;
         }
         //float pitch = [[pitches objectAtIndex:noteValue] floatValue];
+        while(loadingScale || changingPitch);
         ALBuffer* toPlay = [[self buffers] objectAtIndex:noteValue];
         NSLog(@"buffers count: %d, note value: %d, buffer: %@, ratio: %f",[buffers count],noteValue,toPlay, [[ratios objectAtIndex:noteValue] floatValue]);
             float pitchToPlay = [[ratios objectAtIndex:noteValue] floatValue];
@@ -439,6 +561,8 @@
 
 
 - (IBAction) sliderChanged:(id)sender {
+    //[channel stop];
+    changingPitch = true;
     UISlider *slider = (UISlider *)sender;
     float newRatio = powf(2.0f,(slider.value*2-1)/12);
     NSLog(@"new ratio: %f", newRatio);
@@ -453,11 +577,12 @@
     label = [centsLabels objectAtIndex:slider.tag];
     [label setText:[NSString stringWithFormat:@"%.1f",1200*log2f(newRatio)]];
     label = [ratioLabels objectAtIndex:slider.tag];
-    float displayRatio = newPitch*2/[[pitches objectAtIndex:(slider.tag-1)+12] floatValue];
-    [label setText:[NSString stringWithFormat:@"%.4f",displayRatio]];
-    label = [ratioLabels objectAtIndex:(slider.tag+1)%12];
-    displayRatio = [[pitches objectAtIndex:(slider.tag+1+12)] floatValue]/(newPitch*2);
-    [label setText:[NSString stringWithFormat:@"%.4f",displayRatio]];
+    float displayRatio = newPitch*2/[[pitches objectAtIndex:12] floatValue];
+    [label setText:[self fractionFromFloat:displayRatio]];
+    //label = [ratioLabels objectAtIndex:(slider.tag+1)%12];
+    //displayRatio = [[pitches objectAtIndex:12] floatValue]/(newPitch*2);
+    //[label setText:[self fractionFromFloat:displayRatio]];
+    changingPitch = false;
 }
 
 - (IBAction) octaveChanged:(id)sender {
@@ -597,14 +722,14 @@
             double ticksPerSecond = [parser ticksPerSecond];
             //int ticksPerSecond = [parser 
             for (int i=0;i<[events count];i++) {
-                while (paused);
+                while (paused || loadingScale || changingPitch);
                 if (stopped) break;
                 NoteObject *currentNote = [events objectAtIndex:i];
                 if (i==0) {
                     currentNote.time = 0;
                 }
                 [NSThread sleepForTimeInterval:(currentNote.time/ticksPerSecond)];
-                while (paused);
+                while (paused || loadingScale || changingPitch);
                 if (stopped) break;
                 if (currentNote.noteOn) {
                     [self noteOn:currentNote.note];
@@ -703,10 +828,12 @@
     [button setTitle:selection forState:UIControlStateHighlighted];
     NSLog(@"%d",button.tag);
     NSLog(@"%@",loadedScale);
+    [[hotScales objectAtIndex:button.tag] release];
     [hotScales replaceObjectAtIndex:button.tag withObject:[[NSMutableArray alloc] initWithArray:loadedScale copyItems:YES]];
     NSLog(@"%@",[hotScales objectAtIndex:button.tag]);
     [spc dismissPopoverAnimated:YES];
     NSLog(@"%@",pitches);
+    [loadedScale release];
 }
 
 - (void)LoadMidiController:(LoadMidiController *)midiController didFinishWithSelection:(NSString*)selection {
@@ -729,6 +856,7 @@
     
     [parser parseData:data];
     NSLog(@"ticks per second: %f",parser.ticksPerSecond);
+    [byteArray release];
 }
 
 -(NSEnumerator *)convertToVLQ:(int)value {
@@ -769,6 +897,7 @@
             char out = [byte charValue]&0xff;
             [data appendBytes:&out length:1];
         }
+        [bytes release];
         if (currentNote.noteOn) {
             NSLog(@"saving note: %x",currentNote.note&0xff);
             char midiEvent[3] = {0x90,(char)(currentNote.note)&0xff,0x7f}; 
@@ -785,11 +914,46 @@
     NSLog(@"%@",writeFile);
 }
 
+-(IBAction)changeRootNote:(id)sender {
+    UISlider * rootSlider = [sliders objectAtIndex:currentScaleDegree];
+    rootSlider.enabled = true;
+    UISegmentedControl * segmented = sender;
+    NSLog(@"selected %d",segmented.selectedSegmentIndex);
+    currentScaleDegree = segmented.selectedSegmentIndex;
+    rootSlider = [sliders objectAtIndex:currentScaleDegree];
+    rootSlider.enabled = false;
+    float baseNote = [[majorScale objectAtIndex:currentScaleDegree] floatValue];
+    for (int i = currentScaleDegree;i<127;i++) {
+        float lowPitch = [[scaleRatios objectAtIndex:(i-currentScaleDegree)%12] floatValue]*baseNote;
+        if (i%12<currentScaleDegree) {
+            lowPitch /= 2;
+        }
+        int octave = i/12;
+        float newPitch = pow(2,octave)*lowPitch;
+        [[pitches objectAtIndex:i] release];
+        [pitches replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:newPitch]];
+        if (octave == 3) {
+            float ratio = newPitch/[[majorScale objectAtIndex:i] floatValue];
+            float newValue = (log2f(ratio)*12+1)/2;
+            UISlider *slider = [sliders objectAtIndex:i%12];
+            NSLog(@"slider value: %f",slider.value);
+            [slider setValue:newValue animated:YES];
+        }
+
+    }
+    [self initBuffers];
+}
+
 -(IBAction)loadScale:(id)sender {
+    
     UIButton * button = sender;
-    NSLog(@"%d",button.tag);
+    if (!loadingScale) {
+        [channel stop];
+    //NSLog(@"%d",button.tag);
     NSMutableArray *newScale = [hotScales objectAtIndex:button.tag];
-    NSLog(@"%@",newScale);
+    //NSLog(@"%@",newScale);
+    loadingScale = true;
+    //[buffers release];
     if ([newScale count] != 0) {
         for (int i=0;i<127;i++) {
             //NSLog(@"%@",newScale);
@@ -797,19 +961,24 @@
             int octave = i/12;
             float newPitch = pow(2,octave)*lowPitch;
             //NSLog(@"degree: %d, octave: %d, oldPitch: %f, newPitch: %f",i%12,i/12+1,[[pitches objectAtIndex:i] floatValue], newPitch);
+            [[pitches objectAtIndex:i] release];
             [pitches replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:newPitch]];
-            if (octave == 0) {
-                float ratio = newPitch/[[majorScale objectAtIndex:i] floatValue];
-                float newValue = (log2f(ratio)*12+1)/2;
-                UISlider *slider = [sliders objectAtIndex:i];
-                NSLog(@"slider value: %f",slider.value);
-                [slider setValue:newValue animated:YES];
-            }
         }
-        
-        [self initBuffers];
+        for (int i=0;i<12;i++) {
+            [[scaleRatios objectAtIndex:i] release];
+            [scaleRatios replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:[[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:0] floatValue]]];
+        }
+        //[self initBuffers];
+        [self changeRootNote:rootNote];
     }
+    loadingScale = false;
     NSLog(@"%@",pitches);
+    }
+    //[midi release];
+    //PGMidi* midiTemp = [[PGMidi alloc] init];
+    //[midiTemp enableNetwork:YES];
+    //[self setMidi:midiTemp];
+    //viewController.midi = midi;
 }
 
 

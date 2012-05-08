@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Return4/ViewController.m"
-         timestampString = "357188205.880248"
+         timestampString = "358196760.072532"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "445"
-         endingLineNumber = "445"
+         startingLineNumber = "569"
+         endingLineNumber = "569"
          landmarkName = "-sliderChanged:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Return4/ViewController.m"
-         timestampString = "357188205.880248"
+         timestampString = "358196760.072532"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "414"
-         endingLineNumber = "414"
+         startingLineNumber = "536"
+         endingLineNumber = "536"
          landmarkName = "-noteOn:"
          landmarkType = "5">
       </FileBreakpoint>
