@@ -12,6 +12,7 @@
 #import "MidiParser.h"
 #import "LoadMidiController.h"
 #import "LoadScaleController.h"
+#import "SetNoteController.h"
 
 @class PGMidi;
 
@@ -55,7 +56,8 @@ typedef struct {
 @property (strong, nonatomic) IBOutlet UIButton *loadMidiButton;
 @property (strong, nonatomic) LoadMidiController *ac;
 @property (strong, nonatomic) LoadScaleController *sac;
-@property (strong, nonatomic) UIPopoverController *pc, *spc;
+@property (strong, nonatomic) SetNoteController *noteViewController;
+@property (strong, nonatomic) UIPopoverController *pc, *spc, *notePopover;
 
 @property (nonatomic,strong) IBOutlet UIButton    *playButton;
 @property (nonatomic, retain) UILongPressGestureRecognizer * pressRecognizer;
@@ -89,6 +91,7 @@ typedef struct {
 -(void)writeNotesToFile:(NSString *)file;
 
 -(void)handleTempPress:(UILongPressGestureRecognizer *)sender;
+-(void)handleLabelPress:(UILongPressGestureRecognizer *)sender;
 
 
 

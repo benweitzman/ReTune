@@ -96,6 +96,8 @@
 		DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F11548B92600E70868 /* ipad_icon.png */; };
 		DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */; };
 		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
+		DABBB0051559D2E0004B9250 /* SetNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBB0031559D2E0004B9250 /* SetNoteController.m */; };
+		DABBB0061559D2E0004B9250 /* SetNoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DABBB0041559D2E0004B9250 /* SetNoteController.xib */; };
 		DADBF5A515479F61001FD191 /* LoadMidiController.m in Sources */ = {isa = PBXBuildFile; fileRef = DADBF5A315479F61001FD191 /* LoadMidiController.m */; };
 		DADBF5A615479F61001FD191 /* LoadMidiController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADBF5A415479F61001FD191 /* LoadMidiController.xib */; };
 /* End PBXBuildFile section */
@@ -247,6 +249,9 @@
 		DAAB03F11548B92600E70868 /* ipad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipad_icon.png; sourceTree = "<group>"; };
 		DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = EightDaysAWeek.mid; path = ../EightDaysAWeek.mid; sourceTree = "<group>"; };
 		DABA59031547B8860044B869 /* dixie.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = dixie.mid; sourceTree = "<group>"; };
+		DABBB0021559D2E0004B9250 /* SetNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetNoteController.h; sourceTree = "<group>"; };
+		DABBB0031559D2E0004B9250 /* SetNoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetNoteController.m; sourceTree = "<group>"; };
+		DABBB0041559D2E0004B9250 /* SetNoteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetNoteController.xib; sourceTree = "<group>"; };
 		DADBF5A215479F61001FD191 /* LoadMidiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMidiController.h; sourceTree = "<group>"; };
 		DADBF5A315479F61001FD191 /* LoadMidiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMidiController.m; sourceTree = "<group>"; };
 		DADBF5A415479F61001FD191 /* LoadMidiController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadMidiController.xib; sourceTree = "<group>"; };
@@ -344,6 +349,9 @@
 				DA18CB371548CBCA007B4DD7 /* LoadScaleController.h */,
 				DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */,
 				DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */,
+				DABBB0021559D2E0004B9250 /* SetNoteController.h */,
+				DABBB0031559D2E0004B9250 /* SetNoteController.m */,
+				DABBB0041559D2E0004B9250 /* SetNoteController.xib */,
 				DA3AC6891545EFDA00E1D705 /* ViewController.h */,
 				DA3AC68A1545EFDA00E1D705 /* ViewController.m */,
 				DA3AC68C1545EFDA00E1D705 /* ViewController.xib */,
@@ -672,6 +680,7 @@
 				DA80B732154A339F00D33D7E /* hotKeyUp.png in Resources */,
 				DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */,
 				DAA6A7B2154A3E4100BE8199 /* bg.png in Resources */,
+				DABBB0061559D2E0004B9250 /* SetNoteController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -741,6 +750,7 @@
 				DA3AC7531546283900E1D705 /* MidiParser.m in Sources */,
 				DADBF5A515479F61001FD191 /* LoadMidiController.m in Sources */,
 				DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */,
+				DABBB0051559D2E0004B9250 /* SetNoteController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

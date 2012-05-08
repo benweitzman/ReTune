@@ -48,7 +48,7 @@
 @implementation ViewController
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes;
 @synthesize playButton;
-@synthesize loadMidiButton, pc, ac, spc, sac;
+@synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController;
 @synthesize pressRecognizer, tapRecognizer;
 @synthesize sliders, frequencyLabels, centsLabels, ratioLabels;
 
@@ -138,9 +138,7 @@
 
 - (void) changeNote:(int) degree to:(float) pitch {
     NSLog(@"degree change: %d",degree);
-    [[scaleRatios objectAtIndex:degree] release];
-    float ratio = [[pitches objectAtIndex:degree] floatValue]/[[pitches objectAtIndex:0] floatValue];
-    [scaleRatios replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:ratio]];
+    int degreeCopy = degree;
     while (degree < 127) {
         bufferInfo info = [self bufferFromPitch:pitch];
         [[pitches objectAtIndex:degree] release];
@@ -151,7 +149,14 @@
         pitch *= 2;
         degree += 12;
     }
-    
+    float ratio = [[pitches objectAtIndex:degreeCopy+12] floatValue]/[[pitches objectAtIndex:currentScaleDegree+12] floatValue];
+    int scaleDegree = degreeCopy-currentScaleDegree;
+    if (scaleDegree < 0) {
+        scaleDegree += 12;
+        ratio *= 2;
+    }
+    [[scaleRatios objectAtIndex:scaleDegree] release];
+    [scaleRatios replaceObjectAtIndex:scaleDegree withObject:[[NSNumber alloc] initWithFloat:ratio]];
 }
 
 - (void) initPitches {
@@ -209,6 +214,9 @@
             }
             label = [ratioLabels objectAtIndex:i%12];
             float noteRatio = [[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:(i/12)*12+currentScaleDegree] floatValue];
+            if (noteRatio < 1) {
+                noteRatio *= 2;
+            }
             [label setText:[self fractionFromFloat:noteRatio]];
         }
     }
@@ -266,14 +274,26 @@
         [slider addGestureRecognizer:tapsRecognizer];
         float centerX = slider.frame.origin.x+slider.frame.size.width/2;
         UILabel * label = [ratioLabels objectAtIndex:i];
+        label.userInteractionEnabled = YES;
         rect = label.frame;
+        UILongPressGestureRecognizer *labelPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLabelPress:)];
+        labelPress.minimumPressDuration = 0.6;
         label.frame = CGRectMake(centerX-rect.size.width/2, 200, rect.size.width, rect.size.height);
+        [label addGestureRecognizer:labelPress];
         label = [frequencyLabels objectAtIndex:i];
+        label.userInteractionEnabled = YES;
         rect = label.frame;
         label.frame = CGRectMake(centerX-rect.size.width/2, 250, rect.size.width, rect.size.height);
+        labelPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLabelPress:)];
+        labelPress.minimumPressDuration = 0.6;
+        [label addGestureRecognizer:labelPress];
         label = [centsLabels objectAtIndex:i];
+        label.userInteractionEnabled = YES;
         rect = label.frame;
         label.frame = CGRectMake(centerX-rect.size.width/2,225, rect.size.width, rect.size.height);
+        labelPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLabelPress:)];
+        labelPress.minimumPressDuration = 0.6;
+        [label addGestureRecognizer:labelPress];
         if ([slider.minimumTrackTintColor isEqualToColor:[UIColor blackColor]]) {
             /* black keys */
            //slider.frame = CGRectMake(584.0f/12*i-50, 330, rect.size.width, rect.size.height);
@@ -386,9 +406,29 @@
     
     //NSLog(@"playing temp slot %d",button.tag);
 }
+-(void)handleLabelPress:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        //UILabel *label= (UILabel *)sender.view;
+        UIView *view = sender.view;
+        if (noteViewController == nil && notePopover == nil) {
+            noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
+            notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
+            //sac.delegate = self;
+            //sac.button = (UIButton *)sender.view;
+        }
+        if ([notePopover isPopoverVisible]) {
+            [notePopover dismissPopoverAnimated:YES];
+        }
+        else {
+            [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+    }
+}
+
 - (void)handleSliderTap:(UITapGestureRecognizer *)sender {
     UISlider *slider = (UISlider *)sender.view;
     [slider setValue:0.5 animated:YES];
+    NSLog(@"%d",slider.tag);
     [self sliderChanged:slider];
 }
 
@@ -577,7 +617,10 @@
     label = [centsLabels objectAtIndex:slider.tag];
     [label setText:[NSString stringWithFormat:@"%.1f",1200*log2f(newRatio)]];
     label = [ratioLabels objectAtIndex:slider.tag];
-    float displayRatio = newPitch*2/[[pitches objectAtIndex:12] floatValue];
+    float displayRatio = newPitch*2/[[pitches objectAtIndex:12+currentScaleDegree] floatValue];
+    if (displayRatio < 1) {
+        displayRatio *= 2;
+    }
     [label setText:[self fractionFromFloat:displayRatio]];
     //label = [ratioLabels objectAtIndex:(slider.tag+1)%12];
     //displayRatio = [[pitches objectAtIndex:12] floatValue]/(newPitch*2);
@@ -658,9 +701,10 @@
         //                    waitUntilDone:NO];
         if (packet->length == 3) {
             if ((packet->data[0]&0xF0) == 0x90) {
-                [self noteOn:packet->data[1]];
-                NSLog(@"midi note: %d on",packet->data[1]);
-                
+                if (packet->data[2] != 0) {
+                    [self noteOn:packet->data[1]];
+                    NSLog(@"midi note: %d on",packet->data[1]);
+                }
             }
         }
         packet = MIDIPacketNext(packet);
