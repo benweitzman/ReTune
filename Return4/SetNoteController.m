@@ -112,7 +112,10 @@
     } else if (field == centsField) {
         if ([self textIsValidFloat:[field text]]) {
             [field setTextColor:[UIColor blackColor]];
-            // do something with the value
+            float tcents = [field.text floatValue];
+            float ratio = pow(2,tcents/1200);
+            float freq = ratio*[[[delegate getEqual] objectAtIndex:[degree floatValue]+60] floatValue];
+            [frequencyField setText:[NSString stringWithFormat:@"%.2f",freq]];
         } else {
             [field setTextColor:[UIColor redColor]];
         }
@@ -129,6 +132,14 @@
 -(IBAction)cancelled:(id)sender {
     if ([pop isPopoverVisible]) {
         [pop dismissPopoverAnimated:YES];
+    }
+}
+
+-(IBAction)saved:(id)sender {
+    if (frequencyField.textColor == [UIColor redColor]) {
+    } else {
+        float freq = [frequencyField.text floatValue];
+        [delegate SetNoteController:self didFinishWithFrequency:freq forDegree:[degree intValue]];
     }
 }
 

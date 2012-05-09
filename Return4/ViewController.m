@@ -113,26 +113,26 @@
 
 - (void) initSoundFiles {
     soundFiles = [[NSArray alloc] initWithObjects:
-                  [NSValue value:&(File){@"P200 Piano A#2.caf",116.541} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#3.caf",233.082} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#4.caf",466.164} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#5.caf",932.328} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#7.caf",3729.32} withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano A#2.caf",116.541}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano A#3.caf",233.082}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano A#4.caf",466.164}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano A#5.caf",932.328}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano A#7.caf",3729.32}  withObjCType:@encode(File)],
                   [NSValue value:&(File){@"P200 Piano C10.caf",16744.0f} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano C7.caf",2093.0f} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D#8.caf",4978.03} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D2.caf",73.4162} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D3.caf",146.832} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D4.caf",293.665} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D5.caf",587.33} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D6.caf",1174.66} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#2.caf",92.4986} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#3.caf",184.997} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#4.caf",369.994} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#5.caf",739.989} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#6.caf",1479.98} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#7.caf",2959.96} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano G#9.caf",13289.8} withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano C7.caf", 2093.0f}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano D#8.caf",4978.03}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano D2.caf", 73.4162}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano D3.caf", 146.832}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano D4.caf", 293.665}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano D5.caf", 587.33}   withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano D6.caf", 1174.66}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano F#2.caf",92.4986}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano F#3.caf",184.997}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano F#4.caf",369.994}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano F#5.caf",739.989}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano F#6.caf",1479.98}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano F#7.caf",2959.96}  withObjCType:@encode(File)],
+                  [NSValue value:&(File){@"P200 Piano G#9.caf",13289.8}  withObjCType:@encode(File)],
                   nil];
 }
 
@@ -354,9 +354,7 @@
         UIButton *tempSlot = [tempSlots objectAtIndex:i];
         [tempSlot addGestureRecognizer:pressRecognizer];
         [tempSlot addGestureRecognizer:tapRecognizer];
-        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" forState:UIControlStateNormal]; 
-        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" 
-                forState:UIControlStateHighlighted]; 
+        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" forState:UIControlStateNormal | UIControlStateHighlighted]; 
         tempSlot.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];
         tempSlot.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         tempSlot.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -369,9 +367,7 @@
         pressRecognizer.minimumPressDuration = 0.8;
         UIButton * hotKey = [hotKeys objectAtIndex:i];
         
-        [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateNormal]; 
-        [hotKey setTitle:@"Press and hold\nto load a scale" 
-                forState:UIControlStateHighlighted]; 
+        [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateNormal | UIControlStateHighlighted]; 
         hotKey.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];      
         hotKey.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         hotKey.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -1085,6 +1081,18 @@
 
 -(float) getScaleDegree {
     return currentScaleDegree;
+}
+
+-(void)SetNoteController:(SetNoteController *)setNoteController didFinishWithFrequency:(float)frequency forDegree:(int)degree
+{
+    [self changeNote:degree to:frequency/(1<<5)];
+    [notePopover dismissPopoverAnimated:YES];
+    UISlider *slider = [sliders objectAtIndex:degree];
+    float ratio = frequency/[[majorScale objectAtIndex:degree+60] floatValue];
+    float newValue = (log2f(ratio)*12+1)/2;
+    [slider setValue:newValue animated:YES];
+    NSLog(@"%d",slider.tag);
+    [self sliderChanged:slider];
 }
 
 

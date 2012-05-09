@@ -26,6 +26,7 @@
 
 -(IBAction)inputChanged:(id)sender;
 -(IBAction)cancelled:(id)sender;
+-(IBAction)saved:(id)sender;
 
 @end
 
