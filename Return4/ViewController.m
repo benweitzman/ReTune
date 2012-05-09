@@ -16,7 +16,7 @@
 #import "LoadMidiController.h"
 #import "LoadScaleController.h"
 
-@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate>
+@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate, SetNoteControllerDelegate>
 - (void) addString:(NSString*)string;
 @end
 
@@ -408,19 +408,63 @@
 }
 -(void)handleLabelPress:(UILongPressGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateBegan) {
-        //UILabel *label= (UILabel *)sender.view;
+        UILabel *label= (UILabel *)sender.view;
+        NSLog(@"launching on : %d", label.tag);
+        if (label.tag != currentScaleDegree) {
         UIView *view = sender.view;
         if (noteViewController == nil && notePopover == nil) {
             noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
             notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
-            //sac.delegate = self;
+            noteViewController.delegate = self;
+            noteViewController.pop = notePopover;
+            noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
+            noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
+            float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
+            float cents = roundf((1200*log2f(ratio))*10)/10;
+            noteViewController.cents = [NSNumber numberWithFloat:cents];
+            
+            float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
+            if (noteRatio < 1) {
+                noteRatio *= 2;
+            }
+            NSString *ratioString = [self fractionFromFloat:noteRatio];
+            NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+            noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
+            noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
+            
+            [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             //sac.button = (UIButton *)sender.view;
         }
-        if ([notePopover isPopoverVisible]) {
+        else if ([notePopover isPopoverVisible]) {
             [notePopover dismissPopoverAnimated:YES];
         }
         else {
+            [notePopover release];
+            [noteViewController release];
+            noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
+            notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
+            noteViewController.delegate = self;
+            noteViewController.pop = notePopover;
+            noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
+            noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
+            float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
+            float cents = roundf((1200*log2f(ratio))*10)/10;
+            noteViewController.cents = [NSNumber numberWithFloat:cents];
+            
+            float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
+            if (noteRatio < 1) {
+                noteRatio *= 2;
+            }
+            NSString *ratioString = [self fractionFromFloat:noteRatio];
+            NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+            noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
+            noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
             [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
         }
     }
 }
@@ -959,6 +1003,9 @@
 }
 
 -(IBAction)changeRootNote:(id)sender {
+    if (!loadingScale) {
+        [channel stop];
+        loadingScale = true;
     UISlider * rootSlider = [sliders objectAtIndex:currentScaleDegree];
     rootSlider.enabled = true;
     UISegmentedControl * segmented = sender;
@@ -986,19 +1033,21 @@
 
     }
     [self initBuffers];
+        loadingScale = false;
+    }
 }
 
 -(IBAction)loadScale:(id)sender {
     
     UIButton * button = sender;
     if (!loadingScale) {
-        [channel stop];
     //NSLog(@"%d",button.tag);
     NSMutableArray *newScale = [hotScales objectAtIndex:button.tag];
     //NSLog(@"%@",newScale);
     loadingScale = true;
     //[buffers release];
     if ([newScale count] != 0) {
+        [channel stop];
         for (int i=0;i<127;i++) {
             //NSLog(@"%@",newScale);
             float lowPitch = [[newScale objectAtIndex:i%12] floatValue];
@@ -1013,9 +1062,10 @@
             [scaleRatios replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:[[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:0] floatValue]]];
         }
         //[self initBuffers];
+        loadingScale = false;
         [self changeRootNote:rootNote];
     }
-    loadingScale = false;
+        loadingScale = false;
     NSLog(@"%@",pitches);
     }
     //[midi release];
@@ -1023,6 +1073,18 @@
     //[midiTemp enableNetwork:YES];
     //[self setMidi:midiTemp];
     //viewController.midi = midi;
+}
+
+-(NSMutableArray *) getEqual {
+    return [[NSMutableArray alloc] initWithArray:majorScale copyItems:YES];
+}
+
+-(NSMutableArray *) getPitches {
+    return [[NSMutableArray alloc] initWithArray:pitches copyItems:YES];
+}
+
+-(float) getScaleDegree {
+    return currentScaleDegree;
 }
 
 
