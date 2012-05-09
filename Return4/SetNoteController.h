@@ -32,6 +32,8 @@
 
 @protocol SetNoteControllerDelegate <NSObject>
 
+
+-(NSString *) fractionFromFloat:(float)number;
 -(NSMutableArray *)getPitches;
 -(float)getScaleDegree;
 -(NSMutableArray *)getEqual;

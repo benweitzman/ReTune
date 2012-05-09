@@ -354,7 +354,8 @@
         UIButton *tempSlot = [tempSlots objectAtIndex:i];
         [tempSlot addGestureRecognizer:pressRecognizer];
         [tempSlot addGestureRecognizer:tapRecognizer];
-        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" forState:UIControlStateNormal | UIControlStateHighlighted]; 
+        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" forState:UIControlStateNormal]; 
+        [tempSlot setTitle:@"Press and hold\nto grab current\nscale" forState: UIControlStateHighlighted];
         tempSlot.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];
         tempSlot.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         tempSlot.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -367,7 +368,8 @@
         pressRecognizer.minimumPressDuration = 0.8;
         UIButton * hotKey = [hotKeys objectAtIndex:i];
         
-        [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateNormal | UIControlStateHighlighted]; 
+        [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateNormal];
+        [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateHighlighted]; 
         hotKey.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];      
         hotKey.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         hotKey.titleLabel.textAlignment = UITextAlignmentCenter;

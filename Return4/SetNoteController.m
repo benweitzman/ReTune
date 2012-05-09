@@ -113,16 +113,48 @@
         if ([self textIsValidFloat:[field text]]) {
             [field setTextColor:[UIColor blackColor]];
             float tcents = [field.text floatValue];
-            float ratio = pow(2,tcents/1200);
+            float ratio = powf(2.0f,tcents/1200.0);
+            NSLog(@"ratio %f",ratio);
             float freq = ratio*[[[delegate getEqual] objectAtIndex:[degree floatValue]+60] floatValue];
             [frequencyField setText:[NSString stringWithFormat:@"%.2f",freq]];
+            float noteRatio = freq/[[[delegate getPitches] objectAtIndex:60+[delegate getScaleDegree]]floatValue];
+            //float noteRatio = ratio;
+            if (noteRatio < 1) {
+                noteRatio *= 2;
+            }
+            NSLog(@"note ratio: %f",noteRatio);
+            NSString *ratioString = [delegate fractionFromFloat:noteRatio];
+            NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+            if ([parts count] == 2) {
+            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+            [numeratorField setText: [NSString stringWithFormat:@"%d",[[f numberFromString:[parts objectAtIndex:0]] intValue]]];
+            [denominatorField setText:[NSString stringWithFormat:@"%d", [[f numberFromString:[parts objectAtIndex:1]] intValue]]];
+            }
         } else {
             [field setTextColor:[UIColor redColor]];
         }
     } else if (field == frequencyField) {
         if ([self textIsValidFloat:[field text]]) {
             [field setTextColor:[UIColor blackColor]];
-            // do something with the value
+            float freq = [field.text floatValue];
+            float centsRatio = freq/[[[delegate getEqual] objectAtIndex:[degree intValue]+60] floatValue];
+            float tcents = log2f(centsRatio)*1200;
+            [centsField setText:[NSString stringWithFormat:@"%.1f",tcents]];
+            float noteRatio = freq/[[[delegate getPitches] objectAtIndex:60+[delegate getScaleDegree]] floatValue];
+            //float noteRatio = ratio;
+            if (noteRatio < 1) {
+                noteRatio *= 2;
+            }
+            NSLog(@"note ratio: %f",noteRatio);
+            NSString *ratioString = [delegate fractionFromFloat:noteRatio];
+            NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+            if ([parts count] == 2) {
+            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+            [f setNumberStyle:NSNumberFormatterDecimalStyle];
+            [numeratorField setText: [NSString stringWithFormat:@"%d",[[f numberFromString:[parts objectAtIndex:0]] intValue]]];
+            [denominatorField setText:[NSString stringWithFormat:@"%d", [[f numberFromString:[parts objectAtIndex:1]] intValue]]];
+            }
         } else {
             [field setTextColor:[UIColor redColor]];
         }
@@ -138,9 +170,13 @@
 -(IBAction)saved:(id)sender {
     if (frequencyField.textColor == [UIColor redColor]) {
     } else {
-        float freq = [frequencyField.text floatValue];
-        [delegate SetNoteController:self didFinishWithFrequency:freq forDegree:[degree intValue]];
+        if (centsField.textColor != [UIColor redColor] && fabsf([centsField.text floatValue])<=50.0f) {
+            //NSLog(@"%f",[centsField.text floatValue]);
+            float freq = [frequencyField.text floatValue];
+            [delegate SetNoteController:self didFinishWithFrequency:freq forDegree:[degree intValue]];
+        }
     }
+        
 }
 
 @end
