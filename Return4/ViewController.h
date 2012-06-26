@@ -13,6 +13,7 @@
 #import "LoadMidiController.h"
 #import "LoadScaleController.h"
 #import "SetNoteController.h"
+#import "InfoController.h"
 
 @class PGMidi;
 
@@ -57,6 +58,7 @@ typedef struct {
 @property (strong, nonatomic) LoadMidiController *ac;
 @property (strong, nonatomic) LoadScaleController *sac;
 @property (strong, nonatomic) SetNoteController *noteViewController;
+@property (strong, nonatomic) InfoController *infoViewController;
 @property (strong, nonatomic) UIPopoverController *pc, *spc, *notePopover;
 
 @property (nonatomic,strong) IBOutlet UIButton    *playButton;
@@ -86,6 +88,7 @@ typedef struct {
 -(IBAction)loadScale:(id)sender;
 -(IBAction)playTemp:(id)sender;
 -(IBAction)changeRootNote:(id)sender;
+-(IBAction)showInfo:(id)sender;
 -(void)noteOn:(int)noteValue;
 
 -(void)writeNotesToFile:(NSString *)file;

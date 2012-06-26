@@ -48,7 +48,7 @@
 @implementation ViewController
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes;
 @synthesize playButton;
-@synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController;
+@synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
 @synthesize pressRecognizer, tapRecognizer;
 @synthesize sliders, frequencyLabels, centsLabels, ratioLabels;
 
@@ -1095,6 +1095,12 @@
     [slider setValue:newValue animated:YES];
     NSLog(@"%d",slider.tag);
     [self sliderChanged:slider];
+}
+
+-(IBAction)showInfo:(id)sender {
+    infoViewController = [[InfoController alloc] initWithNibName:@"InfoController" bundle:nil];
+    infoViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:infoViewController animated:YES];
 }
 
 
