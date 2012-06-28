@@ -25,6 +25,9 @@ typedef struct {
 typedef struct {
     __unsafe_unretained ALBuffer* buffer;
     float scale;
+    bool loop;
+    int loopStart;
+    int loopEnd;
 } bufferInfo;
 
 
@@ -47,11 +50,12 @@ typedef struct {
     int currentScaleDegree;
     NSMutableArray *scaleRatios;
     NSMutableArray *sources, *fadingOut;
+    NSArray *instrument;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
 @property (strong) NSMutableArray* majorScale;
-@property (strong) NSMutableArray* buffers;
+@property (strong) NSMutableArray* buffers, *loopBuffers;
 @property (strong) NSArray* soundFiles;
 @property (strong) NSMutableArray* recordedNotes;
 

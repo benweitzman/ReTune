@@ -46,7 +46,7 @@
 @end
 
 @implementation ViewController
-@synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes;
+@synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes, loopBuffers;
 @synthesize playButton;
 @synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
 @synthesize pressRecognizer, tapRecognizer;
@@ -94,19 +94,30 @@
     float minDifference = 1000000;
     NSString* minFileName = @"";
     float minRatio = 1;
-    for (int i=0;i<[soundFiles count];i++) {
-        File temp;
-        [[soundFiles objectAtIndex:i] getValue:&temp];
-        float diff = fabsf(pitch-temp.pitch);
+    int minIndex = 0;
+    for (int i=0;i<[instrument count];i++) {
+        NSDictionary *temp = (NSDictionary *)[instrument objectAtIndex:i];
+        int midiNote = (int)[[temp valueForKey:@"Midi Note"] intValue];
+        float tempPitch = (440.0f / 32) * (powf(2.0f,(midiNote - 9)/12.0f));
+        float diff = fabsf(pitch-tempPitch);
         if (diff<minDifference) {
             minDifference = diff;
-            minFileName = temp.filename;
-            minRatio = pitch/temp.pitch;
+            minFileName = (NSString *)[temp valueForKey:@"Sound File"];
+            //NSLog(@"%@",minFileName);
+            minRatio = pitch/tempPitch;
+            minIndex = i;
         }
     }
+    NSLog(@"minFile: %@",minFileName);
     bufferInfo toReturn;
     toReturn.buffer = [[OpenALManager sharedInstance] 
                         bufferFromFile:minFileName];
+    NSDictionary *minFile = (NSDictionary *)[instrument objectAtIndex:minIndex];
+    if ([minFile valueForKey:@"Loop Start"] != nil) {
+        toReturn.loop = TRUE;
+        toReturn.loopStart = [[minFile valueForKey:@"Loop Start"] intValue];
+        toReturn.loopEnd = [[minFile valueForKey:@"Loop End"] intValue];
+    }
     toReturn.scale = minRatio;
     return toReturn;
 }
@@ -189,21 +200,22 @@
     [buffers release];
     buffers = nil;
     //ratios = nil;
-    if (channel != nil) {
-        //[channel release];
-    } else {
-        channel = [[ALChannelSource alloc] initWithSources:32];
-    }
     if (buffers == nil) {
         buffers = [[NSMutableArray alloc] init];
+        loopBuffers = [[NSMutableArray alloc] init];
         for (int i=0;i<127;i++) {
             bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:i] floatValue]];
-            [buffers addObject:info.buffer];
+            if (!info.loop) {
+                [buffers addObject:info.buffer];
+                [loopBuffers addObject:[NSNull null]];
+            } else {
+                [buffers addObject:[info.buffer sliceWithName:nil offset:0 size:info.loopStart]];
+                [loopBuffers addObject:[info.buffer sliceWithName:nil offset:info.loopStart size:info.loopEnd-info.loopStart]];
+            }
         }
     }
     for (int i=0;i<[ratios count];i++ ) {
-        NSNumber * num = [ratios objectAtIndex:i];
-        [num release];
+        [[ratios objectAtIndex:i] release];
     }
     [ratios release];
     ratios  = [[NSMutableArray alloc] initWithCapacity:127];
@@ -246,6 +258,11 @@
 {
     [super viewDidLoad];
     //[self fractionFromFloat:0.263157894737];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Cello" ofType:@"sound"];
+    // Build the array from the plist  
+    instrument = [[NSArray alloc] initWithContentsOfFile:path];
+    /*NSLog(@"%@",instrument);
+    NSLog(@"%@",NSStringFromClass([[[instrument objectAtIndex:0] valueForKey:@"Midi Note"] class]));*/
     
     frequencyLabels = [[NSArray alloc] initWithArray:[frequencyLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
@@ -335,13 +352,8 @@
     [OALAudioSession sharedInstance].allowIpod = NO;
     // Mute all audio if the silent switch is turned on.
     [OALAudioSession sharedInstance].honorSilentSwitch = YES;
-    // Take all 32 sources for this channel.
-    // (we probably won’t use that many but what the heck!)
-    channel = [[ALChannelSource alloc] initWithSources:127];
-    channels = [[NSMutableArray alloc] init];
-    //for (int i=0;i<127;i++) {
-    //    [channels addObject:[[ALSoundSo
-    //}
+
+
     [self initSoundFiles];
     [self initPitches];
     [self initBuffers];
@@ -403,6 +415,27 @@
     rootSlider.enabled = false;
     
     // Do any additional setup after loading the view, typically from a nib.
+    /*ALBuffer *buffer1 = [[[OpenALManager sharedInstance] bufferFromFile:@"Cello Solo Sus f D#3 LP.aiff"] sliceWithName:nil offset:0 size:98337];
+    ALBuffer *buffer2 = [[[OpenALManager sharedInstance] bufferFromFile:@"Cello Solo Sus f D#3 LP.aiff"] sliceWithName:nil offset:98337 size:16478];
+    ALSource *newSource = [[ALSource alloc] init];
+    //ALSource *loopSource = [[ALSource alloc] init];
+    //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+       // [NSThread sleepForTimeInterval:5];
+    [newSource queueBuffer:buffer1];
+    [newSource queueBuffer:buffer2 repeats:1];
+    [newSource play];
+    [newSource unqueueBuffer:buffer1];
+    newSource.looping = true;
+    //});
+    //[newSource queueBuffer:buffer2 repeats:100];
+    //[newSource play];
+    NSLog(@"f: %d, b: %d, d: %f",(int)buffer1.frequency,(int)buffer1.bits,buffer1.duration);*/
+    /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [NSThread sleepForTimeInterval:buffer1.duration-.05];
+        [newSource stop];
+        [newSource play:buffer2 loop:YES];
+    });*/
+    
 }
 
 - (IBAction)playTemp:(id)sender {
@@ -661,25 +694,21 @@
         }
         //float pitch = [[pitches objectAtIndex:noteValue] floatValue];
         while(loadingScale || changingPitch);
-        ALBuffer* toPlay = [[self buffers] objectAtIndex:noteValue];
-        NSLog(@"buffers count: %d, note value: %d, buffer: %@, ratio: %f",[buffers count],noteValue,toPlay, [[ratios objectAtIndex:noteValue] floatValue]);
+        //ALBuffer* toPlay = [[self buffers] objectAtIndex:noteValue];
+        //NSLog(@"buffers count: %d, note value: %d, buffer: %@, ratio: %f",[buffers count],noteValue,toPlay, [[ratios objectAtIndex:noteValue] floatValue]);
         float pitchToPlay = [[ratios objectAtIndex:noteValue] floatValue];
         NSLog(@"%f",pitchToPlay);
         [[fadingOut objectAtIndex:noteValue] release];
         [fadingOut replaceObjectAtIndex:noteValue withObject:[[NSNumber alloc] initWithBool:NO]];
-        [[sources objectAtIndex:noteValue] stop];
-        [[sources objectAtIndex:noteValue] play:toPlay gain:velocity/127.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
-        //ALSource* soundsource = (ALSource*)[channel play:toPlay gain:velocity/127.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
-        //[[sources objectAtIndex:noteValue] stop];
-        //[[sources objectAtIndex:noteValue] release];
-        //[sources replaceObjectAtIndex:noteValue withObject:soundsource];
-        //channel = [[ALChannelSource alloc] initWithSources:32];
-        /*} else {
-            bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:noteValue] floatValue]];
-            [buffers replaceObjectAtIndex:noteValue withObject:info.buffer];
-            [ratios replaceObjectAtIndex:noteValue withObject:[[NSNumber alloc] initWithFloat:info.scale]];
-            [channel play:info.buffer gain:1.0f pitch:info.scale pan:0.0f loop:FALSE];
-        }*/
+        ALSource * source = [sources objectAtIndex:noteValue];
+        [source stop];
+        source.gain = velocity/127.0f;
+        source.pitch = pitchToPlay;
+        [source queueBuffer:[buffers objectAtIndex:noteValue]];
+        if ([loopBuffers objectAtIndex:noteValue] != (id)[NSNull null]) {
+            [source queueBuffer:[loopBuffers objectAtIndex:noteValue]];
+        }
+        //[[sources objectAtIndex:noteValue] play:toPlay gain:velocity/127.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
     }
 }
 
@@ -691,7 +720,6 @@
     int midiNote = 60+button.tag+12*currentOctave;
     NSLog(@"note: %d",midiNote);
     [self noteOn:midiNote withVelocity:127];
-    //[channel play:[[self buffers] objectAtIndex:button.tag] gain:1.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
 }
 
 - (IBAction)buttonReleased:(id)sender {
@@ -703,7 +731,6 @@
 
 
 - (IBAction) sliderChanged:(id)sender {
-    //[channel stop];
     changingPitch = true;
     UISlider *slider = (UISlider *)sender;
     float newRatio = powf(2.0f,(slider.value*2-1)/12);
@@ -1070,7 +1097,6 @@
 
 -(IBAction)changeRootNote:(id)sender {
     if (!loadingScale) {
-        [channel stop];
         loadingScale = true;
     UISlider * rootSlider = [sliders objectAtIndex:currentScaleDegree];
     rootSlider.enabled = true;
@@ -1113,7 +1139,6 @@
     loadingScale = true;
     //[buffers release];
     if ([newScale count] != 0) {
-        [channel stop];
         for (int i=0;i<127;i++) {
             //NSLog(@"%@",newScale);
             float lowPitch = [[newScale objectAtIndex:i%12] floatValue];

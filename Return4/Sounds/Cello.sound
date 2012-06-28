@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+
+<array>
+	<dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f A#2 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>46</integer>
+        <key>Loop Start</key>
+        <integer>172355</integer>
+        <key>Loop End</key>
+        <integer>184702</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f B4 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>71</integer>
+        <key>Loop Start</key>
+        <integer>164431</integer>
+        <key>Loop End</key>
+        <integer>176796</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f C#4 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>61</integer>
+        <key>Loop Start</key>
+        <integer>168785</integer>
+        <key>Loop End</key>
+        <integer>180934</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f C2 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>36</integer>
+        <key>Loop Start</key>
+        <integer>173970</integer>
+        <key>Loop End</key>
+        <integer>192237</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f F#4 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>66</integer>
+        <key>Loop Start</key>
+        <integer>109240</integer>
+        <key>Loop End</key>
+        <integer>180741</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f F2 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>41</integer>
+        <key>Loop Start</key>
+        <integer>159417</integer>
+        <key>Loop End</key>
+        <integer>179850</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f G#3 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>56</integer>
+        <key>Loop Start</key>
+        <integer>118477</integer>
+        <key>Loop End</key>
+        <integer>130930</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Cello Solo Sus f D#3 LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>51</integer>
+        <key>Loop Start</key>
+        <integer>98337</integer>
+        <key>Loop End</key>
+        <integer>114815</integer>
+    </dict>
+</array>
+</plist>

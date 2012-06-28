@@ -8,6 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		DA03121915465EBF00781172 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA03121815465EBF00781172 /* QuartzCore.framework */; };
+		DA0429BB159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B4159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff */; };
+		DA0429BC159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B5159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff */; };
+		DA0429BD159C93F7001CDFBE /* Cello Solo Sus f C#4 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B6159C93F7001CDFBE /* Cello Solo Sus f C#4 LP.aiff */; };
+		DA0429BE159C93F7001CDFBE /* Cello Solo Sus f C2 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B7159C93F7001CDFBE /* Cello Solo Sus f C2 LP.aiff */; };
+		DA0429BF159C93F7001CDFBE /* Cello Solo Sus f F#4 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B8159C93F7001CDFBE /* Cello Solo Sus f F#4 LP.aiff */; };
+		DA0429C0159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B9159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff */; };
+		DA0429C1159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429BA159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff */; };
+		DA0429C4159C9419001CDFBE /* Cello.sound in Resources */ = {isa = PBXBuildFile; fileRef = DA0429C3159C9419001CDFBE /* Cello.sound */; };
+		DA15D904159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA15D901159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf */; };
+		DA15D905159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA15D902159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf */; };
+		DA15D906159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA15D903159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf */; };
+		DA15D909159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA15D908159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff */; };
 		DA18CB321548BC6A007B4DD7 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB311548BC6A007B4DD7 /* Default-Landscape~ipad.png */; };
 		DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */; };
 		DA18CB3B1548CBCA007B4DD7 /* LoadScaleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */; };
@@ -86,6 +98,7 @@
 		DA3AC7531546283900E1D705 /* MidiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7521546283900E1D705 /* MidiParser.m */; };
 		DA510F45158FAE2600B36A4C /* InfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA510F43158FAE2600B36A4C /* InfoController.m */; };
 		DA510F46158FAE2600B36A4C /* InfoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA510F44158FAE2600B36A4C /* InfoController.xib */; };
+		DA60F2F7159CBA06004DDBD3 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = DA60F2F6159CBA06004DDBD3 /* Settings.m */; };
 		DA80B72C154A2EA500D33D7E /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B727154A2EA500D33D7E /* black.png */; };
 		DA80B72D154A2EA500D33D7E /* blackPianoDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B728154A2EA500D33D7E /* blackPianoDown.png */; };
 		DA80B72E154A2EA500D33D7E /* blackPianoUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B729154A2EA500D33D7E /* blackPianoUp.png */; };
@@ -115,6 +128,18 @@
 
 /* Begin PBXFileReference section */
 		DA03121815465EBF00781172 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DA0429B4159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f A#2 LP.aiff"; sourceTree = "<group>"; };
+		DA0429B5159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f B4 LP.aiff"; sourceTree = "<group>"; };
+		DA0429B6159C93F7001CDFBE /* Cello Solo Sus f C#4 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f C#4 LP.aiff"; sourceTree = "<group>"; };
+		DA0429B7159C93F7001CDFBE /* Cello Solo Sus f C2 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f C2 LP.aiff"; sourceTree = "<group>"; };
+		DA0429B8159C93F7001CDFBE /* Cello Solo Sus f F#4 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f F#4 LP.aiff"; sourceTree = "<group>"; };
+		DA0429B9159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f F2 LP.aiff"; sourceTree = "<group>"; };
+		DA0429BA159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f G#3 LP.aiff"; sourceTree = "<group>"; };
+		DA0429C3159C9419001CDFBE /* Cello.sound */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cello.sound; sourceTree = "<group>"; };
+		DA15D901159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cello Solo Sus f D#3 LP-1.caf"; sourceTree = "<group>"; };
+		DA15D902159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cello Solo Sus f D#3 LP-2.caf"; sourceTree = "<group>"; };
+		DA15D903159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cello Solo Sus f D#3 LP-3.caf"; sourceTree = "<group>"; };
+		DA15D908159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f D#3 LP.aiff"; sourceTree = "<group>"; };
 		DA18CB311548BC6A007B4DD7 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		DA18CB371548CBCA007B4DD7 /* LoadScaleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadScaleController.h; sourceTree = "<group>"; };
 		DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadScaleController.m; sourceTree = "<group>"; };
@@ -241,6 +266,8 @@
 		DA510F42158FAE2600B36A4C /* InfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoController.h; sourceTree = "<group>"; };
 		DA510F43158FAE2600B36A4C /* InfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoController.m; sourceTree = "<group>"; };
 		DA510F44158FAE2600B36A4C /* InfoController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoController.xib; sourceTree = "<group>"; };
+		DA60F2F5159CBA06004DDBD3 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		DA60F2F6159CBA06004DDBD3 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		DA80B727154A2EA500D33D7E /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Images/black.png; sourceTree = SOURCE_ROOT; };
 		DA80B728154A2EA500D33D7E /* blackPianoDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackPianoDown.png; path = Images/blackPianoDown.png; sourceTree = SOURCE_ROOT; };
 		DA80B729154A2EA500D33D7E /* blackPianoUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackPianoUp.png; path = Images/blackPianoUp.png; sourceTree = SOURCE_ROOT; };
@@ -360,6 +387,8 @@
 				DA510F44158FAE2600B36A4C /* InfoController.xib */,
 				DA3AC6891545EFDA00E1D705 /* ViewController.h */,
 				DA3AC68A1545EFDA00E1D705 /* ViewController.m */,
+				DA60F2F5159CBA06004DDBD3 /* Settings.h */,
+				DA60F2F6159CBA06004DDBD3 /* Settings.m */,
 				DA3AC68C1545EFDA00E1D705 /* ViewController.xib */,
 				DA3AC67E1545EFDA00E1D705 /* Supporting Files */,
 				DA3AC7511546283900E1D705 /* MidiParser.h */,
@@ -512,6 +541,18 @@
 		DA3AC6EF1545F05C00E1D705 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				DA0429C3159C9419001CDFBE /* Cello.sound */,
+				DA0429B4159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff */,
+				DA0429B5159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff */,
+				DA0429B6159C93F7001CDFBE /* Cello Solo Sus f C#4 LP.aiff */,
+				DA0429B7159C93F7001CDFBE /* Cello Solo Sus f C2 LP.aiff */,
+				DA0429B8159C93F7001CDFBE /* Cello Solo Sus f F#4 LP.aiff */,
+				DA0429B9159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff */,
+				DA0429BA159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff */,
+				DA15D908159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff */,
+				DA15D901159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf */,
+				DA15D902159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf */,
+				DA15D903159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf */,
 				DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */,
 				DABA59031547B8860044B869 /* dixie.mid */,
 				DA3AC74B154616D500E1D705 /* Bass_sample2.mid */,
@@ -686,6 +727,18 @@
 				DAA6A7B2154A3E4100BE8199 /* bg.png in Resources */,
 				DABBB0061559D2E0004B9250 /* SetNoteController.xib in Resources */,
 				DA510F46158FAE2600B36A4C /* InfoController.xib in Resources */,
+				DA15D904159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf in Resources */,
+				DA15D905159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf in Resources */,
+				DA15D906159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf in Resources */,
+				DA15D909159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff in Resources */,
+				DA0429BB159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff in Resources */,
+				DA0429BC159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff in Resources */,
+				DA0429BD159C93F7001CDFBE /* Cello Solo Sus f C#4 LP.aiff in Resources */,
+				DA0429BE159C93F7001CDFBE /* Cello Solo Sus f C2 LP.aiff in Resources */,
+				DA0429BF159C93F7001CDFBE /* Cello Solo Sus f F#4 LP.aiff in Resources */,
+				DA0429C0159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff in Resources */,
+				DA0429C1159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff in Resources */,
+				DA0429C4159C9419001CDFBE /* Cello.sound in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,6 +810,7 @@
 				DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */,
 				DABBB0051559D2E0004B9250 /* SetNoteController.m in Sources */,
 				DA510F45158FAE2600B36A4C /* InfoController.m in Sources */,
+				DA60F2F7159CBA06004DDBD3 /* Settings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
