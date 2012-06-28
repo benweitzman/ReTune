@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr A1 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>57</integer>
+		<key>Loop Start</key>
+		<integer>178963</integer>
+		<key>Loop End</key>
+		<integer>183781</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr A3 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>81</integer>
+		<key>Loop Start</key>
+		<integer>172181</integer>
+		<key>Loop End</key>
+		<integer>178286</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr B2 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>71</integer>
+		<key>Loop Start</key>
+		<integer>177043</integer>
+		<key>Loop End</key>
+		<integer>181893</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr D2 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>62</integer>
+		<key>Loop Start</key>
+		<integer>149981</integer>
+		<key>Loop End</key>
+		<integer>155693</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr D4 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>86</integer>
+		<key>Loop Start</key>
+		<integer>79403</integer>
+		<key>Loop End</key>
+		<integer>81503</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr E1 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>52</integer>
+		<key>Loop Start</key>
+		<integer>157687</integer>
+		<key>Loop End</key>
+		<integer>162512</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr E3 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>76</integer>
+		<key>Loop Start</key>
+		<integer>101149</integer>
+		<key>Loop End</key>
+		<integer>103693</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr G2 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>67</integer>
+		<key>Loop Start</key>
+		<integer>171746</integer>
+		<key>Loop End</key>
+		<integer>181656</integer>
+	</dict>
+	<dict>
+		<key>Sound File</key>
+		<string>6 Stg Steel Gtr G4 LP.aiff</string>
+		<key>Midi Note</key>
+		<integer>91</integer>
+		<key>Loop Start</key>
+		<integer>103972</integer>
+		<key>Loop End</key>
+		<integer>108070</integer>
+	</dict>
+</array>
+</plist>

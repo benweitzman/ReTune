@@ -15,8 +15,9 @@
 #import <CoreMIDI/CoreMIDI.h>
 #import "LoadMidiController.h"
 #import "LoadScaleController.h"
+#import "InstrumentController.h"
 
-@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate, SetNoteControllerDelegate>
+@interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate, SetNoteControllerDelegate, InstrumentControllerDelegate>
 - (void) addString:(NSString*)string;
 @end
 
@@ -51,9 +52,8 @@
 @synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
 @synthesize pressRecognizer, tapRecognizer;
 @synthesize sliders, frequencyLabels, centsLabels, ratioLabels, buttons;
-
+@synthesize instrumentViewController, instrumentButton;
 @synthesize hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, hotKeys, tempSlot0, tempSlot1,tempSlot2,tempSlots,tempScales,hotScales;
-
 @synthesize rootNote;
 
 - (NSString *) fractionFromFloat:(float)number {
@@ -198,7 +198,9 @@
 
 - (void) initBuffers {
     [buffers release];
+    [loopBuffers release];
     buffers = nil;
+    loopBuffers = nil;
     //ratios = nil;
     if (buffers == nil) {
         buffers = [[NSMutableArray alloc] init];
@@ -488,7 +490,6 @@
             [f setNumberStyle:NSNumberFormatterDecimalStyle];
             noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
             noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
-            
             [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             //sac.button = (UIButton *)sender.view;
         }
@@ -665,6 +666,7 @@
                 [NSThread sleepForTimeInterval:timeStep];
                 timeDone += timeStep;
             }
+            [source stop];
         });
         
         if (recording) {
@@ -704,10 +706,14 @@
         [source stop];
         source.gain = velocity/127.0f;
         source.pitch = pitchToPlay;
+        if (noteValue == 60) {
+            NSLog(@"%@",[buffers objectAtIndex:60]);
+        }
         [source queueBuffer:[buffers objectAtIndex:noteValue]];
         if ([loopBuffers objectAtIndex:noteValue] != (id)[NSNull null]) {
-            [source queueBuffer:[loopBuffers objectAtIndex:noteValue]];
+            [source queueBuffer:[loopBuffers objectAtIndex:noteValue] repeats:500];
         }
+        [source play];
         //[[sources objectAtIndex:noteValue] play:toPlay gain:velocity/127.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
     }
 }
@@ -1190,12 +1196,28 @@
     [self sliderChanged:slider];
 }
 
+-(void)InstrumentController:(InstrumentController *)instrumentController didFinishWithSelection:(NSString *)selection {
+    NSString *path = [[NSBundle mainBundle] pathForResource:selection ofType:@"sound"];
+    instrument = [[NSArray alloc] initWithContentsOfFile:path];
+    [self initBuffers];
+    [instrumentController dismissModalViewControllerAnimated:YES];
+}
+
 -(IBAction)showInfo:(id)sender {
     infoViewController = [[InfoController alloc] initWithNibName:@"InfoController" bundle:nil];
     infoViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     //infoViewController.modalPresentationStyle = UIModalPresentationFormSheet;
     //navigationController.navigationItem;
     [self presentModalViewController:infoViewController animated:YES];
+}
+
+-(IBAction)selectInstrument:(id)sender {
+    instrumentViewController = [[InstrumentController alloc] initWithNibName:@"InstrumentController" bundle:nil];
+    instrumentViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    instrumentViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    instrumentViewController.delegate = self;
+    [self presentModalViewController:instrumentViewController animated:YES];
+    
 }
 
 

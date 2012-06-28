@@ -14,6 +14,7 @@
 #import "LoadScaleController.h"
 #import "SetNoteController.h"
 #import "InfoController.h"
+#import "InstrumentController.h"
 
 @class PGMidi;
 
@@ -64,6 +65,7 @@ typedef struct {
 @property (strong, nonatomic) LoadScaleController *sac;
 @property (strong, nonatomic) SetNoteController *noteViewController;
 @property (strong, nonatomic) InfoController *infoViewController;
+@property (strong, nonatomic) InstrumentController *instrumentViewController;
 @property (strong, nonatomic) UIPopoverController *pc, *spc, *notePopover;
 
 @property (nonatomic,strong) IBOutlet UIButton    *playButton;
@@ -71,6 +73,8 @@ typedef struct {
 @property (nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
 @property (nonatomic,strong) IBOutlet UIButton *hotKey0,*hotKey1,*hotKey2,*hotKey3,*hotKey4,*hotKey5,*hotKey6,*hotKey7,*hotKey8,*hotKey9,*hotKey10,*hotKey11,*tempSlot0,*tempSlot1,*tempSlot2;
+
+@property (nonatomic, strong) IBOutlet UIButton *instrumentButton;
 
 @property (nonatomic, strong) IBOutlet UISegmentedControl *rootNote;
 
@@ -96,6 +100,7 @@ typedef struct {
 -(IBAction)playTemp:(id)sender;
 -(IBAction)changeRootNote:(id)sender;
 -(IBAction)showInfo:(id)sender;
+-(IBAction)selectInstrument:(id)sender;
 -(void)noteOn:(int)noteValue withVelocity:(int)velocity;
 -(void)finishFade:(ALSource *)source; 
 -(void)writeNotesToFile:(NSString *)file;

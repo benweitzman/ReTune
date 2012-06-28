@@ -176,6 +176,7 @@
             [delegate SetNoteController:self didFinishWithFrequency:freq forDegree:[degree intValue]];
         }
     }
+    
         
 }
 
