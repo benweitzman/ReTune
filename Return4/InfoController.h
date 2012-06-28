@@ -10,4 +10,6 @@
 
 @interface InfoController : UIViewController
 
+- (IBAction) backButtonClick:(id) sender;
+
 @end

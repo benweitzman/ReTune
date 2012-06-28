@@ -48,4 +48,8 @@
 	return YES;
 }
 
+- (IBAction) backButtonClick:(id) sender {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 @end

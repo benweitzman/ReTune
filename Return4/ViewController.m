@@ -50,7 +50,7 @@
 @synthesize playButton;
 @synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
 @synthesize pressRecognizer, tapRecognizer;
-@synthesize sliders, frequencyLabels, centsLabels, ratioLabels;
+@synthesize sliders, frequencyLabels, centsLabels, ratioLabels, buttons;
 
 @synthesize hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, hotKeys, tempSlot0, tempSlot1,tempSlot2,tempSlots,tempScales,hotScales;
 
@@ -141,11 +141,18 @@
     int degreeCopy = degree;
     while (degree < 127) {
         bufferInfo info = [self bufferFromPitch:pitch];
+        float oldPitch = [[pitches objectAtIndex:degree] floatValue];
         [[pitches objectAtIndex:degree] release];
         [pitches replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:pitch]];
         [[ratios objectAtIndex:degree] release];
         [ratios replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:info.scale]];
         [buffers replaceObjectAtIndex:degree withObject:info.buffer];
+        float differenceRatio = pitch/oldPitch;
+        ALSource *source = (ALSource *)[sources objectAtIndex:degree];
+        if (source.playing) {
+            source.pitch *= differenceRatio;
+            NSLog(@"changed pitch");
+        }
         pitch *= 2;
         degree += 12;
     }
@@ -161,14 +168,19 @@
 
 - (void) initPitches {
     pitches = [[NSMutableArray alloc] init];
+    sources = [[NSMutableArray alloc] init];
+    fadingOut = [[NSMutableArray alloc] init];
     for (int i=0;i<127;i++) {
         [pitches addObject:[[NSNumber alloc] initWithFloat:powf(2.0f,(i-69.0f)/12)*440]];
+        [sources addObject:[[ALSource alloc] init]];
+        [fadingOut addObject:[[NSNumber alloc] initWithBool:NO]];
     }
     scaleRatios = [[NSMutableArray alloc] init]; 
     for (int i=0;i<12;i++) {
         float ratio = [[pitches objectAtIndex:i] floatValue]/[[pitches objectAtIndex:0] floatValue];
         [scaleRatios addObject:[[NSNumber alloc] initWithFloat:ratio]];
     }
+    
     majorScale = [[NSMutableArray alloc] initWithArray:pitches copyItems:YES];
 
 }
@@ -264,6 +276,18 @@
         else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
         return NSOrderedSame;
     }]];
+    
+    buttons = [[NSArray alloc] initWithArray:[buttons sortedArrayUsingComparator:^NSComparisonResult(UISlider* obj1, UISlider* obj2) {
+        /* obj1.transform = CGAffineTransformRotate(obj1.transform, 270.0/180*M_PI);
+         obj2.transform = CGAffineTransformRotate(obj2.transform, 270.0/180*M_PI);*/
+        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+        return NSOrderedSame;
+    }]];
+    
+    for (int i=0;i<[buttons count];i++) {
+        [[buttons objectAtIndex:i] addTarget:self action:@selector(buttonReleased:) forControlEvents:UIControlEventTouchUpInside|UIControlEventTouchUpOutside];
+    }
     for (int i=0;i<[sliders count];i++) {
         UISlider * slider = [sliders objectAtIndex:i];
         CGRect rect = slider.frame;
@@ -585,8 +609,31 @@
     [self attachToAllExistingSources];
 }
 
+-(void)finishFade:(ALSource *)source {
+    [source stop];
+    NSLog(@"finish fade");
+}
+
 - (void) noteOff:(int)noteValue {
     if (noteValue>=0 && noteValue<127) {
+        NSLog(@"note off: %d",noteValue);
+        [[fadingOut objectAtIndex:noteValue] release];
+        [fadingOut replaceObjectAtIndex:noteValue withObject:[[NSNumber alloc] initWithBool:YES]];
+        //[[sources objectAtIndex:noteValue] fadeTo:0 duration:0.1 target:self selector:@selector(finishFade:)];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            ALSource * source = [sources objectAtIndex:noteValue];
+            float timeDone = 0;
+            float duration = 0.2;
+            float timeStep = 0.01;
+            float valStep = source.gain*timeStep/duration;
+            while (timeDone < duration) {
+                if (![[fadingOut objectAtIndex:noteValue] boolValue]) break;
+                source.gain -= valStep;
+                [NSThread sleepForTimeInterval:timeStep];
+                timeDone += timeStep;
+            }
+        });
+        
         if (recording) {
             double currentTime = CACurrentMediaTime();
             int deltaTime = (int)(currentTime*1000-recordTimer*1000);
@@ -600,7 +647,7 @@
     }
 }
 
-- (void) noteOn:(int)noteValue {
+- (void) noteOn:(int)noteValue withVelocity:(int)velocity {
     if (noteValue>=0 && noteValue<127) {
         if (recording) {
             double currentTime = CACurrentMediaTime();
@@ -616,9 +663,16 @@
         while(loadingScale || changingPitch);
         ALBuffer* toPlay = [[self buffers] objectAtIndex:noteValue];
         NSLog(@"buffers count: %d, note value: %d, buffer: %@, ratio: %f",[buffers count],noteValue,toPlay, [[ratios objectAtIndex:noteValue] floatValue]);
-            float pitchToPlay = [[ratios objectAtIndex:noteValue] floatValue];
-            NSLog(@"%f",pitchToPlay);
-            [channel play:toPlay gain:1.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
+        float pitchToPlay = [[ratios objectAtIndex:noteValue] floatValue];
+        NSLog(@"%f",pitchToPlay);
+        [[fadingOut objectAtIndex:noteValue] release];
+        [fadingOut replaceObjectAtIndex:noteValue withObject:[[NSNumber alloc] initWithBool:NO]];
+        [[sources objectAtIndex:noteValue] stop];
+        [[sources objectAtIndex:noteValue] play:toPlay gain:velocity/127.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
+        //ALSource* soundsource = (ALSource*)[channel play:toPlay gain:velocity/127.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
+        //[[sources objectAtIndex:noteValue] stop];
+        //[[sources objectAtIndex:noteValue] release];
+        //[sources replaceObjectAtIndex:noteValue withObject:soundsource];
         //channel = [[ALChannelSource alloc] initWithSources:32];
         /*} else {
             bufferInfo info = [self bufferFromPitch:[[pitches objectAtIndex:noteValue] floatValue]];
@@ -636,8 +690,14 @@
     //float pitchToPlay = [[ratios objectAtIndex:button.tag+currentOctave] floatValue];
     int midiNote = 60+button.tag+12*currentOctave;
     NSLog(@"note: %d",midiNote);
-    [self noteOn:midiNote];
+    [self noteOn:midiNote withVelocity:127];
     //[channel play:[[self buffers] objectAtIndex:button.tag] gain:1.0f pitch:pitchToPlay pan:0.0f loop:FALSE];
+}
+
+- (IBAction)buttonReleased:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    int midiNote = 60+button.tag+12*currentOctave;
+    [self noteOff:midiNote];
 }
 
 
@@ -666,7 +726,7 @@
     [label setText:[self fractionFromFloat:displayRatio]];
     //label = [ratioLabels objectAtIndex:(slider.tag+1)%12];
     //displayRatio = [[pitches objectAtIndex:12] floatValue]/(newPitch*2);
-    //[label setText:[self fractionFromFloat:displayRatio]];
+    //[label setText:[self fractionFromFloat:displayRatio]]
     changingPitch = false;
 }
 
@@ -744,9 +804,17 @@
         if (packet->length == 3) {
             if ((packet->data[0]&0xF0) == 0x90) {
                 if (packet->data[2] != 0) {
-                    [self noteOn:packet->data[1]];
+                    //int buttonTag = packet->data[1]%12;
+                    //NSLog(@"%d",buttonTag);
+                    //[(UIButton*)[buttons objectAtIndex:buttonTag] setHighlighted:YES];
+                    [self noteOn:packet->data[1] withVelocity:packet->data[2]];
                     NSLog(@"midi note: %d on",packet->data[1]);
+                } else {
+                    [self noteOff:packet->data[1]];
                 }
+            } else if ((packet->data[0]&0xF0) == 0x80) {
+                NSLog(@"midi note off: %d",packet->data[1]);
+                [self noteOff:packet->data[1]];
             }
         }
         packet = MIDIPacketNext(packet);
@@ -818,7 +886,7 @@
                 while (paused || loadingScale || changingPitch);
                 if (stopped) break;
                 if (currentNote.noteOn) {
-                    [self noteOn:currentNote.note];
+                    [self noteOn:currentNote.note withVelocity:127];
                 } else {
                     [self noteOff:currentNote.note];
                 }
@@ -1100,6 +1168,8 @@
 -(IBAction)showInfo:(id)sender {
     infoViewController = [[InfoController alloc] initWithNibName:@"InfoController" bundle:nil];
     infoViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    //infoViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    //navigationController.navigationItem;
     [self presentModalViewController:infoViewController animated:YES];
 }
 

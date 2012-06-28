@@ -37,7 +37,7 @@ typedef struct {
     int currentOctave;
     //ALSource* source;
 	//ALBuffer* buffer;
-     PGMidi *midi;
+    PGMidi *midi;
     MidiParser *parser;
     double recordTimer;
     bool saving;
@@ -46,6 +46,7 @@ typedef struct {
     bool loadingScale, changingPitch;
     int currentScaleDegree;
     NSMutableArray *scaleRatios;
+    NSMutableArray *sources, *fadingOut;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -72,12 +73,14 @@ typedef struct {
 @property (nonatomic, retain) IBOutletCollection(UISlider) NSArray* sliders;
 @property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* frequencyLabels;
 @property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* centsLabels, *ratioLabels;
+@property (nonatomic, retain) IBOutletCollection(UIButton) NSArray* buttons;
 
 @property (nonatomic, strong) NSMutableArray *hotKeys,*tempSlots,*tempScales,*hotScales;
 
 
 @property (nonatomic,strong) PGMidi *midi;
 -(IBAction)buttonTriggered:(id)sender;
+-(IBAction)buttonReleased:(id)sender;
 -(IBAction) sliderChanged:(id)sender;
 -(IBAction)stopMidi:(id)sender;
 -(IBAction)playMidi:(id)sender;
@@ -89,8 +92,8 @@ typedef struct {
 -(IBAction)playTemp:(id)sender;
 -(IBAction)changeRootNote:(id)sender;
 -(IBAction)showInfo:(id)sender;
--(void)noteOn:(int)noteValue;
-
+-(void)noteOn:(int)noteValue withVelocity:(int)velocity;
+-(void)finishFade:(ALSource *)source; 
 -(void)writeNotesToFile:(NSString *)file;
 
 -(void)handleTempPress:(UILongPressGestureRecognizer *)sender;
