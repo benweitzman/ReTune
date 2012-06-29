@@ -12,6 +12,10 @@
 
 @synthesize delegate;
 
+- (void) cancel{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -34,6 +38,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.title = @"Select an instrument";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    [self.navigationItem setRightBarButtonItem:backButton];
     
     NSString * bundleRoot = [[NSBundle mainBundle] bundlePath];
     NSFileManager * fm = [NSFileManager defaultManager];

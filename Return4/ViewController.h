@@ -50,7 +50,7 @@ typedef struct {
     bool loadingScale, changingPitch;
     int currentScaleDegree;
     NSMutableArray *scaleRatios;
-    NSMutableArray *sources, *fadingOut;
+    NSMutableArray *sources, *fadingOut, *loopSources;
     NSArray *instrument;
 }
 @property (strong) NSMutableArray* pitches;

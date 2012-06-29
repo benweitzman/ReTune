@@ -1198,7 +1198,7 @@
 		
 		[self stopPitch];
 		pitchAction = [OALSequentialActions actions:
-					   [OALPitchAction actionWithDuration:duration endValue:value],
+					   [OALGainAction actionWithDuration:duration endValue:value],
 					   [OALCallAction actionWithCallTarget:target selector:selector withObject:self],
 					   nil];
         arcsafe_retain_unused(pitchAction);
