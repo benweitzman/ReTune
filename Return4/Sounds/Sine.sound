@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+    <dict>
+        <key>Sound File</key>
+        <string>sine.wav</string>
+        <key>Midi Note</key>
+        <integer>69</integer>
+    </dict>
+</array>
+</plist>

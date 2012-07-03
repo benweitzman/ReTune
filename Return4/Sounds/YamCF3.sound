@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 A0 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>45</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 B4 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>95</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 C#4 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>85</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 C2 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>60</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 D#3 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>75</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 D1 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>50</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 F#4 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>90</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 F2 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>65</integer>
+    </dict>
+    <dict>
+        <key>Sound File</key>
+        <string>Yam CF3 G#3 m M LP.aiff</string>
+        <key>Midi Note</key>
+        <integer>80</integer>
+    </dict>
+</array>    
+</plist>

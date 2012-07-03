@@ -52,4 +52,12 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
+- (void) cancel {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void) save {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 @end

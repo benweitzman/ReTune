@@ -100,7 +100,7 @@
         int midiNote = (int)[[temp valueForKey:@"Midi Note"] intValue];
         float tempPitch = (440.0f / 32) * (powf(2.0f,(midiNote - 9)/12.0f));
         float diff = fabsf(pitch-tempPitch);
-        if (diff<minDifference) {
+        if (diff<=minDifference) {
             minDifference = diff;
             minFileName = (NSString *)[temp valueForKey:@"Sound File"];
             ////NSLog(@"%@",minFileName);
@@ -160,8 +160,11 @@
         [buffers replaceObjectAtIndex:degree withObject:info.buffer];
         float differenceRatio = pitch/oldPitch;
         ALSource *source = (ALSource *)[sources objectAtIndex:degree];
-        if (source.playing) {
+        ALSource *loopSource = (ALSource *)[loopSources objectAtIndex:degree];
+        if (source.playing || loopSource.playing) {
             source.pitch *= differenceRatio;
+            loopSource.pitch *= differenceRatio;
+            
             //NSLog(@"changed pitch");
         }
         pitch *= 2;
@@ -200,6 +203,7 @@
 }
 
 - (void) initBuffers {
+    NSLog(@"%@",instrument);
     [buffers release];
     [loopBuffers release];
     buffers = nil;
@@ -374,6 +378,7 @@
     saving = false;
     loadingScale = false;
     changingPitch = false;
+    loadingInstrument = false;
     currentScaleDegree = 0;
     
     tempScales = [[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] init],
@@ -566,12 +571,12 @@
     if (sender.state == UIGestureRecognizerStateBegan) {
         UIView *view = sender.view;
         //NSLog(@"long press: %d",view.tag);
-        if (sac == nil && spc == nil) {
+        /*if (sac == nil && spc == nil) {
             sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
             spc = [[UIPopoverController alloc] initWithContentViewController:sac];
             sac.delegate = self;
             sac.button = (UIButton *)sender.view;
-        }
+        }*/
         if ([spc isPopoverVisible]) {
             [spc dismissPopoverAnimated:YES];
         }
@@ -579,9 +584,27 @@
             sac = nil;
             spc = nil;
             sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
-            spc = [[UIPopoverController alloc] initWithContentViewController:sac];
             sac.delegate = self;
             sac.button = (UIButton *)sender.view;
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:sac];
+            UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All Scales",@"Standard Scales",@"User Scales",nil]];
+            [segmentedControl addTarget:sac action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
+            //segmentedControl.frame = CGRectMake(0, 0, 320, 30);
+            [segmentedControl setSelectedSegmentIndex:0];
+            [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+            segmentedControl.frame = CGRectMake(0.0f, 5.0f, 320.0f, 30.0f);
+
+            UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+            NSArray *theToolbarItems = [NSArray arrayWithObjects:item, nil];
+            [sac setToolbarItems:theToolbarItems];
+            navController.toolbarHidden = NO;
+            sac.title = @"Select A Scale";
+            UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Get more scales" style:UIBarButtonItemStylePlain target:self action:@selector(getMoreScales)];
+            [sac.navigationItem setRightBarButtonItem:moreButton];
+            //[sac setToolbarItems:theToolbarItems];
+            spc = [[UIPopoverController alloc] initWithContentViewController:navController];
+            //[spc.contentViewController setToolbarItems:theToolbarItems];
+            //[navController.navigationBar.topItem setTitleView:segmentedControl];
             [spc presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
     }
@@ -737,19 +760,19 @@
             ALSource *loopSource = [loopSources objectAtIndex:noteValue];
             [loopSource stop];
             loopSource.gain = 0;
-            loopSource.pitch = pitchToPlay;
+            loopSource.pitch = source.pitch;
             [loopSource play:[loopBuffers objectAtIndex:noteValue] loop:YES];
             //[loopSource pitchTo:velocity/127.0f duration:[(ALBuffer*)[buffers objectAtIndex:noteValue] duration] target:self selector:@selector(finishFadeIn:)];
             //[source pitchTo:0 duration:[(ALBuffer*)[buffers objectAtIndex:noteValue] duration]*2 target:self selector:@selector(finishFadeIn:)];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 float timeDone = 0;
-                float duration = [(ALBuffer*)[buffers objectAtIndex:noteValue] duration];
+                float duration = [(ALBuffer*)[buffers objectAtIndex:noteValue] duration]-.4;
                 float timeStep = 0.0001;
                 float valStep = source.gain*timeStep/duration;
                 float loopStep = valStep;
                 while (timeDone < duration) {
                     if ([[fadingOut objectAtIndex:noteValue] boolValue]) break;
-                    source.gain -= valStep/2;
+                    source.gain -= valStep;
                     loopSource.gain += loopStep;
                     [NSThread sleepForTimeInterval:timeStep];
                     timeDone += timeStep;
@@ -788,6 +811,7 @@
 - (IBAction) sliderChanged:(id)sender {
     changingPitch = true;
     UISlider *slider = (UISlider *)sender;
+    slider.value = round(slider.value/.005)*.005;
     float newRatio = powf(2.0f,(slider.value*2-1)/12);
     //NSLog(@"new ratio: %f", newRatio);
     //NSLog(@"major scale %f",[[majorScale objectAtIndex:slider.tag] floatValue]);
@@ -958,17 +982,17 @@
             double ticksPerSecond = [parser ticksPerSecond];
             //int ticksPerSecond = [parser 
             for (int i=0;i<[events count];i++) {
-                while (paused || loadingScale || changingPitch);
+                while (paused || loadingScale || changingPitch || loadingInstrument);
                 if (stopped) break;
                 NoteObject *currentNote = [events objectAtIndex:i];
                 if (i==0) {
                     currentNote.time = 0;
                 }
                 [NSThread sleepForTimeInterval:(currentNote.time/ticksPerSecond)];
-                while (paused || loadingScale || changingPitch);
+                while (paused || loadingScale || changingPitch || loadingInstrument);
                 if (stopped) break;
                 if (currentNote.noteOn) {
-                    [self noteOn:currentNote.note withVelocity:127];
+                    [self noteOn:currentNote.note withVelocity:currentNote.velocity];
                 } else {
                     [self noteOff:currentNote.note];
                 }
@@ -1018,10 +1042,22 @@
     }
 }
 
+- (void) closeLoadMidi {
+    [ac dismissModalViewControllerAnimated:YES];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if (title == @"Continue Without Saving") {
-        [pc presentPopoverFromRect:[loadMidiButton bounds] inView:loadMidiButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        //[pc presentPopoverFromRect:[loadMidiButton bounds] inView:loadMidiButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        ac.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        UINavigationController *navController = [[UINavigationController alloc]
+                                                 initWithRootViewController:ac];
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(closeLoadMidi)];
+        [ac.navigationItem setRightBarButtonItem:backButton];
+        ac.title = @"Load a midi file";
+        [self presentModalViewController:navController animated:YES];
     } else if (title == @"Save And Continue") {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save" message:@"Save you midi file?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Save", nil];
         alert.alertViewStyle = UIAlertViewStylePlainTextInput;
@@ -1034,10 +1070,16 @@
             ac = nil;
             pc = nil;
             ac = [[LoadMidiController alloc] initWithNibName:@"LoadMidiController" bundle:nil];
-            pc = [[UIPopoverController alloc] initWithContentViewController:ac];
             //ac.delegate = self;
             ac.delegate = self;
-            [pc presentPopoverFromRect:[loadMidiButton bounds] inView:loadMidiButton permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            ac.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            UINavigationController *navController = [[UINavigationController alloc]
+                                                     initWithRootViewController:ac];
+            navController.modalPresentationStyle = UIModalPresentationFormSheet;
+            UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(closeLoadMidi)];
+            [ac.navigationItem setRightBarButtonItem:backButton];
+            ac.title = @"Load a midi file";
+            [self presentModalViewController:navController animated:YES];
         }
     } else if (title == @"Save Scale" ) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -1074,7 +1116,7 @@
 
 - (void)LoadMidiController:(LoadMidiController *)midiController didFinishWithSelection:(NSString*)selection {
     //NSLog(@"%@",selection);
-    [pc dismissPopoverAnimated:YES];
+    //[pc dismissPopoverAnimated:YES];
     NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:selection ofType: @"mid"]];
     if ([data length] == 0) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -1093,6 +1135,7 @@
     [parser parseData:data];
     //NSLog(@"ticks per second: %f",parser.ticksPerSecond);
     [byteArray release];
+    [midiController dismissModalViewControllerAnimated:YES];
 }
 
 -(NSEnumerator *)convertToVLQ:(int)value {
@@ -1246,10 +1289,12 @@
 }
 
 -(void)InstrumentController:(InstrumentController *)instrumentController didFinishWithSelection:(NSString *)selection {
+    loadingInstrument = true;
     NSString *path = [[NSBundle mainBundle] pathForResource:selection ofType:@"sound"];
     instrument = [[NSArray alloc] initWithContentsOfFile:path];
     [self initBuffers];
     [instrumentController dismissModalViewControllerAnimated:YES];
+    loadingInstrument = false;
 }
 
 -(IBAction)showInfo:(id)sender {
@@ -1257,7 +1302,15 @@
     infoViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     //infoViewController.modalPresentationStyle = UIModalPresentationFormSheet;
     //navigationController.navigationItem;
-    [self presentModalViewController:infoViewController animated:YES];
+    UINavigationController *navController = [[UINavigationController alloc]
+                                             initWithRootViewController:infoViewController];
+    navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    infoViewController.title = @"Settings and Info";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:infoViewController action:@selector(cancel)];
+    [infoViewController.navigationItem setRightBarButtonItem:backButton];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:infoViewController action:@selector(save)];
+    [infoViewController.navigationItem setLeftBarButtonItem:saveButton];
+    [self presentModalViewController:navController animated:YES];
 }
 
 -(IBAction)selectInstrument:(id)sender {
@@ -1278,5 +1331,11 @@
     
 }
 
+
+-(void) getMoreScales {
+    if ([spc isPopoverVisible]) {
+        [spc dismissPopoverAnimated:YES];
+    }
+}
 
 @end

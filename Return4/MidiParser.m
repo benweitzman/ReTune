@@ -42,7 +42,7 @@
 
 @implementation NoteObject
 
-@synthesize time, note, noteOn;
+@synthesize time, note, noteOn, velocity;
 
 @end
 
@@ -520,6 +520,7 @@
                                 NoteObject *new = [[NoteObject alloc] init];
                                 new.time = noteOnDelta;
                                 new.note = p1;
+                                new.velocity = p2;
                                 if (p2 != 0) {
                                     new.noteOn = true;
                                 } else {

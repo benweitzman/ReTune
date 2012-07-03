@@ -9,5 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface Settings : NSObject
+{
+    NSString *file;
+}
+
+@property(strong, retain) NSMutableDictionary * settings; 
+
+-(id)initWithSettingsFile:(NSString *)filename;
+- (void) save;
 
 @end

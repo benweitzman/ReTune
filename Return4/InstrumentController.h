@@ -15,6 +15,7 @@
 {
     id<InstrumentControllerDelegate> delegate;
     NSMutableArray *instruments;
+    NSDictionary *instrumentList;
 }
 
 @property (nonatomic, strong) id<InstrumentControllerDelegate> delegate;

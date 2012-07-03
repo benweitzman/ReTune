@@ -18,6 +18,7 @@ typedef enum tagMidiTimeFormat
 
 @property (nonatomic) int time;
 @property (nonatomic) int note;
+@property (nonatomic) int velocity;
 @property (nonatomic) bool noteOn;
     
 @end

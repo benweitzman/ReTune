@@ -10,4 +10,21 @@
 
 @implementation Settings
 
+@synthesize settings;
+
+-(id)initWithSettingsFile:(NSString *)filename;
+{
+	self = [super init];
+	if (!self)
+		return nil;
+    
+    self.settings = [[NSMutableDictionary alloc] initWithContentsOfFile:filename];
+    file = [[NSString alloc] initWithString:filename];
+	return self;
+}
+
+- (void) save {
+    [settings writeToFile:file atomically:YES];
+}
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "InstrumentController.h"
+#import "LoadScaleController.h"
 
 @implementation InstrumentController
 
@@ -38,7 +39,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self.navigationController.view setBackgroundColor:[UIColor redColor]];
+    //[self.view setBackgroundColor:[UIColor redColor]];
+    [self.view.window setBackgroundColor:[UIColor redColor]];
+    [self.navigationController.view.window setBackgroundColor:[UIColor blueColor]];
     self.title = @"Select an instrument";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     [self.navigationItem setRightBarButtonItem:backButton];
@@ -54,7 +58,10 @@
             [instruments addObject:[filename stringByDeletingPathExtension]];
         }
     }
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Instruments" ofType:@"plist"];
+    instrumentList = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSLog(@"%@",instrumentList);
+    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     fm = [NSFileManager defaultManager];
     direnum = [fm enumeratorAtPath:documentsDirectory];
@@ -64,7 +71,7 @@
             NSLog(@"%@",filename);
             [instruments addObject:[filename stringByDeletingPathExtension]];
         }
-    }
+    }*/
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -111,13 +118,17 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return [[instrumentList allKeys] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [instruments count];
+    return [[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:section]] count];
+}
+
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [[instrumentList allKeys] objectAtIndex:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -129,7 +140,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = [instruments objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension];
 
     
     // Configure the cell...
@@ -180,8 +191,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //[self.navigationController pushViewController:instrumentViewController transition:10 forceImmediate:NO];
     // Navigation logic may go here. Create and push another view controller.
-    [delegate InstrumentController:self didFinishWithSelection:[instruments objectAtIndex:indexPath.row]];
+    [delegate InstrumentController:self didFinishWithSelection:[[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension]];
     
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];

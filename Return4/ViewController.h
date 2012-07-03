@@ -47,7 +47,7 @@ typedef struct {
     bool saving;
     bool playing, stopped, paused, recording;
     NSMutableArray *scaleToSave;
-    bool loadingScale, changingPitch;
+    bool loadingScale, changingPitch, loadingInstrument;
     int currentScaleDegree;
     NSMutableArray *scaleRatios;
     NSMutableArray *sources, *fadingOut, *loopSources;
@@ -104,6 +104,7 @@ typedef struct {
 -(void)noteOn:(int)noteValue withVelocity:(int)velocity;
 -(void)finishFade:(ALSource *)source; 
 -(void)writeNotesToFile:(NSString *)file;
+-(void)getMoreScales;
 
 -(void)handleTempPress:(UILongPressGestureRecognizer *)sender;
 -(void)handleLabelPress:(UILongPressGestureRecognizer *)sender;

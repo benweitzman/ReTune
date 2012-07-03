@@ -14,6 +14,7 @@
 {
     id<LoadMidiControllerDelegate> delegate;
     NSMutableArray *midiFiles;
+    NSMutableDictionary *midiCats;
 }
 
 @property (nonatomic, strong) id<LoadMidiControllerDelegate> delegate;

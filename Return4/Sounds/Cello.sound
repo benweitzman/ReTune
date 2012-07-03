@@ -7,7 +7,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f A#2 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>46</integer>
+        <integer>58</integer>
         <key>Loop Start</key>
         <integer>172355</integer>
         <key>Loop End</key>
@@ -17,7 +17,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f B4 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>71</integer>
+        <integer>83</integer>
         <key>Loop Start</key>
         <integer>164431</integer>
         <key>Loop End</key>
@@ -27,7 +27,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f C#4 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>61</integer>
+        <integer>73</integer>
         <key>Loop Start</key>
         <integer>168785</integer>
         <key>Loop End</key>
@@ -37,7 +37,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f C2 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>36</integer>
+        <integer>48</integer>
         <key>Loop Start</key>
         <integer>173970</integer>
         <key>Loop End</key>
@@ -47,7 +47,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f F#4 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>66</integer>
+        <integer>78</integer>
         <key>Loop Start</key>
         <integer>109240</integer>
         <key>Loop End</key>
@@ -57,7 +57,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f F2 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>41</integer>
+        <integer>53</integer>
         <key>Loop Start</key>
         <integer>159417</integer>
         <key>Loop End</key>
@@ -67,7 +67,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f G#3 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>56</integer>
+        <integer>68</integer>
         <key>Loop Start</key>
         <integer>118477</integer>
         <key>Loop End</key>
@@ -77,7 +77,7 @@
         <key>Sound File</key>
         <string>Cello Solo Sus f D#3 LP.aiff</string>
         <key>Midi Note</key>
-        <integer>51</integer>
+        <integer>63</integer>
         <key>Loop Start</key>
         <integer>98337</integer>
         <key>Loop End</key>

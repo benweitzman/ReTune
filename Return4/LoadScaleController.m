@@ -12,6 +12,10 @@
 
 @synthesize delegate,button;
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"%@",searchBar.text);
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -35,16 +39,20 @@
 {
     [super viewDidLoad];
 
-    
+    displayMode = DisplayAll;
     NSString * bundleRoot = [[NSBundle mainBundle] bundlePath];
     NSFileManager * fm = [NSFileManager defaultManager];
     NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:bundleRoot];
     NSString *filename;
     scales = [[NSMutableArray alloc] init];
+    scaleCats = [[NSMutableDictionary alloc] init];
+    [scaleCats setValue:[[NSMutableArray alloc] init] forKey:@"Standard"];
+    [scaleCats setValue:[[NSMutableArray alloc] init] forKey:@"User"];
     while ((filename = [direnum nextObject])) {
         if ([filename hasSuffix:@".scale"]){
             NSLog(@"%@",filename);
             [scales addObject:[filename stringByDeletingPathExtension]];
+            [[scaleCats objectForKey:@"Standard"] addObject:[filename stringByDeletingPathExtension]];
         }
     }
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -56,6 +64,7 @@
         if ([filename hasSuffix:@".scale"]){
             NSLog(@"%@",filename);
             [scales addObject:[filename stringByDeletingPathExtension]];
+            [[scaleCats objectForKey:@"User"] addObject:[filename stringByDeletingPathExtension]];
         }
     }
 
@@ -105,14 +114,18 @@
 {
 //#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return [[scaleCats allKeys] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
-     return [scales count];
+     return [[scaleCats objectForKey:[[scaleCats allKeys] objectAtIndex:section]] count];
+}
+
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [[scaleCats allKeys] objectAtIndex:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -124,11 +137,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = [scales objectAtIndex:indexPath.row];
+    cell.textLabel.text = [[scaleCats objectForKey:[[scaleCats allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
 
     
-    // Configure the cell...
-    
+    // Configure the cell..
     return cell;
 }
 
@@ -176,7 +188,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    [delegate LoadScaleController:self didFinishWithSelection:[scales objectAtIndex:indexPath.row]];
+    [delegate LoadScaleController:self didFinishWithSelection:[[scaleCats objectForKey:[[scaleCats allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row]];
     // Navigation logic may go here. Create and push another view controller.
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
@@ -184,6 +196,70 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+- (IBAction)segmentChanged:(id)sender {
+    UISegmentedControl * segment = (UISegmentedControl *) sender;
+    if (segment.selectedSegmentIndex == 0) {
+        NSString * bundleRoot = [[NSBundle mainBundle] bundlePath];
+        NSFileManager * fm = [NSFileManager defaultManager];
+        NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:bundleRoot];
+        NSString *filename;
+        scaleCats = [[NSMutableDictionary alloc] init];
+        [scaleCats setValue:[[NSMutableArray alloc] init] forKey:@"Standard"];
+        [scaleCats setValue:[[NSMutableArray alloc] init] forKey:@"User"];
+        while ((filename = [direnum nextObject])) {
+            if ([filename hasSuffix:@".scale"]){
+                NSLog(@"%@",filename);
+                [scales addObject:[filename stringByDeletingPathExtension]];
+                [[scaleCats objectForKey:@"Standard"] addObject:[filename stringByDeletingPathExtension]];
+            }
+        }
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        fm = [NSFileManager defaultManager];
+        direnum = [fm enumeratorAtPath:documentsDirectory];
+        //midiFiles = [[NSMutableArray alloc] init];
+        while ((filename = [direnum nextObject])) {
+            if ([filename hasSuffix:@".scale"]){
+                NSLog(@"%@",filename);
+                [scales addObject:[filename stringByDeletingPathExtension]];
+                [[scaleCats objectForKey:@"User"] addObject:[filename stringByDeletingPathExtension]];
+            }
+        }
+    } else if (segment.selectedSegmentIndex == 1) {
+        NSString * bundleRoot = [[NSBundle mainBundle] bundlePath];
+        NSFileManager * fm = [NSFileManager defaultManager];
+        NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:bundleRoot];
+        NSString *filename;
+        scaleCats = [[NSMutableDictionary alloc] init];
+        [scaleCats setValue:[[NSMutableArray alloc] init] forKey:@"Standard"];
+        while ((filename = [direnum nextObject])) {
+            if ([filename hasSuffix:@".scale"]){
+                NSLog(@"%@",filename);
+                [scales addObject:[filename stringByDeletingPathExtension]];
+                [[scaleCats objectForKey:@"Standard"] addObject:[filename stringByDeletingPathExtension]];
+            }
+        }
+    } else {
+        NSString *filename;
+        scaleCats = [[NSMutableDictionary alloc] init];
+        [scaleCats setValue:[[NSMutableArray alloc] init] forKey:@"User"];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:documentsDirectory];
+        //midiFiles = [[NSMutableArray alloc] init];
+        while ((filename = [direnum nextObject])) {
+            if ([filename hasSuffix:@".scale"]){
+                NSLog(@"%@",filename);
+                [scales addObject:[filename stringByDeletingPathExtension]];
+                [[scaleCats objectForKey:@"User"] addObject:[filename stringByDeletingPathExtension]];
+            }
+        }
+    }
+    [self.tableView reloadData];
+    //[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:[NSIndexPath w] withRowAnimation:UITableViewRowAnimationTop];
 }
 
 @end

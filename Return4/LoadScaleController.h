@@ -10,10 +10,18 @@
 
 @protocol LoadScaleControllerDelegate;
 
-@interface LoadScaleController : UITableViewController
+typedef enum {
+    DisplayAll,
+    DisplayStandard,
+    DisplayUser
+} TableDisplayType;
+
+@interface LoadScaleController : UITableViewController <UISearchBarDelegate>
 {
     id<LoadScaleControllerDelegate> delegate;
     NSMutableArray *scales;
+    NSMutableDictionary *scaleCats;
+    TableDisplayType displayMode;
 }
 
 @property (nonatomic, strong) id<LoadScaleControllerDelegate> delegate;

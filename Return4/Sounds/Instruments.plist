@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Strings</key>
+	<array>
+		<string>6StgSteel.sound</string>
+		<string>Cello.sound</string>
+	</array>
+	<key>Keyboards</key>
+	<array>
+		<string>YamCF3.sound</string>
+	</array>
+	<key>Tones</key>
+	<array>
+		<string>Sine.sound</string>
+	</array>
+</dict>
+</plist>

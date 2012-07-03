@@ -16,9 +16,6 @@
 		DA0429C0159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B9159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff */; };
 		DA0429C1159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429BA159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff */; };
 		DA0429C4159C9419001CDFBE /* Cello.sound in Resources */ = {isa = PBXBuildFile; fileRef = DA0429C3159C9419001CDFBE /* Cello.sound */; };
-		DA15D904159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA15D901159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf */; };
-		DA15D905159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA15D902159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf */; };
-		DA15D906159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA15D903159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf */; };
 		DA15D909159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA15D908159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff */; };
 		DA18CB321548BC6A007B4DD7 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB311548BC6A007B4DD7 /* Default-Landscape~ipad.png */; };
 		DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */; };
@@ -66,27 +63,6 @@
 		DA3AC71D1545F05C00E1D705 /* NSMutableArray+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6E71545F05C00E1D705 /* NSMutableArray+WeakReferences.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA3AC71E1545F05C00E1D705 /* OALAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6E91545F05C00E1D705 /* OALAudioFile.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA3AC71F1545F05C00E1D705 /* OALTools.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC6EC1545F05C00E1D705 /* OALTools.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		DA3AC7201545F05C00E1D705 /* P200 Piano A#2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F01545F05C00E1D705 /* P200 Piano A#2.caf */; };
-		DA3AC7211545F05C00E1D705 /* P200 Piano A#3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F11545F05C00E1D705 /* P200 Piano A#3.caf */; };
-		DA3AC7221545F05C00E1D705 /* P200 Piano A#4.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F21545F05C00E1D705 /* P200 Piano A#4.caf */; };
-		DA3AC7231545F05C00E1D705 /* P200 Piano A#5.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F31545F05C00E1D705 /* P200 Piano A#5.caf */; };
-		DA3AC7241545F05C00E1D705 /* P200 Piano A#7.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F41545F05C00E1D705 /* P200 Piano A#7.caf */; };
-		DA3AC7251545F05C00E1D705 /* P200 Piano C10.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F51545F05C00E1D705 /* P200 Piano C10.caf */; };
-		DA3AC7261545F05C00E1D705 /* P200 Piano C7.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F61545F05C00E1D705 /* P200 Piano C7.caf */; };
-		DA3AC7271545F05C00E1D705 /* P200 Piano D#8.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F71545F05C00E1D705 /* P200 Piano D#8.caf */; };
-		DA3AC7281545F05C00E1D705 /* P200 Piano D2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F81545F05C00E1D705 /* P200 Piano D2.caf */; };
-		DA3AC7291545F05C00E1D705 /* P200 Piano D3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6F91545F05C00E1D705 /* P200 Piano D3.caf */; };
-		DA3AC72A1545F05C00E1D705 /* P200 Piano D4.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FA1545F05C00E1D705 /* P200 Piano D4.caf */; };
-		DA3AC72B1545F05C00E1D705 /* P200 Piano D5.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FB1545F05C00E1D705 /* P200 Piano D5.caf */; };
-		DA3AC72C1545F05C00E1D705 /* P200 Piano D6.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FC1545F05C00E1D705 /* P200 Piano D6.caf */; };
-		DA3AC72D1545F05C00E1D705 /* P200 Piano F#2.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FD1545F05C00E1D705 /* P200 Piano F#2.caf */; };
-		DA3AC72E1545F05D00E1D705 /* P200 Piano F#3.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FE1545F05C00E1D705 /* P200 Piano F#3.caf */; };
-		DA3AC72F1545F05D00E1D705 /* P200 Piano F#4.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6FF1545F05C00E1D705 /* P200 Piano F#4.caf */; };
-		DA3AC7301545F05D00E1D705 /* P200 Piano F#5.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7001545F05C00E1D705 /* P200 Piano F#5.caf */; };
-		DA3AC7311545F05D00E1D705 /* P200 Piano F#6.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7011545F05C00E1D705 /* P200 Piano F#6.caf */; };
-		DA3AC7321545F05D00E1D705 /* P200 Piano F#7.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7021545F05C00E1D705 /* P200 Piano F#7.caf */; };
-		DA3AC7331545F05D00E1D705 /* P200 Piano G#9.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7031545F05C00E1D705 /* P200 Piano G#9.caf */; };
-		DA3AC7341545F05D00E1D705 /* Piano.plist in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC7041545F05C00E1D705 /* Piano.plist */; };
 		DA3AC7361545F08200E1D705 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7351545F08200E1D705 /* AVFoundation.framework */; };
 		DA3AC7381545F08600E1D705 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7371545F08600E1D705 /* OpenAL.framework */; };
 		DA3AC73A1545F09200E1D705 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC7391545F09200E1D705 /* AudioToolbox.framework */; };
@@ -111,6 +87,8 @@
 		DA60F30E159CD910004DDBD3 /* 6StgSteel.sound in Resources */ = {isa = PBXBuildFile; fileRef = DA60F30D159CD910004DDBD3 /* 6StgSteel.sound */; };
 		DA60F312159CDEE0004DDBD3 /* InstrumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA60F310159CDEE0004DDBD3 /* InstrumentController.m */; };
 		DA60F313159CDEE0004DDBD3 /* InstrumentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA60F311159CDEE0004DDBD3 /* InstrumentController.xib */; };
+		DA7FBB9215A2743B00D5D3A6 /* sine.wav in Resources */ = {isa = PBXBuildFile; fileRef = DA7FBB9115A2743B00D5D3A6 /* sine.wav */; };
+		DA7FBB9615A2745800D5D3A6 /* Sine.sound in Resources */ = {isa = PBXBuildFile; fileRef = DA7FBB9515A2745800D5D3A6 /* Sine.sound */; };
 		DA80B72C154A2EA500D33D7E /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B727154A2EA500D33D7E /* black.png */; };
 		DA80B72D154A2EA500D33D7E /* blackPianoDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B728154A2EA500D33D7E /* blackPianoDown.png */; };
 		DA80B72E154A2EA500D33D7E /* blackPianoUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B729154A2EA500D33D7E /* blackPianoUp.png */; };
@@ -124,8 +102,20 @@
 		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
 		DABBB0051559D2E0004B9250 /* SetNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBB0031559D2E0004B9250 /* SetNoteController.m */; };
 		DABBB0061559D2E0004B9250 /* SetNoteController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DABBB0041559D2E0004B9250 /* SetNoteController.xib */; };
+		DAD155DA15A0E877000D32E3 /* Quarter-Comma Meantone.scale in Resources */ = {isa = PBXBuildFile; fileRef = DAD155D915A0E877000D32E3 /* Quarter-Comma Meantone.scale */; };
+		DAD155DD15A0EF66000D32E3 /* Instruments.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAD155DC15A0EF66000D32E3 /* Instruments.plist */; };
 		DADBF5A515479F61001FD191 /* LoadMidiController.m in Sources */ = {isa = PBXBuildFile; fileRef = DADBF5A315479F61001FD191 /* LoadMidiController.m */; };
 		DADBF5A615479F61001FD191 /* LoadMidiController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADBF5A415479F61001FD191 /* LoadMidiController.xib */; };
+		DAFCA21F159F5E2000EE669E /* Yam CF3 A0 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA216159F5E2000EE669E /* Yam CF3 A0 m M LP.aiff */; };
+		DAFCA220159F5E2000EE669E /* Yam CF3 B4 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA217159F5E2000EE669E /* Yam CF3 B4 m M LP.aiff */; };
+		DAFCA221159F5E2000EE669E /* Yam CF3 C#4 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA218159F5E2000EE669E /* Yam CF3 C#4 m M LP.aiff */; };
+		DAFCA222159F5E2000EE669E /* Yam CF3 C2 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA219159F5E2000EE669E /* Yam CF3 C2 m M LP.aiff */; };
+		DAFCA223159F5E2000EE669E /* Yam CF3 D#3 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA21A159F5E2000EE669E /* Yam CF3 D#3 m M LP.aiff */; };
+		DAFCA224159F5E2000EE669E /* Yam CF3 D1 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA21B159F5E2000EE669E /* Yam CF3 D1 m M LP.aiff */; };
+		DAFCA225159F5E2000EE669E /* Yam CF3 F#4 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA21C159F5E2000EE669E /* Yam CF3 F#4 m M LP.aiff */; };
+		DAFCA226159F5E2000EE669E /* Yam CF3 F2 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA21D159F5E2000EE669E /* Yam CF3 F2 m M LP.aiff */; };
+		DAFCA227159F5E2000EE669E /* Yam CF3 G#3 m M LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA21E159F5E2000EE669E /* Yam CF3 G#3 m M LP.aiff */; };
+		DAFCA229159F5E8800EE669E /* YamCF3.sound in Resources */ = {isa = PBXBuildFile; fileRef = DAFCA228159F5E8800EE669E /* YamCF3.sound */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -148,9 +138,6 @@
 		DA0429B9159C93F7001CDFBE /* Cello Solo Sus f F2 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f F2 LP.aiff"; sourceTree = "<group>"; };
 		DA0429BA159C93F7001CDFBE /* Cello Solo Sus f G#3 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f G#3 LP.aiff"; sourceTree = "<group>"; };
 		DA0429C3159C9419001CDFBE /* Cello.sound */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cello.sound; sourceTree = "<group>"; };
-		DA15D901159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cello Solo Sus f D#3 LP-1.caf"; sourceTree = "<group>"; };
-		DA15D902159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cello Solo Sus f D#3 LP-2.caf"; sourceTree = "<group>"; };
-		DA15D903159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Cello Solo Sus f D#3 LP-3.caf"; sourceTree = "<group>"; };
 		DA15D908159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f D#3 LP.aiff"; sourceTree = "<group>"; };
 		DA18CB311548BC6A007B4DD7 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		DA18CB371548CBCA007B4DD7 /* LoadScaleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadScaleController.h; sourceTree = "<group>"; };
@@ -239,27 +226,6 @@
 		DA3AC6EC1545F05C00E1D705 /* OALTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OALTools.m; sourceTree = "<group>"; };
 		DA3AC6ED1545F05C00E1D705 /* ObjectALMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectALMacros.h; sourceTree = "<group>"; };
 		DA3AC6EE1545F05C00E1D705 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
-		DA3AC6F01545F05C00E1D705 /* P200 Piano A#2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#2.caf"; sourceTree = "<group>"; };
-		DA3AC6F11545F05C00E1D705 /* P200 Piano A#3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#3.caf"; sourceTree = "<group>"; };
-		DA3AC6F21545F05C00E1D705 /* P200 Piano A#4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#4.caf"; sourceTree = "<group>"; };
-		DA3AC6F31545F05C00E1D705 /* P200 Piano A#5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#5.caf"; sourceTree = "<group>"; };
-		DA3AC6F41545F05C00E1D705 /* P200 Piano A#7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano A#7.caf"; sourceTree = "<group>"; };
-		DA3AC6F51545F05C00E1D705 /* P200 Piano C10.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano C10.caf"; sourceTree = "<group>"; };
-		DA3AC6F61545F05C00E1D705 /* P200 Piano C7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano C7.caf"; sourceTree = "<group>"; };
-		DA3AC6F71545F05C00E1D705 /* P200 Piano D#8.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D#8.caf"; sourceTree = "<group>"; };
-		DA3AC6F81545F05C00E1D705 /* P200 Piano D2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D2.caf"; sourceTree = "<group>"; };
-		DA3AC6F91545F05C00E1D705 /* P200 Piano D3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D3.caf"; sourceTree = "<group>"; };
-		DA3AC6FA1545F05C00E1D705 /* P200 Piano D4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D4.caf"; sourceTree = "<group>"; };
-		DA3AC6FB1545F05C00E1D705 /* P200 Piano D5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D5.caf"; sourceTree = "<group>"; };
-		DA3AC6FC1545F05C00E1D705 /* P200 Piano D6.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano D6.caf"; sourceTree = "<group>"; };
-		DA3AC6FD1545F05C00E1D705 /* P200 Piano F#2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#2.caf"; sourceTree = "<group>"; };
-		DA3AC6FE1545F05C00E1D705 /* P200 Piano F#3.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#3.caf"; sourceTree = "<group>"; };
-		DA3AC6FF1545F05C00E1D705 /* P200 Piano F#4.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#4.caf"; sourceTree = "<group>"; };
-		DA3AC7001545F05C00E1D705 /* P200 Piano F#5.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#5.caf"; sourceTree = "<group>"; };
-		DA3AC7011545F05C00E1D705 /* P200 Piano F#6.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#6.caf"; sourceTree = "<group>"; };
-		DA3AC7021545F05C00E1D705 /* P200 Piano F#7.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano F#7.caf"; sourceTree = "<group>"; };
-		DA3AC7031545F05C00E1D705 /* P200 Piano G#9.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "P200 Piano G#9.caf"; sourceTree = "<group>"; };
-		DA3AC7041545F05C00E1D705 /* Piano.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Piano.plist; sourceTree = "<group>"; };
 		DA3AC7351545F08200E1D705 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		DA3AC7371545F08600E1D705 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		DA3AC7391545F09200E1D705 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -293,6 +259,8 @@
 		DA60F30F159CDEE0004DDBD3 /* InstrumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstrumentController.h; sourceTree = "<group>"; };
 		DA60F310159CDEE0004DDBD3 /* InstrumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstrumentController.m; sourceTree = "<group>"; };
 		DA60F311159CDEE0004DDBD3 /* InstrumentController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstrumentController.xib; sourceTree = "<group>"; };
+		DA7FBB9115A2743B00D5D3A6 /* sine.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sine.wav; sourceTree = "<group>"; };
+		DA7FBB9515A2745800D5D3A6 /* Sine.sound */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Sine.sound; sourceTree = "<group>"; };
 		DA80B727154A2EA500D33D7E /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Images/black.png; sourceTree = SOURCE_ROOT; };
 		DA80B728154A2EA500D33D7E /* blackPianoDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackPianoDown.png; path = Images/blackPianoDown.png; sourceTree = SOURCE_ROOT; };
 		DA80B729154A2EA500D33D7E /* blackPianoUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blackPianoUp.png; path = Images/blackPianoUp.png; sourceTree = SOURCE_ROOT; };
@@ -307,9 +275,21 @@
 		DABBB0021559D2E0004B9250 /* SetNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetNoteController.h; sourceTree = "<group>"; };
 		DABBB0031559D2E0004B9250 /* SetNoteController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetNoteController.m; sourceTree = "<group>"; };
 		DABBB0041559D2E0004B9250 /* SetNoteController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetNoteController.xib; sourceTree = "<group>"; };
+		DAD155D915A0E877000D32E3 /* Quarter-Comma Meantone.scale */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Quarter-Comma Meantone.scale"; sourceTree = "<group>"; };
+		DAD155DC15A0EF66000D32E3 /* Instruments.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Instruments.plist; sourceTree = "<group>"; };
 		DADBF5A215479F61001FD191 /* LoadMidiController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadMidiController.h; sourceTree = "<group>"; };
 		DADBF5A315479F61001FD191 /* LoadMidiController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadMidiController.m; sourceTree = "<group>"; };
 		DADBF5A415479F61001FD191 /* LoadMidiController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadMidiController.xib; sourceTree = "<group>"; };
+		DAFCA216159F5E2000EE669E /* Yam CF3 A0 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 A0 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA217159F5E2000EE669E /* Yam CF3 B4 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 B4 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA218159F5E2000EE669E /* Yam CF3 C#4 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 C#4 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA219159F5E2000EE669E /* Yam CF3 C2 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 C2 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA21A159F5E2000EE669E /* Yam CF3 D#3 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 D#3 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA21B159F5E2000EE669E /* Yam CF3 D1 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 D1 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA21C159F5E2000EE669E /* Yam CF3 F#4 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 F#4 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA21D159F5E2000EE669E /* Yam CF3 F2 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 F2 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA21E159F5E2000EE669E /* Yam CF3 G#3 m M LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Yam CF3 G#3 m M LP.aiff"; sourceTree = "<group>"; };
+		DAFCA228159F5E8800EE669E /* YamCF3.sound */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = YamCF3.sound; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -347,6 +327,7 @@
 				DA3055A3154904CD0099DE59 /* Equal Temperament.scale */,
 				DA3055A1154904730099DE59 /* Pythagorean.scale */,
 				DA3055A51549BB620099DE59 /* Just Intonation.scale */,
+				DAD155D915A0E877000D32E3 /* Quarter-Comma Meantone.scale */,
 			);
 			name = Scales;
 			sourceTree = "<group>";
@@ -569,35 +550,14 @@
 		DA3AC6EF1545F05C00E1D705 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				DAD155DC15A0EF66000D32E3 /* Instruments.plist */,
+				DA7FBB9415A2744500D5D3A6 /* Sine */,
+				DAFCA214159F5D8800EE669E /* Piano */,
 				DA60F2FA159CD795004DDBD3 /* 6 String Steel */,
 				DA60F2F9159CD786004DDBD3 /* Cello */,
-				DA15D901159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf */,
-				DA15D902159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf */,
-				DA15D903159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf */,
 				DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */,
 				DABA59031547B8860044B869 /* dixie.mid */,
 				DA3AC74B154616D500E1D705 /* Bass_sample2.mid */,
-				DA3AC6F01545F05C00E1D705 /* P200 Piano A#2.caf */,
-				DA3AC6F11545F05C00E1D705 /* P200 Piano A#3.caf */,
-				DA3AC6F21545F05C00E1D705 /* P200 Piano A#4.caf */,
-				DA3AC6F31545F05C00E1D705 /* P200 Piano A#5.caf */,
-				DA3AC6F41545F05C00E1D705 /* P200 Piano A#7.caf */,
-				DA3AC6F51545F05C00E1D705 /* P200 Piano C10.caf */,
-				DA3AC6F61545F05C00E1D705 /* P200 Piano C7.caf */,
-				DA3AC6F71545F05C00E1D705 /* P200 Piano D#8.caf */,
-				DA3AC6F81545F05C00E1D705 /* P200 Piano D2.caf */,
-				DA3AC6F91545F05C00E1D705 /* P200 Piano D3.caf */,
-				DA3AC6FA1545F05C00E1D705 /* P200 Piano D4.caf */,
-				DA3AC6FB1545F05C00E1D705 /* P200 Piano D5.caf */,
-				DA3AC6FC1545F05C00E1D705 /* P200 Piano D6.caf */,
-				DA3AC6FD1545F05C00E1D705 /* P200 Piano F#2.caf */,
-				DA3AC6FE1545F05C00E1D705 /* P200 Piano F#3.caf */,
-				DA3AC6FF1545F05C00E1D705 /* P200 Piano F#4.caf */,
-				DA3AC7001545F05C00E1D705 /* P200 Piano F#5.caf */,
-				DA3AC7011545F05C00E1D705 /* P200 Piano F#6.caf */,
-				DA3AC7021545F05C00E1D705 /* P200 Piano F#7.caf */,
-				DA3AC7031545F05C00E1D705 /* P200 Piano G#9.caf */,
-				DA3AC7041545F05C00E1D705 /* Piano.plist */,
 			);
 			name = Sounds;
 			path = Return4/Sounds;
@@ -651,6 +611,15 @@
 			name = "6 String Steel";
 			sourceTree = "<group>";
 		};
+		DA7FBB9415A2744500D5D3A6 /* Sine */ = {
+			isa = PBXGroup;
+			children = (
+				DA7FBB9115A2743B00D5D3A6 /* sine.wav */,
+				DA7FBB9515A2745800D5D3A6 /* Sine.sound */,
+			);
+			name = Sine;
+			sourceTree = "<group>";
+		};
 		DAAB03F01548B8F600E70868 /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -665,6 +634,23 @@
 			);
 			name = Images;
 			path = Return4;
+			sourceTree = "<group>";
+		};
+		DAFCA214159F5D8800EE669E /* Piano */ = {
+			isa = PBXGroup;
+			children = (
+				DAFCA228159F5E8800EE669E /* YamCF3.sound */,
+				DAFCA216159F5E2000EE669E /* Yam CF3 A0 m M LP.aiff */,
+				DAFCA217159F5E2000EE669E /* Yam CF3 B4 m M LP.aiff */,
+				DAFCA218159F5E2000EE669E /* Yam CF3 C#4 m M LP.aiff */,
+				DAFCA219159F5E2000EE669E /* Yam CF3 C2 m M LP.aiff */,
+				DAFCA21A159F5E2000EE669E /* Yam CF3 D#3 m M LP.aiff */,
+				DAFCA21B159F5E2000EE669E /* Yam CF3 D1 m M LP.aiff */,
+				DAFCA21C159F5E2000EE669E /* Yam CF3 F#4 m M LP.aiff */,
+				DAFCA21D159F5E2000EE669E /* Yam CF3 F2 m M LP.aiff */,
+				DAFCA21E159F5E2000EE669E /* Yam CF3 G#3 m M LP.aiff */,
+			);
+			name = Piano;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -740,27 +726,6 @@
 				DA3AC6821545EFDA00E1D705 /* InfoPlist.strings in Resources */,
 				DA3AC68E1545EFDA00E1D705 /* ViewController.xib in Resources */,
 				DA3AC70D1545F05C00E1D705 /* LICENSE.ObjectAL.txt in Resources */,
-				DA3AC7201545F05C00E1D705 /* P200 Piano A#2.caf in Resources */,
-				DA3AC7211545F05C00E1D705 /* P200 Piano A#3.caf in Resources */,
-				DA3AC7221545F05C00E1D705 /* P200 Piano A#4.caf in Resources */,
-				DA3AC7231545F05C00E1D705 /* P200 Piano A#5.caf in Resources */,
-				DA3AC7241545F05C00E1D705 /* P200 Piano A#7.caf in Resources */,
-				DA3AC7251545F05C00E1D705 /* P200 Piano C10.caf in Resources */,
-				DA3AC7261545F05C00E1D705 /* P200 Piano C7.caf in Resources */,
-				DA3AC7271545F05C00E1D705 /* P200 Piano D#8.caf in Resources */,
-				DA3AC7281545F05C00E1D705 /* P200 Piano D2.caf in Resources */,
-				DA3AC7291545F05C00E1D705 /* P200 Piano D3.caf in Resources */,
-				DA3AC72A1545F05C00E1D705 /* P200 Piano D4.caf in Resources */,
-				DA3AC72B1545F05C00E1D705 /* P200 Piano D5.caf in Resources */,
-				DA3AC72C1545F05C00E1D705 /* P200 Piano D6.caf in Resources */,
-				DA3AC72D1545F05C00E1D705 /* P200 Piano F#2.caf in Resources */,
-				DA3AC72E1545F05D00E1D705 /* P200 Piano F#3.caf in Resources */,
-				DA3AC72F1545F05D00E1D705 /* P200 Piano F#4.caf in Resources */,
-				DA3AC7301545F05D00E1D705 /* P200 Piano F#5.caf in Resources */,
-				DA3AC7311545F05D00E1D705 /* P200 Piano F#6.caf in Resources */,
-				DA3AC7321545F05D00E1D705 /* P200 Piano F#7.caf in Resources */,
-				DA3AC7331545F05D00E1D705 /* P200 Piano G#9.caf in Resources */,
-				DA3AC7341545F05D00E1D705 /* Piano.plist in Resources */,
 				DA3AC74C154616D500E1D705 /* Bass_sample2.mid in Resources */,
 				DADBF5A615479F61001FD191 /* LoadMidiController.xib in Resources */,
 				DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */,
@@ -781,9 +746,6 @@
 				DAA6A7B2154A3E4100BE8199 /* bg.png in Resources */,
 				DABBB0061559D2E0004B9250 /* SetNoteController.xib in Resources */,
 				DA510F46158FAE2600B36A4C /* InfoController.xib in Resources */,
-				DA15D904159BFD82000E3059 /* Cello Solo Sus f D#3 LP-1.caf in Resources */,
-				DA15D905159BFD82000E3059 /* Cello Solo Sus f D#3 LP-2.caf in Resources */,
-				DA15D906159BFD82000E3059 /* Cello Solo Sus f D#3 LP-3.caf in Resources */,
 				DA15D909159C0A8E000E3059 /* Cello Solo Sus f D#3 LP.aiff in Resources */,
 				DA0429BB159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff in Resources */,
 				DA0429BC159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff in Resources */,
@@ -804,6 +766,20 @@
 				DA60F30C159CD8EC004DDBD3 /* 6 Stg Steel Gtr G4 LP.aiff in Resources */,
 				DA60F30E159CD910004DDBD3 /* 6StgSteel.sound in Resources */,
 				DA60F313159CDEE0004DDBD3 /* InstrumentController.xib in Resources */,
+				DAFCA21F159F5E2000EE669E /* Yam CF3 A0 m M LP.aiff in Resources */,
+				DAFCA220159F5E2000EE669E /* Yam CF3 B4 m M LP.aiff in Resources */,
+				DAFCA221159F5E2000EE669E /* Yam CF3 C#4 m M LP.aiff in Resources */,
+				DAFCA222159F5E2000EE669E /* Yam CF3 C2 m M LP.aiff in Resources */,
+				DAFCA223159F5E2000EE669E /* Yam CF3 D#3 m M LP.aiff in Resources */,
+				DAFCA224159F5E2000EE669E /* Yam CF3 D1 m M LP.aiff in Resources */,
+				DAFCA225159F5E2000EE669E /* Yam CF3 F#4 m M LP.aiff in Resources */,
+				DAFCA226159F5E2000EE669E /* Yam CF3 F2 m M LP.aiff in Resources */,
+				DAFCA227159F5E2000EE669E /* Yam CF3 G#3 m M LP.aiff in Resources */,
+				DAFCA229159F5E8800EE669E /* YamCF3.sound in Resources */,
+				DAD155DA15A0E877000D32E3 /* Quarter-Comma Meantone.scale in Resources */,
+				DAD155DD15A0EF66000D32E3 /* Instruments.plist in Resources */,
+				DA7FBB9215A2743B00D5D3A6 /* sine.wav in Resources */,
+				DA7FBB9615A2745800D5D3A6 /* Sine.sound in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
