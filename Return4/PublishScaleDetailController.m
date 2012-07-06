@@ -7,6 +7,7 @@
 //
 
 #import "PublishScaleDetailController.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @interface UITextViewTableViewCell : UITableViewCell
 
@@ -231,6 +232,33 @@
     if (indexPath.section == 1 && indexPath.row == 0) {
         NSLog(@"%@",scaleToSend);
         [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        NSMutableDictionary *toSend = [NSMutableDictionary new];
+        [toSend setValue:scaleNameField.text forKey:@"scaleName"];
+        [toSend setValue:authorNameField.text forKey:@"authorName"];
+        [toSend setValue:descriptionField.text forKey:@"description"];
+        [toSend setValue:scaleToSend forKey:@"scale"];
+        //NSLog(@"%@",toSend);
+        NSError *error; 
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:toSend 
+                                                           options:0 // Pass 0 if you don't care about the readability of the generated string
+                                                             error:&error];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",jsonString);
+        
+        // Set up a concurrent queue
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            // pull auth key from server (current time) and hash it with a salt to ensure that that page is only visited by this app
+            NSError *error;
+            NSURL *url = [NSURL URLWithString:@"http://localhost:8000/getAuth"];
+            NSString* data = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
+            NSString* auth = [self sha1:[NSString stringWithFormat:@"%@%@",@"a4h398d",data]];
+            NSLog(@"%@",[NSString stringWithFormat:@"http://localhost:8000/push?auth=%@&data=%@",auth,jsonString]);
+            NSURL *pushUrl = [NSURL URLWithString:[[NSString stringWithFormat:@"http://localhost:8000/push?auth=%@&data=%@",auth,jsonString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+            NSLog(@"%@",pushUrl);
+            NSString *pushResponse = [NSString stringWithContentsOfURL:pushUrl encoding:NSUTF8StringEncoding error:&error];
+            NSLog(@"%@",pushResponse);
+        });
     }
     // Navigation logic may go here. Create and push another view controller.
     /*
@@ -241,4 +269,22 @@
      */
 }
 
+
+- (NSString *) sha1:(NSString *)input {
+    const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:cstr length:input.length];
+    
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    
+    CC_SHA1(data.bytes, data.length, digest);
+    
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    
+    return output;
+}
+
 @end
+

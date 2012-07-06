@@ -53,7 +53,7 @@
     [self.view addSubview:spinner];
     [spinner startAnimating];
     //[scalesTable addSubview:aiview];
-    NSURL *url = [NSURL URLWithString:@"http://retune:8888/scale.json"];
+    NSURL *url = [NSURL URLWithString:@"http://localhost:8000/pull"];
     
     // Set up a concurrent queue
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
@@ -95,8 +95,8 @@
     
     // NEW in iOS 5: NSJSONSerialization
     // No more third-party libraries necessary for JSON parsing
-    NSArray *json = [responseData objectFromJSONData];
-    NSLog(@"%@",json);
+    scales = [responseData objectFromJSONData];
+    NSLog(@"%@",scales);
     
     // Iterate through tweets
     /*NSEnumerator *it = [json objectEnumerator];
@@ -105,11 +105,54 @@
         [tweets addObject:[tweet objectForKey:@"text"]];
     }
     
-    // IMPORTANT! Reload the table data
-    [self.tweetsTable reloadData];*/
+    // IMPORTANT! Reload the table data*/
     [[self.view subviews]
      makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.view addSubview:scalesTable];
+    self.scalesTable.dataSource = self;
+    
+    self.scalesTable.delegate = self;
+    [self.scalesTable reloadData];
+}
+
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Required for UITableViewDataSource protocol: informs table view of the number of sections to be loaded onto table
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Required for UITableViewDataSource protocol: informs table view of how many rows to be loaded in each section
+    return [scales count];
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Required for UITableViewDataSource protocol: Responsible for returning instances of the UITableViewCell class
+    
+    static NSString *cellIdentifier = @"Scale";
+    UITableViewCell *cell = nil;
+    if ([tableView isEqual:self.scalesTable]) {
+        
+        // Set up cell
+        cell = [tableView cellForRowAtIndexPath:indexPath];
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                          reuseIdentifier:cellIdentifier];
+        }
+        
+        // Set the text of the cell
+        cell.textLabel.text = [[scales objectAtIndex:indexPath.row] objectForKey:@"scaleName"];
+        cell.detailTextLabel.text = [[scales objectAtIndex:indexPath.row] objectForKey:@"description"];
+    }
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%@",[scales objectAtIndex:indexPath.row]);
 }
 
 @end

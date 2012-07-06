@@ -21,4 +21,6 @@ UIPlaceHolderTextView* descriptionField;
 
 @property (strong) NSArray *scaleToSend;
 @property (strong) NSString* scaleName;  
+
+- (NSString *) sha1:(NSString *)input;
 @end
