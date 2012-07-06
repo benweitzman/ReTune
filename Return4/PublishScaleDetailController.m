@@ -1,21 +1,53 @@
 //
-//  InstrumentController.m
+//  PublishScaleDetailController.m
 //  Retune4.3
 //
-//  Created by Ben Weitzman on 6/28/12.
+//  Created by Ben Weitzman on 7/5/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "InstrumentController.h"
-#import "LoadScaleController.h"
+#import "PublishScaleDetailController.h"
 
-@implementation InstrumentController
+@interface UITextViewTableViewCell : UITableViewCell
 
-@synthesize delegate;
+@end
+    
+@implementation UITextViewTableViewCell
 
-- (void) cancel{
-    [self dismissModalViewControllerAnimated:YES];
+- (void) layoutSubviews 
+{
+    [super layoutSubviews]; 
+    
+    // Set top of textLabel to top of cell
+    CGRect newFrame = self.textLabel.frame;
+    newFrame.origin.y = CGRectGetMinY (self.contentView.bounds);
+    newFrame.size.height = 45;
+    [self.textLabel setFrame:newFrame];
+    
+    // Set top of detailTextLabel to bottom of textLabel
+    newFrame = self.detailTextLabel.frame;
+    newFrame.origin.y = CGRectGetMaxY (self.textLabel.frame);
+    [self.detailTextLabel setFrame:newFrame];
 }
+
+@end
+
+@implementation PublishScaleDetailController
+
+@synthesize scaleToSend, scaleName;
+
+-(UITextField*) makeTextField: (NSString*)text    
+                  placeholder: (NSString*)placeholder  {  
+    UITextField *tf = [[UITextField alloc] init];  
+    tf.placeholder = placeholder ;  
+    tf.text = text ;           
+    tf.autocorrectionType = UITextAutocorrectionTypeNo ;  
+    tf.autocapitalizationType = UITextAutocapitalizationTypeNone;  
+    tf.adjustsFontSizeToFitWidth = YES;  
+    tf.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];      
+    tf.frame = CGRectMake(180, 12, 320, 30); 
+    return tf ;  
+}  
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -39,39 +71,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationController.view setBackgroundColor:[UIColor redColor]];
-    //[self.view setBackgroundColor:[UIColor redColor]];
-    [self.view.window setBackgroundColor:[UIColor redColor]];
-    [self.navigationController.view.window setBackgroundColor:[UIColor blueColor]];
-    self.title = @"Select an instrument";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
-    [self.navigationItem setRightBarButtonItem:backButton];
-    
-    NSString * bundleRoot = [[NSBundle mainBundle] bundlePath];
-    NSFileManager * fm = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:bundleRoot];
-    NSString *filename;
-    instruments = [[NSMutableArray alloc] init];
-    while ((filename = [direnum nextObject])) {
-        if ([filename hasSuffix:@".sound"]){
-            NSLog(@"%@",filename);
-            [instruments addObject:[filename stringByDeletingPathExtension]];
-        }
-    }
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Instruments" ofType:@"plist"];
-    instrumentList = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NSLog(@"%@",instrumentList);
-    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    fm = [NSFileManager defaultManager];
-    direnum = [fm enumeratorAtPath:documentsDirectory];
-    //midiFiles = [[NSMutableArray alloc] init];
-    while ((filename = [direnum nextObject])) {
-        if ([filename hasSuffix:@".sound"]){
-            NSLog(@"%@",filename);
-            [instruments addObject:[filename stringByDeletingPathExtension]];
-        }
-    }*/
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -118,37 +117,71 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [[instrumentList allKeys] count];
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:section]] count];
+    
+    if (section == 0) return 3;
+    return 1;
 }
 
-- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [[instrumentList allKeys] objectAtIndex:section];
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 2 ) {
+        return 12+60+12;
+    } else {
+        return 12+30+12;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     
+   
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    if (indexPath.section == 0) {
+        if (cell == nil) {
+            cell = [[UITextViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"Scale Name" ;  
+                scaleNameField = [self makeTextField:scaleName placeholder:@"Scale name here"];  
+                [cell addSubview:scaleNameField];  
+                break;
+            case 1:
+                cell.textLabel.text = @"Author Name" ;  
+                authorNameField = [self makeTextField:@"" placeholder:@"Your hame here"];  
+                [cell addSubview:authorNameField];  
+                break;
+            case 2:
+                cell.textLabel.text = @"Description";
+                descriptionField = [[UIPlaceHolderTextView alloc] init];  
+                descriptionField.text = @"" ;   
+                descriptionField.placeholder = @"Your description here";
+                descriptionField.autocorrectionType = UITextAutocorrectionTypeNo ;  
+                descriptionField.autocapitalizationType = UITextAutocapitalizationTypeNone;  
+                //descriptionField.adjustsFontSizeToFitWidth = YES;  
+                descriptionField.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];      
+                descriptionField.frame = CGRectMake(174, 5, 320, 60);
+                descriptionField.backgroundColor = [UIColor clearColor];
+                [cell addSubview:descriptionField];  
+                break;
+        }
+    } else {
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.textLabel.text = @"Submit";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        
     }
-    
-    cell.textLabel.text = [[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension];
-    //cell.detailTextLabel.text = @"No Loop";
-    NSString *path = [[NSBundle mainBundle] pathForResource:[[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension] ofType:@"sound"];
-    NSArray *instrumentInfo = [NSArray arrayWithContentsOfFile:path];
-    NSLog(@"%@",instrumentInfo);
-    if ([(NSDictionary*)[instrumentInfo objectAtIndex:0] objectForKey:@"Loop Start"] != nil) {
-        cell.detailTextLabel.text = @"Indefinite Sustain";
-    }
-    // Configure the cell...
     return cell;
 }
 
@@ -195,10 +228,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[self.navigationController pushViewController:instrumentViewController transition:10 forceImmediate:NO];
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        NSLog(@"%@",scaleToSend);
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    }
     // Navigation logic may go here. Create and push another view controller.
-    [delegate InstrumentController:self didFinishWithSelection:[[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension]];
-    
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
      // ...

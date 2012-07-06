@@ -1,21 +1,15 @@
 //
-//  InstrumentController.m
+//  PublishScaleController.m
 //  Retune4.3
 //
-//  Created by Ben Weitzman on 6/28/12.
+//  Created by Ben Weitzman on 7/5/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "InstrumentController.h"
-#import "LoadScaleController.h"
+#import "PublishScaleController.h"
+#import "PublishScaleDetailController.h"
 
-@implementation InstrumentController
-
-@synthesize delegate;
-
-- (void) cancel{
-    [self dismissModalViewControllerAnimated:YES];
-}
+@implementation PublishScaleController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -39,40 +33,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationController.view setBackgroundColor:[UIColor redColor]];
-    //[self.view setBackgroundColor:[UIColor redColor]];
-    [self.view.window setBackgroundColor:[UIColor redColor]];
-    [self.navigationController.view.window setBackgroundColor:[UIColor blueColor]];
-    self.title = @"Select an instrument";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
-    [self.navigationItem setRightBarButtonItem:backButton];
-    
-    NSString * bundleRoot = [[NSBundle mainBundle] bundlePath];
-    NSFileManager * fm = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:bundleRoot];
-    NSString *filename;
-    instruments = [[NSMutableArray alloc] init];
-    while ((filename = [direnum nextObject])) {
-        if ([filename hasSuffix:@".sound"]){
-            NSLog(@"%@",filename);
-            [instruments addObject:[filename stringByDeletingPathExtension]];
-        }
-    }
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Instruments" ofType:@"plist"];
-    instrumentList = [[NSDictionary alloc] initWithContentsOfFile:path];
-    NSLog(@"%@",instrumentList);
-    /*NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    fm = [NSFileManager defaultManager];
-    direnum = [fm enumeratorAtPath:documentsDirectory];
+    NSFileManager* fm = [NSFileManager defaultManager];
+    NSString *filename;
+    NSDirectoryEnumerator *direnum = [fm enumeratorAtPath:documentsDirectory];
+    scales = [[NSMutableArray alloc] init];
     //midiFiles = [[NSMutableArray alloc] init];
     while ((filename = [direnum nextObject])) {
-        if ([filename hasSuffix:@".sound"]){
+        if ([filename hasSuffix:@".scale"]){
             NSLog(@"%@",filename);
-            [instruments addObject:[filename stringByDeletingPathExtension]];
+            [scales addObject:[filename stringByDeletingPathExtension]];
         }
-    }*/
-
+    }
+    self.title = @"Select a scale to publish";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    [self.navigationItem setRightBarButtonItem:backButton];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -118,17 +94,13 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return [[instrumentList allKeys] count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:section]] count];
-}
-
-- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [[instrumentList allKeys] objectAtIndex:section];
+    return [scales count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -137,18 +109,13 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    cell.textLabel.text = [[scales objectAtIndex:indexPath.row] stringByDeletingPathExtension];
+
     
-    cell.textLabel.text = [[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension];
-    //cell.detailTextLabel.text = @"No Loop";
-    NSString *path = [[NSBundle mainBundle] pathForResource:[[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension] ofType:@"sound"];
-    NSArray *instrumentInfo = [NSArray arrayWithContentsOfFile:path];
-    NSLog(@"%@",instrumentInfo);
-    if ([(NSDictionary*)[instrumentInfo objectAtIndex:0] objectForKey:@"Loop Start"] != nil) {
-        cell.detailTextLabel.text = @"Indefinite Sustain";
-    }
     // Configure the cell...
+    
     return cell;
 }
 
@@ -195,16 +162,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //[self.navigationController pushViewController:instrumentViewController transition:10 forceImmediate:NO];
     // Navigation logic may go here. Create and push another view controller.
-    [delegate InstrumentController:self didFinishWithSelection:[[[instrumentList objectForKey:[[instrumentList allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row] stringByDeletingPathExtension]];
     
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     PublishScaleDetailController *detailViewController = [[PublishScaleDetailController alloc] initWithNibName:@"PublishScaleDetailController" bundle:nil];
      // ...
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    detailViewController.scaleToSend = [[NSArray alloc] initWithContentsOfFile:[NSBundle pathForResource:[scales objectAtIndex:indexPath.row] ofType:@"scale" inDirectory:documentsDirectory]];
+    detailViewController.scaleName = [scales objectAtIndex:indexPath.row];
+}
+
+- (void) cancel {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 @end

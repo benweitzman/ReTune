@@ -16,6 +16,9 @@
 #import "LoadMidiController.h"
 #import "LoadScaleController.h"
 #import "InstrumentController.h"
+#import "MoreScalesController.h"
+#import "PublishScaleController.h"
+#import "JSONKit.h"
 
 @interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate, SetNoteControllerDelegate, InstrumentControllerDelegate>
 - (void) addString:(NSString*)string;
@@ -52,7 +55,7 @@
 @synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
 @synthesize pressRecognizer, tapRecognizer;
 @synthesize sliders, frequencyLabels, centsLabels, ratioLabels, buttons;
-@synthesize instrumentViewController, instrumentButton;
+@synthesize instrumentViewController, instrumentButton, publishButton;
 @synthesize hotKey0,hotKey1,hotKey2,hotKey3,hotKey4,hotKey5,hotKey6,hotKey7,hotKey8,hotKey9,hotKey10,hotKey11, hotKeys, tempSlot0, tempSlot1,tempSlot2,tempSlots,tempScales,hotScales;
 @synthesize rootNote;
 
@@ -408,6 +411,8 @@
     }
     
     instrumentButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    publishButton.titleLabel.textAlignment = UITextAlignmentCenter;
+
     // Add gesture recognizer to the view
     for (int i=0;i<[hotKeys count];i++) {
         pressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handlePress:)]; // Absolutely need ":" after handleTaps
@@ -447,7 +452,6 @@
         [newSource stop];
         [newSource play:buffer2 loop:YES];
     });*/
-    
 }
 
 - (IBAction)playTemp:(id)sender {
@@ -559,6 +563,7 @@
         for (int i=0;i<12;i++) {
             [currentScale addObject:[pitches objectAtIndex:i]];
         }
+        NSLog(@"%@",[currentScale JSONString]);
         [tempScales replaceObjectAtIndex:view.tag withObject:currentScale];
         [button setTitle:@"Tap to play\nDouble tap to save" forState:UIControlStateNormal]; 
         [button setTitle:@"Tap to play\nDouble tap to save" 
@@ -1331,11 +1336,27 @@
     
 }
 
+-(IBAction)publishScale:(id)sender {
+    PublishScaleController *publishController = [[PublishScaleController alloc] initWithNibName:@"PublishScaleController" bundle:nil];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:publishController];
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentModalViewController:navController animated:YES];
+}
+
 
 -(void) getMoreScales {
     if ([spc isPopoverVisible]) {
         [spc dismissPopoverAnimated:YES];
+        MoreScalesController * moreViewController = [[MoreScalesController alloc] initWithNibName:@"MoreScalesController" bundle:nil];
+        moreViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        moreViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:moreViewController];
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self presentModalViewController:navController animated:YES];
     }
 }
+
+
 
 @end
