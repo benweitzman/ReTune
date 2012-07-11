@@ -72,12 +72,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    [self.navigationItem setRightBarButtonItem:backButton];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void) cancel {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload
@@ -250,14 +256,15 @@
         dispatch_async(queue, ^{
             // pull auth key from server (current time) and hash it with a salt to ensure that that page is only visited by this app
             NSError *error;
-            NSURL *url = [NSURL URLWithString:@"http://localhost:8000/getAuth"];
+            NSURL *url = [NSURL URLWithString:@"http://retuneapp.herokuapp.com/getAuth"];
             NSString* data = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:&error];
             NSString* auth = [self sha1:[NSString stringWithFormat:@"%@%@",@"a4h398d",data]];
-            NSLog(@"%@",[NSString stringWithFormat:@"http://localhost:8000/push?auth=%@&data=%@",auth,jsonString]);
-            NSURL *pushUrl = [NSURL URLWithString:[[NSString stringWithFormat:@"http://localhost:8000/push?auth=%@&data=%@",auth,jsonString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+            NSLog(@"%@",[NSString stringWithFormat:@"http://retuneapp.herokueapp.com/push?auth=%@&data=%@",auth,jsonString]);
+            NSURL *pushUrl = [NSURL URLWithString:[[NSString stringWithFormat:@"http://retuneapp.herokuapp.com/push?auth=%@&data=%@",auth,jsonString] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
             NSLog(@"%@",pushUrl);
             NSString *pushResponse = [NSString stringWithContentsOfURL:pushUrl encoding:NSUTF8StringEncoding error:&error];
             NSLog(@"%@",pushResponse);
+            [self performSelectorOnMainThread:@selector(handleResponse:) withObject:pushResponse waitUntilDone:YES];
         });
     }
     // Navigation logic may go here. Create and push another view controller.
@@ -267,8 +274,18 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    //[self dismissModalViewControllerAnimated:YES];
 }
 
+- (void) handleResponse:(NSString *)response {
+    if ([response isEqualToString:@"Good"]) {
+        [self dismissModalViewControllerAnimated:YES];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error uploading to server" message:@"There was a problem trying to upload your scale to the server. Please try again later" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        //alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+    }
+}
 
 - (NSString *) sha1:(NSString *)input {
     const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA01F2A015AA027800894D24 /* MoreScalesDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA01F29E15AA027700894D24 /* MoreScalesDetailController.m */; };
+		DA01F2A115AA027800894D24 /* MoreScalesDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA01F29F15AA027800894D24 /* MoreScalesDetailController.xib */; };
 		DA03121915465EBF00781172 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA03121815465EBF00781172 /* QuartzCore.framework */; };
 		DA0429BB159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B4159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff */; };
 		DA0429BC159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff in Resources */ = {isa = PBXBuildFile; fileRef = DA0429B5159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff */; };
@@ -141,6 +143,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA01F29D15AA027700894D24 /* MoreScalesDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreScalesDetailController.h; sourceTree = "<group>"; };
+		DA01F29E15AA027700894D24 /* MoreScalesDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreScalesDetailController.m; sourceTree = "<group>"; };
+		DA01F29F15AA027800894D24 /* MoreScalesDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreScalesDetailController.xib; sourceTree = "<group>"; };
 		DA03121815465EBF00781172 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DA0429B4159C93F7001CDFBE /* Cello Solo Sus f A#2 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f A#2 LP.aiff"; sourceTree = "<group>"; };
 		DA0429B5159C93F7001CDFBE /* Cello Solo Sus f B4 LP.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = "Cello Solo Sus f B4 LP.aiff"; sourceTree = "<group>"; };
@@ -414,6 +419,9 @@
 				DA1326C715A3602D005773E0 /* MoreScalesController.h */,
 				DA1326C815A3602E005773E0 /* MoreScalesController.m */,
 				DA1326C915A3602E005773E0 /* MoreScalesController.xib */,
+				DA01F29D15AA027700894D24 /* MoreScalesDetailController.h */,
+				DA01F29E15AA027700894D24 /* MoreScalesDetailController.m */,
+				DA01F29F15AA027800894D24 /* MoreScalesDetailController.xib */,
 				DADBF5A215479F61001FD191 /* LoadMidiController.h */,
 				DADBF5A315479F61001FD191 /* LoadMidiController.m */,
 				DADBF5A415479F61001FD191 /* LoadMidiController.xib */,
@@ -833,6 +841,7 @@
 				DA187C0315A63E5500BF6DEE /* hotkeybg.png in Resources */,
 				DA187C0815A6626300BF6DEE /* PublishScaleController.xib in Resources */,
 				DA187C1715A66DA700BF6DEE /* PublishScaleDetailController.xib in Resources */,
+				DA01F2A115AA027800894D24 /* MoreScalesDetailController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -911,6 +920,7 @@
 				DA187C0715A6626300BF6DEE /* PublishScaleController.m in Sources */,
 				DA187C1615A66DA700BF6DEE /* PublishScaleDetailController.m in Sources */,
 				DA187C1A15A6750900BF6DEE /* UIPlaceHolderTextView.m in Sources */,
+				DA01F2A015AA027800894D24 /* MoreScalesDetailController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

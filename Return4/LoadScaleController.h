@@ -21,6 +21,8 @@ typedef enum {
     id<LoadScaleControllerDelegate> delegate;
     NSMutableArray *scales;
     NSMutableDictionary *scaleCats;
+    NSMutableDictionary *scaleCopy;
+    bool searching;
     TableDisplayType displayMode;
 }
 
