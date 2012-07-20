@@ -12,6 +12,7 @@
 
 @synthesize header, delegate, degree, frequency, cents, numerator, denominator;
 @synthesize numeratorField, denominatorField, centsField, frequencyField, pop;
+@synthesize save, cancel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,11 +35,25 @@
 
 - (void)viewDidLoad
 {
-    CGSize size = CGSizeMake(350, 350); // size of view in popover
-    self.contentSizeForViewInPopover = size;
     
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    userSettings = [NSUserDefaults standardUserDefaults];
+    CGSize size = CGSizeMake(350, 350); // size of view in popover
+    self.contentSizeForViewInPopover = size;
+
+    self.view.backgroundColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"diamond_upholstery.png"]];
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                           resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageDisabled = [[UIImage imageNamed:@"orangeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    [save setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [save setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [save setBackgroundImage:buttonImageDisabled forState:UIControlStateDisabled];
+    [cancel setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [cancel setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    cancel.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];      
+    save.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -159,6 +174,15 @@
             [field setTextColor:[UIColor redColor]];
         }
     }
+    NSArray *fields = [NSArray arrayWithObjects:numeratorField,denominatorField,centsField,frequencyField, nil];
+    bool anyred = false;
+    for (int i=0;i<[fields count];i++) {
+        if (((UITextField *)[fields objectAtIndex:i]).textColor == [UIColor redColor]) {
+            anyred = true;
+        }
+    }
+    if (fabs([centsField.text floatValue])>[userSettings floatForKey:@"Slider Range"]) anyred = true;
+    [save setEnabled:!anyred];
 }
 
 -(IBAction)cancelled:(id)sender {
@@ -170,14 +194,12 @@
 -(IBAction)saved:(id)sender {
     if (frequencyField.textColor == [UIColor redColor]) {
     } else {
-        if (centsField.textColor != [UIColor redColor] && fabsf([centsField.text floatValue])<=50.0f) {
+        if (centsField.textColor != [UIColor redColor]) {
             //NSLog(@"%f",[centsField.text floatValue]);
             float freq = [frequencyField.text floatValue];
             [delegate SetNoteController:self didFinishWithFrequency:freq forDegree:[degree intValue]];
         }
-    }
-    
-        
+    }        
 }
 
 @end

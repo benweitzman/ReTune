@@ -164,10 +164,10 @@
 {
     // Navigation logic may go here. Create and push another view controller.
     
-     PublishScaleDetailController *detailViewController = [[PublishScaleDetailController alloc] initWithNibName:@"PublishScaleDetailController" bundle:nil];
+    PublishScaleDetailController *detailViewController = [[PublishScaleDetailController alloc] initWithNibName:@"PublishScaleDetailController" bundle:nil];
      // ...
      // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
+    [self.navigationController pushViewController:detailViewController animated:YES];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     detailViewController.scaleToSend = [[NSArray alloc] initWithContentsOfFile:[NSBundle pathForResource:[scales objectAtIndex:indexPath.row] ofType:@"scale" inDirectory:documentsDirectory]];

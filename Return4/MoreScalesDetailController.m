@@ -67,6 +67,7 @@
     while ([fm fileExistsAtPath:file]) {
         file = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%d).scale",scaleName,version]];
         version++;
+        
     }
     [(NSArray*)[scale objectForKey:@"notes"] writeToFile:file atomically:YES];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);

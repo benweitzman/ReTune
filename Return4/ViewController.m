@@ -18,6 +18,7 @@
 #import "InstrumentController.h"
 #import "MoreScalesController.h"
 #import "PublishScaleController.h"
+#import "PublishScaleDetailController.h"
 #import "JSONKit.h"
 
 @interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate, SetNoteControllerDelegate, InstrumentControllerDelegate>
@@ -51,7 +52,7 @@
 
 @implementation ViewController
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes, loopBuffers;
-@synthesize playButton;
+@synthesize playButton, pauseButton, stopButton, loadButton, saveButton, recordButton;
 @synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
 @synthesize pressRecognizer, tapRecognizer;
 @synthesize sliders, frequencyLabels, centsLabels, ratioLabels, buttons;
@@ -125,31 +126,6 @@
     return toReturn;
 }
 
-- (void) initSoundFiles {
-    soundFiles = [[NSArray alloc] initWithObjects:
-                  [NSValue value:&(File){@"P200 Piano A#2.caf",116.541}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#3.caf",233.082}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#4.caf",466.164}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#5.caf",932.328}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano A#7.caf",3729.32}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano C10.caf",16744.0f} withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano C7.caf", 2093.0f}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D#8.caf",4978.03}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D2.caf", 73.4162}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D3.caf", 146.832}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D4.caf", 293.665}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D5.caf", 587.33}   withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano D6.caf", 1174.66}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#2.caf",92.4986}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#3.caf",184.997}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#4.caf",369.994}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#5.caf",739.989}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#6.caf",1479.98}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano F#7.caf",2959.96}  withObjCType:@encode(File)],
-                  [NSValue value:&(File){@"P200 Piano G#9.caf",13289.8}  withObjCType:@encode(File)],
-                  nil];
-}
-
 - (void) changeNote:(int) degree to:(float) pitch {
     //NSLog(@"degree change: %d",degree);
     int degreeCopy = degree;
@@ -160,14 +136,20 @@
         [pitches replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:pitch]];
         [[ratios objectAtIndex:degree] release];
         [ratios replaceObjectAtIndex:degree withObject:[[NSNumber alloc] initWithFloat:info.scale]];
-        [buffers replaceObjectAtIndex:degree withObject:info.buffer];
+        if (!info.loop) {
+            [buffers replaceObjectAtIndex:degree withObject:info.buffer];
+            [loopBuffers replaceObjectAtIndex:degree withObject:[NSNull null]];
+        } else {
+            [buffers replaceObjectAtIndex:degree withObject:[info.buffer sliceWithName:nil offset:0 size:info.loopStart]];
+            [loopBuffers replaceObjectAtIndex:degree withObject:[info.buffer sliceWithName:nil offset:info.loopStart size:info.loopEnd-info.loopStart]];
+        }
+        
         float differenceRatio = pitch/oldPitch;
         ALSource *source = (ALSource *)[sources objectAtIndex:degree];
         ALSource *loopSource = (ALSource *)[loopSources objectAtIndex:degree];
         if (source.playing || loopSource.playing) {
             source.pitch *= differenceRatio;
             loopSource.pitch *= differenceRatio;
-            
             //NSLog(@"changed pitch");
         }
         pitch *= 2;
@@ -269,6 +251,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    userSettings = [NSUserDefaults standardUserDefaults];
+#ifdef macroIsFree
+    NSLog(@"free version");
+#else
+    NSLog(@"paid version");
+#endif
+    UIImage *patternImage = [UIImage imageNamed:@"diamond_upholstery.png"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:patternImage];
     //[self fractionFromFloat:0.263157894737];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Cello" ofType:@"sound"];
     // Build the array from the plist  
@@ -365,8 +355,6 @@
     // Mute all audio if the silent switch is turned on.
     [OALAudioSession sharedInstance].honorSilentSwitch = YES;
 
-
-    [self initSoundFiles];
     [self initPitches];
     [self initBuffers];
     currentOctave = 0;
@@ -413,6 +401,11 @@
     instrumentButton.titleLabel.textAlignment = UITextAlignmentCenter;
     publishButton.titleLabel.textAlignment = UITextAlignmentCenter;
 
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    // Set the background for any states you plan to use
     // Add gesture recognizer to the view
     for (int i=0;i<[hotKeys count];i++) {
         pressRecognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handlePress:)]; // Absolutely need ":" after handleTaps
@@ -427,10 +420,19 @@
         hotKey.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         hotKey.titleLabel.textAlignment = UITextAlignmentCenter;
         [hotKey addGestureRecognizer:pressRecognizer];
+        [hotKey setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [hotKey setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+        
     }
+    NSArray *controlButtons = [NSArray arrayWithObjects: playButton, pauseButton, stopButton, loadButton, saveButton, recordButton, tempSlot0, tempSlot1,tempSlot2, instrumentButton,  nil];
+    for (int i=0;i<[controlButtons count];i++) {
+        UIButton *button = [controlButtons objectAtIndex:i];
+        [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [button setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    }
+    [playButton setBackgroundImage:buttonImage forState:UIControlStateDisabled];
     UISlider * rootSlider = [sliders objectAtIndex:currentScaleDegree];
     rootSlider.enabled = false;
-    
     // Do any additional setup after loading the view, typically from a nib.
     /*ALBuffer *buffer1 = [[[OpenALManager sharedInstance] bufferFromFile:@"Cello Solo Sus f D#3 LP.aiff"] sliceWithName:nil offset:0 size:98337];
     ALBuffer *buffer2 = [[[OpenALManager sharedInstance] bufferFromFile:@"Cello Solo Sus f D#3 LP.aiff"] sliceWithName:nil offset:98337 size:16478];
@@ -563,7 +565,7 @@
         for (int i=0;i<12;i++) {
             [currentScale addObject:[pitches objectAtIndex:i]];
         }
-        NSLog(@"%@",[currentScale JSONString]);
+        //NSLog(@"%@",[currentScale JSONString]);
         [tempScales replaceObjectAtIndex:view.tag withObject:currentScale];
         [button setTitle:@"Tap to play\nDouble tap to save" forState:UIControlStateNormal]; 
         [button setTitle:@"Tap to play\nDouble tap to save" 
@@ -598,8 +600,9 @@
             [segmentedControl setSelectedSegmentIndex:0];
             [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
             segmentedControl.frame = CGRectMake(0.0f, 5.0f, 320.0f, 30.0f);
-
+            
             UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+            
             NSArray *theToolbarItems = [NSArray arrayWithObjects:item, nil];
             [sac setToolbarItems:theToolbarItems];
             navController.toolbarHidden = NO;
@@ -625,6 +628,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSLog(@"%@",[userSettings floatForKey:@"Slider Range"]);
+    float sliderRange = [userSettings floatForKey:@"Slider Range"];
+    float sliderMin = 0.5-(sliderRange/200);
+    float sliderMax = 0.5+(sliderRange/200);
+    for (int i=0;i<[sliders count];i++) {
+        UISlider * slider = [sliders objectAtIndex:i];
+        [slider setMinimumValue:sliderMin];
+        [slider setMaximumValue:sliderMax];
+    }
     IF_IOS_HAS_COREMIDI
     (
      [self addString:@"This iOS Version supports CoreMIDI"];
@@ -638,6 +650,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    NSLog(@"appearing");
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -683,44 +696,47 @@
 
 - (void) noteOff:(int)noteValue {
     if (noteValue>=0 && noteValue<127) {
-        //NSLog(@"note off: %d",noteValue);
-        [[fadingOut objectAtIndex:noteValue] release];
-        [fadingOut replaceObjectAtIndex:noteValue withObject:[[NSNumber alloc] initWithBool:YES]];
-        //[[sources objectAtIndex:noteValue] fadeTo:0 duration:0.1 target:self selector:@selector(finishFade:)];
         ALSource * source = [sources objectAtIndex:noteValue];
         ALSource *loopSource = [loopSources objectAtIndex:noteValue];
-        //[source stop];
-        //[source pitchTo:0 duration:0.2 target:self selector:@selector(finishFade:)];
-        //[loopSource pitchTo:0 duration:0.2 target:self selector:@selector(finishFade:)];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            float timeDone = 0;
-            float duration = 0.2;
-            float timeStep = 0.0001;
-            float valStep = source.gain*timeStep/duration;
-            float loopStep = loopSource.gain*timeStep/duration;
-            while (timeDone < duration) {
-                if (![[fadingOut objectAtIndex:noteValue] boolValue]) break;
-                source.gain -= valStep;
-                loopSource.gain -= loopStep;
-                [NSThread sleepForTimeInterval:timeStep];
-                timeDone += timeStep;
+        if (source.playing || loopSource.playing) {
+            //NSLog(@"note off: %d",noteValue);
+            [[fadingOut objectAtIndex:noteValue] release];
+            [fadingOut replaceObjectAtIndex:noteValue withObject:[[NSNumber alloc] initWithBool:YES]];
+            //[[sources objectAtIndex:noteValue] fadeTo:0 duration:0.1 target:self selector:@selector(finishFade:)];
+            
+            //[source stop];
+            //[source pitchTo:0 duration:0.2 target:self selector:@selector(finishFade:)];
+            //[loopSource pitchTo:0 duration:0.2 target:self selector:@selector(finishFade:)];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                float timeDone = 0;
+                float duration = 0.2;
+                float timeStep = 0.0001;
+                float valStep = source.gain*timeStep/duration;
+                float loopStep = loopSource.gain*timeStep/duration;
+                while (timeDone < duration) {
+                    if (![[fadingOut objectAtIndex:noteValue] boolValue]) break;
+                    source.gain -= valStep;
+                    loopSource.gain -= loopStep;
+                    [NSThread sleepForTimeInterval:timeStep];
+                    timeDone += timeStep;
+                }
+                if ([[fadingOut objectAtIndex:noteValue] boolValue]) {
+                    [source stop];
+                    [loopSource stop];
+                }
+                //source.gain = 1;
+            });
+            
+            if (recording) {
+                double currentTime = CACurrentMediaTime();
+                int deltaTime = (int)(currentTime*1000-recordTimer*1000);
+                NoteObject * recordedNote = [[NoteObject alloc] init];
+                recordedNote.note = noteValue;
+                recordedNote.time = deltaTime;
+                recordedNote.noteOn = false;
+                [recordedNotes addObject:recordedNote];
+                recordTimer = currentTime;
             }
-            if ([[fadingOut objectAtIndex:noteValue] boolValue]) {
-                [source stop];
-                [loopSource stop];
-            }
-            //source.gain = 1;
-        });
-        
-        if (recording) {
-            double currentTime = CACurrentMediaTime();
-            int deltaTime = (int)(currentTime*1000-recordTimer*1000);
-            NoteObject * recordedNote = [[NoteObject alloc] init];
-            recordedNote.note = noteValue;
-            recordedNote.time = deltaTime;
-            recordedNote.noteOn = false;
-            [recordedNotes addObject:recordedNote];
-            recordTimer = currentTime;
         }
     }
 }
@@ -811,12 +827,13 @@
     [self noteOff:midiNote];
 }
 
-
-
-- (IBAction) sliderChanged:(id)sender {
+- (IBAction)sliderChanged:(id)sender withPrecision:(bool)precision 
+{
     changingPitch = true;
     UISlider *slider = (UISlider *)sender;
-    slider.value = round(slider.value/.005)*.005;
+    if (!precision) {
+        slider.value = round(slider.value/.005)*.005;
+    }
     float newRatio = powf(2.0f,(slider.value*2-1)/12);
     //NSLog(@"new ratio: %f", newRatio);
     //NSLog(@"major scale %f",[[majorScale objectAtIndex:slider.tag] floatValue]);
@@ -839,6 +856,10 @@
     //displayRatio = [[pitches objectAtIndex:12] floatValue]/(newPitch*2);
     //[label setText:[self fractionFromFloat:displayRatio]]
     changingPitch = false;
+}
+
+- (IBAction) sliderChanged:(id)sender {
+    return [self sliderChanged:sender withPrecision:false];
 }
 
 - (IBAction) octaveChanged:(id)sender {
@@ -961,6 +982,12 @@
     }
 }
 
+-(void) stopAllNotes {
+    for (int i=0;i<127;i++) {
+        [self noteOff:i];
+    }
+}
+
 
 -(void)stopMidi:(id)sender{
     stopped = true;
@@ -968,11 +995,14 @@
     if (recording) {
         [self stopRecording];
     }
+    playButton.enabled = true;
+    [self stopAllNotes];
 }
 
 -(void)pauseMidi:(id)sender {
     paused = true;
     playButton.enabled = true;
+    [self stopAllNotes];
 }
 
 - (IBAction)playMidi:(id)sender {
@@ -1290,7 +1320,7 @@
     float newValue = (log2f(ratio)*12+1)/2;
     [slider setValue:newValue animated:YES];
     //NSLog(@"%d",slider.tag);
-    [self sliderChanged:slider];
+    [self sliderChanged:slider withPrecision:YES];
 }
 
 -(void)InstrumentController:(InstrumentController *)instrumentController didFinishWithSelection:(NSString *)selection {
@@ -1305,6 +1335,7 @@
 -(IBAction)showInfo:(id)sender {
     infoViewController = [[InfoController alloc] initWithNibName:@"InfoController" bundle:nil];
     infoViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    //infoViewController.userSettings = userSettings;
     //infoViewController.modalPresentationStyle = UIModalPresentationFormSheet;
     //navigationController.navigationItem;
     UINavigationController *navController = [[UINavigationController alloc]
@@ -1313,8 +1344,8 @@
     infoViewController.title = @"Settings and Info";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:infoViewController action:@selector(cancel)];
     [infoViewController.navigationItem setRightBarButtonItem:backButton];
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:infoViewController action:@selector(save)];
-    [infoViewController.navigationItem setLeftBarButtonItem:saveButton];
+    UIBarButtonItem *settingsSaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:infoViewController action:@selector(save)];
+    [infoViewController.navigationItem setLeftBarButtonItem:settingsSaveButton];
     [self presentModalViewController:navController animated:YES];
 }
 
@@ -1354,6 +1385,27 @@
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:moreViewController];
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
         [self presentModalViewController:navController animated:YES];
+    }
+}
+
+- (void)LoadScaleController:(LoadScaleController *)scaleController didPublishAScaleWithName:(NSString *)scaleName {
+    if ([spc isPopoverVisible]) {
+        [spc dismissPopoverAnimated:YES];
+        PublishScaleController *publishController = [[PublishScaleController alloc] initWithNibName:@"PublishScaleController" bundle:nil];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:publishController];
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+        navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        PublishScaleDetailController *publishDetailController = [[PublishScaleDetailController alloc] initWithNibName:@"PublishScaleDetailController" bundle:nil];
+        publishDetailController.modalPresentationStyle = UIModalPresentationFormSheet;
+        publishDetailController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        navController.modalPresentationStyle = UIModalPresentationFormSheet;
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        publishDetailController.scaleToSend = [[NSArray alloc] initWithContentsOfFile:[NSBundle pathForResource:scaleName ofType:@"scale" inDirectory:documentsDirectory]];
+        publishDetailController.scaleName = scaleName;
+        [navController pushViewController:publishDetailController animated:NO];
+        [self presentModalViewController:navController animated:YES];
+
     }
 }
 

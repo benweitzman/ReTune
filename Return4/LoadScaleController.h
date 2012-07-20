@@ -29,10 +29,13 @@ typedef enum {
 @property (nonatomic, strong) id<LoadScaleControllerDelegate> delegate;
 @property (nonatomic, strong) UIButton* button;
 
+- (IBAction)doPublish:(id)sender;
+
 @end
 
 @protocol LoadScaleControllerDelegate <NSObject>
 
 - (void)LoadScaleController:(LoadScaleController *)scaleController didFinishWithSelection:(NSString*)selection;
+- (void)LoadScaleController:(LoadScaleController *)scaleController didPublishAScaleWithName:(NSString *)scaleName;
 
 @end

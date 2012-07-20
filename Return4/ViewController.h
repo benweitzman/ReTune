@@ -52,6 +52,7 @@ typedef struct {
     NSMutableArray *scaleRatios;
     NSMutableArray *sources, *fadingOut, *loopSources;
     NSArray *instrument;
+    NSUserDefaults *userSettings;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -68,7 +69,7 @@ typedef struct {
 @property (strong, nonatomic) InstrumentController *instrumentViewController;
 @property (strong, nonatomic) UIPopoverController *pc, *spc, *notePopover;
 
-@property (nonatomic,strong) IBOutlet UIButton    *playButton;
+@property (nonatomic,strong) IBOutlet UIButton    *playButton, *pauseButton, *stopButton, *recordButton, *loadButton, *saveButton;
 @property (nonatomic, retain) UILongPressGestureRecognizer * pressRecognizer;
 @property (nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
@@ -89,7 +90,8 @@ typedef struct {
 @property (nonatomic,strong) PGMidi *midi;
 -(IBAction)buttonTriggered:(id)sender;
 -(IBAction)buttonReleased:(id)sender;
--(IBAction) sliderChanged:(id)sender;
+-(IBAction)sliderChanged:(id)sender;
+-(IBAction)sliderChanged:(id)sender withPrecision:(bool)precision;
 -(IBAction)stopMidi:(id)sender;
 -(IBAction)playMidi:(id)sender;
 -(IBAction)pauseMidi:(id)sender;

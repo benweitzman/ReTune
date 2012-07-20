@@ -154,9 +154,25 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIButton *publishButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [publishButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [publishButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [publishButton setTitle:@"Publish" forState:UIControlStateNormal];
+    [publishButton setFrame:CGRectMake(0, 0, 100, 35)];
+    [publishButton setTag:indexPath.row];
+    [publishButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [publishButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    publishButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f]; 
+    [publishButton addTarget:self action:@selector(doPublish:) forControlEvents:UIControlEventTouchUpInside];
     if (displayMode == DisplayAll) {
         cell.textLabel.text = [[scaleSource objectForKey:[[scaleSource allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
+        if ([[scaleSource allKeys] objectAtIndex:indexPath.section] == @"User") {
+            cell.accessoryView = publishButton;
+        }
     } else if (displayMode == DisplayStandard) {
         cell.textLabel.text = [[scaleSource objectForKey:@"Standard"] objectAtIndex:indexPath.row];
     } else {
@@ -166,6 +182,14 @@
     
     // Configure the cell..
     return cell;
+}
+
+- (IBAction)doPublish:(id)sender {
+    NSMutableDictionary *scaleSource = scaleCats;
+    if (searching) scaleSource = scaleCopy;
+    NSString *scaleName = [[scaleSource objectForKey:@"User"] objectAtIndex:((UIButton*)sender).tag];
+    NSLog(@"%@",scaleName);
+    [delegate LoadScaleController:self didPublishAScaleWithName:scaleName];
 }
 
 /*

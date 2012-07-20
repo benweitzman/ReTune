@@ -13,6 +13,7 @@
 @interface SetNoteController : UIViewController 
 {
     id<SetNoteControllerDelegate> delegate;
+    NSUserDefaults *userSettings;
 }
 
 @property (nonatomic, strong) NSNumber * frequency;
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) UIPopoverController *pop;
 @property (nonatomic, strong) IBOutlet UILabel *header;
 @property (nonatomic, strong) IBOutlet UITextField *numeratorField, *denominatorField, *centsField, *frequencyField ;
+@property (nonatomic, strong) IBOutlet UIButton *save, *cancel;
 @property (nonatomic, strong) id<SetNoteControllerDelegate> delegate;
 
 -(IBAction)inputChanged:(id)sender;

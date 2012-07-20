@@ -212,7 +212,15 @@
                                           reuseIdentifier:cellIdentifier];
         }
         if (indexPath.row == [scaleSource count] || [scaleSource count] == 0) {
-            cell.textLabel.text = @"Loading more scales";
+            if (shouldLoadMore) {
+                cell.textLabel.text = @"Loading more scales";
+                UIActivityIndicatorView *activityView = 
+                [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                [activityView startAnimating];
+                [cell setAccessoryView:activityView];
+            } else {
+                cell.textLabel.text = @"No more scales to load";
+            }
             loadingCell = cell;
         } else {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -266,7 +274,6 @@
     detailController.title = @"Scale Info";
     detailController.scale = [scale mutableCopy];
     [self.navigationController pushViewController:detailController animated:YES];
-    
 }
 
 - (void) searchBarCancelButtonClicked:(UISearchBar *)searcherBar {
