@@ -53,6 +53,7 @@ typedef struct {
     NSMutableArray *sources, *fadingOut, *loopSources;
     NSArray *instrument;
     NSUserDefaults *userSettings;
+    float tuningOffset;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
