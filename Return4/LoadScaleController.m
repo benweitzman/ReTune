@@ -226,7 +226,7 @@
     [[scaleSource objectForKey:@"User"] removeObject:scaleToTrash];
     [[scaleCats objectForKey:@"User"] removeObject:scaleToTrash];
     NSLog(@"%@",[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:rowToTrash inSection:1]] textLabel].text);
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:rowToTrash inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:rowToTrash inSection:1]] withRowAnimation:UITableViewRowAnimationMiddle];
     
 }
 

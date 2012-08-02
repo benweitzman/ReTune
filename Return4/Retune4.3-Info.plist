@@ -10,7 +10,11 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>ipad_icon.png</string>
+		<string>retuneicon72-2.png</string>
+		<string>retuneicon144-2.png</string>
+		<string>Default-Landscape~ipad.png</string>
+		<string>Default-Landscape~ipad.png</string>
+		<string>Default-Landscape~ipad.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict>
@@ -18,10 +22,12 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>ipad_icon.png</string>
+				<string>retuneicon72-2.png</string>
+				<string>retuneicon144-2.png</string>
+				<string>Default-Landscape~ipad.png</string>
+				<string>Default-Landscape~ipad.png</string>
+				<string>Default-Landscape~ipad.png</string>
 			</array>
-			<key>UIPrerenderedIcon</key>
-			<false/>
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>

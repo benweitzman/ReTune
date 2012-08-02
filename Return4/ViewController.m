@@ -243,13 +243,15 @@
     NSNumber *version =  [NSNumber numberWithFloat:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]];
     NSLog(@"%@",data);
     NSLog(@"%@",version);
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Updates available"
-                                                    message:@"There was a problem trying grab the scale info from the server. Please try again later"
-                                                   delegate:self
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    //alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alert show];
+    if (![version isEqualToNumber:[data objectForKey:@"version"]]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Updates available"
+                                                        message:@"There are updates available for ReTune. Would you like to update now?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Update Later"
+                                              otherButtonTitles:@"Update Now",@"What's new",nil];
+        //alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert show];
+    }
 }
 
 - (void)viewDidLoad
@@ -265,10 +267,15 @@
     [userSettings registerDefaults:appDefaults];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://retuneapp.com/getVersion"]];
-        [self performSelectorOnMainThread:@selector(checkForUpdate:)
-                               withObject:data
-                            waitUntilDone:YES];
+        NSError *error = nil;
+        NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://retuneapp.com/getVersion"] options:NSDataReadingUncached error:&error];
+        if (!error) {
+            [self performSelectorOnMainThread:@selector(checkForUpdate:)
+                                   withObject:data
+                                waitUntilDone:YES];
+        } else {
+            NSLog(@"fda");
+        }
     });
     tuningOffset = 0;
 #ifdef macroIsFree
