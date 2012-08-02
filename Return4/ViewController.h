@@ -61,6 +61,7 @@ typedef struct {
 @property (strong) NSMutableArray* buffers, *loopBuffers;
 @property (strong) NSArray* soundFiles;
 @property (strong) NSMutableArray* recordedNotes;
+@property (strong) NSMutableArray* scaleRatios;
 
 @property (strong, nonatomic) IBOutlet UIButton *loadMidiButton;
 @property (strong, nonatomic) LoadMidiController *ac;

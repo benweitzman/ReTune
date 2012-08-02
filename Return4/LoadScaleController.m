@@ -159,24 +159,32 @@
     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     UIButton *publishButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *trashButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [publishButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [publishButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [publishButton setTitle:@"Publish" forState:UIControlStateNormal];
-    [publishButton setFrame:CGRectMake(0, 0, 100, 35)];
+    [trashButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [trashButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [publishButton setImage:[UIImage imageNamed:@"glyphicons_232_cloud.png"] forState:UIControlStateNormal];
+    [trashButton setImage:[UIImage imageNamed:@"glyphicons_016_bin.png"] forState:UIControlStateNormal];
+    [publishButton setFrame:CGRectMake(40, 0, 35, 35)];
+    [trashButton setFrame:CGRectMake(0,0,35,35)];
     [publishButton setTag:indexPath.row];
-    [publishButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [publishButton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-    publishButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f]; 
+    [trashButton setTag:indexPath.row];
     [publishButton addTarget:self action:@selector(doPublish:) forControlEvents:UIControlEventTouchUpInside];
+    [trashButton addTarget:self action:@selector(doTrash:) forControlEvents:UIControlEventTouchUpInside];
+    UIView *cellActionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 75, 35)];
+    [cellActionView addSubview:publishButton];
+    [cellActionView addSubview:trashButton];
     if (displayMode == DisplayAll) {
         cell.textLabel.text = [[scaleSource objectForKey:[[scaleSource allKeys] objectAtIndex:indexPath.section]] objectAtIndex:indexPath.row];
         if ([[scaleSource allKeys] objectAtIndex:indexPath.section] == @"User") {
-            cell.accessoryView = publishButton;
+            cell.accessoryView = cellActionView;
         }
     } else if (displayMode == DisplayStandard) {
         cell.textLabel.text = [[scaleSource objectForKey:@"Standard"] objectAtIndex:indexPath.row];
     } else {
         cell.textLabel.text = [[scaleSource objectForKey:@"User"] objectAtIndex:indexPath.row];
+        cell.accessoryView = cellActionView;
     }
 
     
@@ -190,6 +198,36 @@
     NSString *scaleName = [[scaleSource objectForKey:@"User"] objectAtIndex:((UIButton*)sender).tag];
     NSLog(@"%@",scaleName);
     [delegate LoadScaleController:self didPublishAScaleWithName:scaleName];
+}
+
+- (IBAction)doTrash:(id)sender {
+    NSMutableDictionary *scaleSource = scaleCats;
+    if (searching) scaleSource = scaleCopy;
+    NSString *scaleName = [[scaleSource objectForKey:@"User"] objectAtIndex:((UIButton*)sender).tag];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Delete scale?"
+                                                    message:[NSString stringWithFormat:@"Are you sure you want to delete your scale %@? You cannot undo this action.",scaleName]
+                                                   delegate:self
+                                          cancelButtonTitle:@"No"
+                                          otherButtonTitles:@"Yes", nil];
+    scaleToTrash = scaleName;
+    rowToTrash = ((UIButton*)sender).tag;
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    // Point to Document directory
+    NSString *documentsDirectory = [NSHomeDirectory()
+                                    stringByAppendingPathComponent:@"Documents"];
+    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.scale",scaleToTrash]];
+    [fileMgr removeItemAtPath:filePath error:nil];
+    NSMutableDictionary *scaleSource = scaleCats;
+    if (searching) scaleSource = scaleCopy;
+    [[scaleSource objectForKey:@"User"] removeObject:scaleToTrash];
+    [[scaleCats objectForKey:@"User"] removeObject:scaleToTrash];
+    NSLog(@"%@",[[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:rowToTrash inSection:1]] textLabel].text);
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:rowToTrash inSection:1]] withRowAnimation:UITableViewRowAnimationRight];
+    
 }
 
 /*

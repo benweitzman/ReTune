@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *authorLabel, *scaleNameLabel;
 @property (strong, nonatomic) IBOutlet UITextView *descriptionView;
+@property (strong, nonatomic) IBOutlet UIButton *downloadButton;
 @property (strong, nonatomic) NSMutableDictionary *scale;
 
 -(IBAction)downloadScale:(id)sender; 

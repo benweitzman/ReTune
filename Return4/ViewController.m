@@ -51,7 +51,7 @@
 @end
 
 @implementation ViewController
-@synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes, loopBuffers;
+@synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes, loopBuffers, scaleRatios;
 @synthesize playButton, pauseButton, stopButton, loadButton, saveButton, recordButton;
 @synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
 @synthesize pressRecognizer, tapRecognizer;
@@ -114,6 +114,8 @@
         toReturn.loop = TRUE;
         toReturn.loopStart = [[minFile valueForKey:@"Loop Start"] intValue];
         toReturn.loopEnd = [[minFile valueForKey:@"Loop End"] intValue];
+    } else {
+        toReturn.loop = FALSE;
     }
     toReturn.scale = minRatio;
     return toReturn;
@@ -135,7 +137,6 @@
             [buffers replaceObjectAtIndex:degree withObject:[info.buffer sliceWithName:nil offset:0 size:info.loopStart]];
             [loopBuffers replaceObjectAtIndex:degree withObject:[info.buffer sliceWithName:nil offset:info.loopStart size:info.loopEnd-info.loopStart]];
         }
-        
         float differenceRatio = pitch/oldPitch;
         ALSource *source = (ALSource *)[sources objectAtIndex:degree];
         ALSource *loopSource = (ALSource *)[loopSources objectAtIndex:degree];
@@ -193,6 +194,7 @@
                 [buffers addObject:info.buffer];
                 [loopBuffers addObject:[NSNull null]];
             } else {
+                NSLog(@"%d",info.loopStart);
                 [buffers addObject:[info.buffer sliceWithName:nil offset:0 size:info.loopStart]];
                 [loopBuffers addObject:[info.buffer sliceWithName:nil offset:info.loopStart size:info.loopEnd-info.loopStart]];
             }
@@ -236,6 +238,20 @@
 
 #pragma mark - View lifecycle
 
+- (void) checkForUpdate:(NSData *)responseData {
+    NSDictionary *data = [responseData objectFromJSONData];
+    NSNumber *version =  [NSNumber numberWithFloat:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]];
+    NSLog(@"%@",data);
+    NSLog(@"%@",version);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Updates available"
+                                                    message:@"There was a problem trying grab the scale info from the server. Please try again later"
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    //alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -247,6 +263,13 @@
                                  @"YamCF3",@"Default Instrument",
                                  nil];
     [userSettings registerDefaults:appDefaults];
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://retuneapp.com/getVersion"]];
+        [self performSelectorOnMainThread:@selector(checkForUpdate:)
+                               withObject:data
+                            waitUntilDone:YES];
+    });
     tuningOffset = 0;
 #ifdef macroIsFree
     NSLog(@"free version");
@@ -452,58 +475,63 @@
         UILabel *label= (UILabel *)sender.view;
         if (label.tag != currentScaleDegree) {
         UIView *view = sender.view;
-        if (noteViewController == nil && notePopover == nil) {
-            noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
-            notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
-            noteViewController.delegate = self;
-            noteViewController.pop = notePopover;
-            noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
-            noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
-            float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
-            float cents = roundf((1200*log2f(ratio))*10)/10;
-            noteViewController.cents = [NSNumber numberWithFloat:cents];
-            
-            float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
-            if (noteRatio < 1) {
-                noteRatio *= 2;
+            if (noteViewController == nil && notePopover == nil) {
+                noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
+                notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
+                noteViewController.delegate = self;
+                noteViewController.pop = notePopover;
+                noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
+                noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
+                float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
+                float cents = roundf((1200*log2f(ratio))*10)/10;
+                noteViewController.cents = [NSNumber numberWithFloat:cents];
+                
+                float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
+                if (noteRatio < 1) {
+                    noteRatio *= 2;
+                }
+                NSString *ratioString = [self fractionFromFloat:noteRatio];
+                NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+                NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
+                noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
+                UIPopoverArrowDirection direction = UIPopoverArrowDirectionLeft;
+                if (label.tag > 9) {
+                    direction = UIPopoverArrowDirectionRight;
+                }
+                [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:direction animated:YES];
+                //sac.button = (UIButton *)sender.view;
+            } else if ([notePopover isPopoverVisible]) {
+                [notePopover dismissPopoverAnimated:YES];
+            } else {
+                [notePopover release];
+                [noteViewController release];
+                noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
+                notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
+                noteViewController.delegate = self;
+                noteViewController.pop = notePopover;
+                noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
+                noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
+                float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
+                float cents = roundf((1200*log2f(ratio))*10)/10;
+                noteViewController.cents = [NSNumber numberWithFloat:cents];
+                float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
+                if (noteRatio < 1) {
+                    noteRatio *= 2;
+                }
+                NSString *ratioString = [self fractionFromFloat:noteRatio];
+                NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+                NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
+                noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
+                UIPopoverArrowDirection direction = UIPopoverArrowDirectionLeft;
+                if (label.tag > 9) {
+                    direction = UIPopoverArrowDirectionRight;
+                }
+                [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:direction animated:YES];
             }
-            NSString *ratioString = [self fractionFromFloat:noteRatio];
-            NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
-            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-            [f setNumberStyle:NSNumberFormatterDecimalStyle];
-            noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
-            noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
-            [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-            //sac.button = (UIButton *)sender.view;
-        }
-        else if ([notePopover isPopoverVisible]) {
-            [notePopover dismissPopoverAnimated:YES];
-        }
-        else {
-            [notePopover release];
-            [noteViewController release];
-            noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
-            notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
-            noteViewController.delegate = self;
-            noteViewController.pop = notePopover;
-            noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
-            noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
-            float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
-            float cents = roundf((1200*log2f(ratio))*10)/10;
-            noteViewController.cents = [NSNumber numberWithFloat:cents];
-            
-            float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
-            if (noteRatio < 1) {
-                noteRatio *= 2;
-            }
-            NSString *ratioString = [self fractionFromFloat:noteRatio];
-            NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
-            NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-            [f setNumberStyle:NSNumberFormatterDecimalStyle];
-            noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
-            noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
-            [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-        }
         }
     }
 }
@@ -765,7 +793,7 @@
     if (!precision) {
         slider.value = round(slider.value/.005)*.005;
     }
-    float newRatio = powf(2.0f,(slider.value*2-1)/12);
+    float newRatio = powf(2.0f,(slider.value*2-1)/12+tuningOffset/1200);
     float newPitch = newRatio*[[majorScale objectAtIndex:slider.tag] floatValue];
     [self changeNote:slider.tag to:newPitch];
     UILabel * label = [frequencyLabels objectAtIndex:slider.tag];
@@ -1044,12 +1072,19 @@
 
 -(void)LoadScaleController:(LoadScaleController *)scaleController didFinishWithSelection:(NSString *)selection {
     NSMutableArray *loadedScale = [[NSMutableArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:selection ofType: @"scale"]];
-    if ([loadedScale count] == 0) {
+    NSLog(@"%@",selection);
+    NSLog(@"%@",[[NSBundle mainBundle] pathForResource:selection ofType: @"scale"]);
+    NSLog(@"%@",loadedScale);
+    if (loadedScale == nil || [loadedScale count] == 0) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         loadedScale = nil;
         loadedScale = [[NSMutableArray alloc] initWithContentsOfFile:[NSBundle pathForResource:selection ofType:@"scale" inDirectory:documentsDirectory]];
+        NSLog(@"%@",selection);
+        NSLog(@"%@",[NSBundle pathForResource:selection ofType:@"scale" inDirectory:documentsDirectory]);
+        NSLog(@"%@",loadedScale);
     }
+    
     UIButton *button = scaleController.button;
     [button setTitle:selection forState:UIControlStateNormal]; 
     [button setTitle:selection forState:UIControlStateHighlighted];
@@ -1166,7 +1201,7 @@
             [pitches replaceObjectAtIndex:i withObject:[[NSNumber alloc] initWithFloat:newPitch]];
             if (octave == 3) {
                 float ratio = newPitch/[[majorScale objectAtIndex:i] floatValue];
-                float newValue = (log2f(ratio)*12+1)/2;
+                float newValue = (log2f(ratio)*12+1)/2-tuningOffset/200;
                 UISlider *slider = [sliders objectAtIndex:i%12];
                 [slider setValue:newValue animated:YES];
             }

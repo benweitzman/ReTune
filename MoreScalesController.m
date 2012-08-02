@@ -218,8 +218,10 @@
                 [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
                 [activityView startAnimating];
                 [cell setAccessoryView:activityView];
+                [cell setUserInteractionEnabled:NO];
             } else {
                 cell.textLabel.text = @"No more scales to load";
+                [cell setUserInteractionEnabled:NO];
             }
             loadingCell = cell;
         } else {
@@ -262,8 +264,13 @@
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://retuneapp.com/pull/%d/",scaleId]];
         NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:&error];
         if (!error && data.description != @"Bad") {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
             NSDictionary *scale = [data objectFromJSONData];
             [self performSelectorOnMainThread:@selector(goToDetailPageWithScale:) withObject:scale waitUntilDone:NO];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error connecting to server" message:@"There was a problem trying grab the scale info from the server. Please try again later" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            //alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            [alert show];
         }
     });
    // NSLog(@"%@",file);

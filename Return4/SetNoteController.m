@@ -12,6 +12,7 @@
 
 @synthesize header, delegate, degree, frequency, cents, numerator, denominator;
 @synthesize numeratorField, denominatorField, centsField, frequencyField, pop;
+@synthesize intervalControl, intervalField;
 @synthesize save, cancel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -38,7 +39,7 @@
     
     [super viewDidLoad];
     userSettings = [NSUserDefaults standardUserDefaults];
-    CGSize size = CGSizeMake(350, 350); // size of view in popover
+    CGSize size = CGSizeMake(446, 350); // size of view in popover
     self.contentSizeForViewInPopover = size;
 
     self.view.backgroundColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"diamond_upholstery.png"]];
@@ -54,14 +55,19 @@
     [cancel setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     cancel.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];      
     save.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];
+    [intervalControl addTarget:self action:@selector(intervalChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     //NSLog(@" %d",[degree intValue]);
     NSLog(@"%@",degree);
-    NSArray * noteNames = [[NSArray alloc] initWithObjects:@"C",@"C♯",@"D",@"E♭",@"E",@"F",@"F♯",@"G",@"A♭",@"A",@"B♭",@"B", nil];
+    noteNames = [[NSArray alloc] initWithObjects:@"C",@"C♯",@"D",@"E♭",@"E",@"F",@"F♯",@"G",@"A♭",@"A",@"B♭",@"B", nil];
     NSLog(@"note: %@",[noteNames objectAtIndex:[degree intValue]]);
+    [intervalControl setEnabled:NO forSegmentAtIndex:[degree intValue]];
+    [intervalControl setSelectedSegmentIndex:[delegate getScaleDegree]];
+    currentInterval = 0;
+    [intervalField setText:[NSString stringWithFormat:@"Ratio to %@ in the key of %@",[intervalControl titleForSegmentAtIndex:intervalControl.selectedSegmentIndex],[noteNames objectAtIndex:[delegate getScaleDegree]]]];
     [header setText:[NSString stringWithFormat:@"Changing note: %@",[noteNames objectAtIndex:[degree intValue]]]];
     [numeratorField setText:[NSString stringWithFormat:@"%d",[numerator intValue]]];
     [denominatorField setText:[NSString stringWithFormat:@"%d",[denominator intValue]]];
@@ -115,7 +121,8 @@
     if (field == numeratorField || field == denominatorField) {
         if ([self textIsValidInt:[field text]] && [field.text floatValue] != 0) {
             [field setTextColor:[UIColor blackColor]];
-            float ratio = [numeratorField.text floatValue]/[denominatorField.text floatValue];
+            float intervalRatio = [numeratorField.text floatValue]/[denominatorField.text floatValue];
+            float ratio = intervalRatio*[[[delegate scaleRatios] objectAtIndex:(int)(intervalControl.selectedSegmentIndex-[delegate getScaleDegree]+12)%12] floatValue];
             float freq = ratio*[[[delegate getPitches] objectAtIndex:[delegate getScaleDegree]+60] floatValue];
             [frequencyField setText:[NSString stringWithFormat:@"%.2f",freq]];
             ratio = freq/[[[delegate getEqual] objectAtIndex:([degree floatValue]+60)] floatValue];
@@ -132,11 +139,12 @@
             NSLog(@"ratio %f",ratio);
             float freq = ratio*[[[delegate getEqual] objectAtIndex:[degree floatValue]+60] floatValue];
             [frequencyField setText:[NSString stringWithFormat:@"%.2f",freq]];
-            float noteRatio = freq/[[[delegate getPitches] objectAtIndex:60+[delegate getScaleDegree]]floatValue];
+            float tonicRatio = freq/[[[delegate getPitches] objectAtIndex:60+[delegate getScaleDegree]]floatValue];
             //float noteRatio = ratio;
-            if (noteRatio < 1) {
-                noteRatio *= 2;
+            if (tonicRatio < 1) {
+                tonicRatio *= 2;
             }
+            float noteRatio = tonicRatio/[[[delegate scaleRatios] objectAtIndex:intervalControl.selectedSegmentIndex] floatValue];
             NSLog(@"note ratio: %f",noteRatio);
             NSString *ratioString = [delegate fractionFromFloat:noteRatio];
             NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
@@ -156,11 +164,12 @@
             float centsRatio = freq/[[[delegate getEqual] objectAtIndex:[degree intValue]+60] floatValue];
             float tcents = log2f(centsRatio)*1200;
             [centsField setText:[NSString stringWithFormat:@"%.1f",tcents]];
-            float noteRatio = freq/[[[delegate getPitches] objectAtIndex:60+[delegate getScaleDegree]] floatValue];
+            float tonicRatio = freq/[[[delegate getPitches] objectAtIndex:60+[delegate getScaleDegree]] floatValue];
             //float noteRatio = ratio;
-            if (noteRatio < 1) {
-                noteRatio *= 2;
+            if (tonicRatio < 1) {
+                tonicRatio *= 2;
             }
+            float noteRatio = tonicRatio/[[[delegate scaleRatios] objectAtIndex:intervalControl.selectedSegmentIndex] floatValue];
             NSLog(@"note ratio: %f",noteRatio);
             NSString *ratioString = [delegate fractionFromFloat:noteRatio];
             NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
@@ -200,6 +209,24 @@
             [delegate SetNoteController:self didFinishWithFrequency:freq forDegree:[degree intValue]];
         }
     }        
+}
+
+-(IBAction)intervalChanged:(id)sender {
+    [intervalField setText:[NSString stringWithFormat:@"Ratio to %@ in the key of %@",[intervalControl titleForSegmentAtIndex:intervalControl.selectedSegmentIndex],[noteNames objectAtIndex:[delegate getScaleDegree]]]];
+    float fromIntervalRatio = [numeratorField.text floatValue]/[denominatorField.text floatValue];
+    float ratioToTonic = fromIntervalRatio*[[[delegate scaleRatios] objectAtIndex:currentInterval] floatValue];
+    float intervalRatio = ratioToTonic/[[[delegate scaleRatios] objectAtIndex:(int)(intervalControl.selectedSegmentIndex-[delegate getScaleDegree]+12)%12] floatValue];
+    currentInterval = (intervalControl.selectedSegmentIndex-(int)[delegate getScaleDegree]+12)%12;
+    NSLog(@"%f",intervalRatio);
+    NSString *ratioString = [delegate fractionFromFloat:intervalRatio];
+    NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+    if ([parts count] == 2) {
+        NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+        [f setNumberStyle:NSNumberFormatterDecimalStyle];
+        [numeratorField setText: [NSString stringWithFormat:@"%d",[[f numberFromString:[parts objectAtIndex:0]] intValue]]];
+        [denominatorField setText:[NSString stringWithFormat:@"%d", [[f numberFromString:[parts objectAtIndex:1]] intValue]]];
+    }
+
 }
 
 @end

@@ -74,6 +74,8 @@
     [super viewDidLoad];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
     [self.navigationItem setRightBarButtonItem:backButton];
+    UIImage *patternImage = [UIImage imageNamed:@"diamond_upholstery.png"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:patternImage];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;

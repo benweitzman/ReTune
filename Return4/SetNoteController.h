@@ -13,7 +13,9 @@
 @interface SetNoteController : UIViewController 
 {
     id<SetNoteControllerDelegate> delegate;
+    int currentInterval;
     NSUserDefaults *userSettings;
+    NSArray *noteNames;
 }
 
 @property (nonatomic, strong) NSNumber * frequency;
@@ -21,14 +23,16 @@
 @property (nonatomic, strong) NSNumber * numerator, *denominator;
 @property (nonatomic, strong) NSNumber * degree;
 @property (nonatomic, strong) UIPopoverController *pop;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *intervalControl;
 @property (nonatomic, strong) IBOutlet UILabel *header;
-@property (nonatomic, strong) IBOutlet UITextField *numeratorField, *denominatorField, *centsField, *frequencyField ;
+@property (nonatomic, strong) IBOutlet UITextField *numeratorField, *denominatorField, *centsField, *frequencyField,*intervalField;
 @property (nonatomic, strong) IBOutlet UIButton *save, *cancel;
 @property (nonatomic, strong) id<SetNoteControllerDelegate> delegate;
 
 -(IBAction)inputChanged:(id)sender;
 -(IBAction)cancelled:(id)sender;
 -(IBAction)saved:(id)sender;
+-(IBAction)intervalChanged:(id)sender;
 
 @end
 
@@ -37,6 +41,7 @@
 
 -(NSString *) fractionFromFloat:(float)number;
 -(NSMutableArray *)getPitches;
+-(NSMutableArray *)scaleRatios;
 -(float)getScaleDegree;
 -(NSMutableArray *)getEqual;
 - (void)SetNoteController:(SetNoteController *)setNoteController didFinishWithFrequency:(float) frequency forDegree:(int) degree;

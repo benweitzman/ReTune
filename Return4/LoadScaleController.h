@@ -24,12 +24,15 @@ typedef enum {
     NSMutableDictionary *scaleCopy;
     bool searching;
     TableDisplayType displayMode;
+    NSString *scaleToTrash;
+    int rowToTrash;
 }
 
 @property (nonatomic, strong) id<LoadScaleControllerDelegate> delegate;
 @property (nonatomic, strong) UIButton* button;
 
 - (IBAction)doPublish:(id)sender;
+- (IBAction)doTrash:(id)sender;
 
 @end
 

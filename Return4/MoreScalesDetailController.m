@@ -11,6 +11,7 @@
 @implementation MoreScalesDetailController
 
 @synthesize authorLabel, scaleNameLabel, descriptionView, scale;
+@synthesize downloadButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,6 +42,12 @@
     authorLabel.text = [scale objectForKey:@"authorName"];
     scaleNameLabel.text = [scale objectForKey:@"scaleName"];
     descriptionView.text = [scale objectForKey:@"description"];
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    [downloadButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [downloadButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -69,6 +76,7 @@
         version++;
         
     }
+    NSLog(@"%@",scale);
     [(NSArray*)[scale objectForKey:@"notes"] writeToFile:file atomically:YES];
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
