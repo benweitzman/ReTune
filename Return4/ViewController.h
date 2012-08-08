@@ -54,6 +54,7 @@ typedef struct {
     NSArray *instrument;
     NSUserDefaults *userSettings;
     float tuningOffset;
+    NSMutableDictionary *bufferFiles;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;

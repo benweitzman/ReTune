@@ -1,0 +1,125 @@
+// !$*UTF8*$!
+{
+	DA1FC6D715CACFB100A49FAC /* Retune */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = Retune;
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	DA1FC6D815CACFB100A49FAC /* Retune Lite */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "Retune Lite";
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+	};
+	DA1FC6ED15CACFCD00A49FAC /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	DA1FC6EE15CACFCD00A49FAC /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	DA3AC66A1545EFDA00E1D705 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeExecutable = DA1FC6D715CACFB100A49FAC /* Retune */;
+		activeTarget = DA3AC6721545EFDA00E1D705 /* ReTune */;
+		codeSenseManager = DA1FC6EE15CACFCD00A49FAC /* Code sense */;
+		executables = (
+			DA1FC6D715CACFB100A49FAC /* Retune */,
+			DA1FC6D815CACFB100A49FAC /* Retune Lite */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					356,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 365964439;
+			PBXWorkspaceStateSaveDate = 365964439;
+		};
+		sourceControlManager = DA1FC6ED15CACFCD00A49FAC /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	DA3AC6721545EFDA00E1D705 /* ReTune */ = {
+		activeExec = 0;
+		executables = (
+			DA1FC6D715CACFB100A49FAC /* Retune */,
+		);
+	};
+	DA3AC6931545EFDA00E1D705 /* ReTuneTests */ = {
+		activeExec = 0;
+	};
+	DAE32FBB15AF4FE9006073F8 /* ReTune Lite */ = {
+		activeExec = 0;
+		executables = (
+			DA1FC6D815CACFB100A49FAC /* Retune Lite */,
+		);
+	};
+}

@@ -37,7 +37,8 @@
      midi = [[PGMidi alloc] init];
      [midi enableNetwork:YES];
      self.viewController.midi = midi;
-     )
+    )
+    [self.viewController release];
     return YES;
 }
 

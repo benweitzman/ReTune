@@ -37,7 +37,7 @@
         if(CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor)) == kCGColorSpaceModelMonochrome) {
             const CGFloat *oldComponents = CGColorGetComponents(color.CGColor);
             CGFloat components[4] = {oldComponents[0], oldComponents[0], oldComponents[0], oldComponents[1]};
-            return [UIColor colorWithCGColor:CGColorCreate(colorSpaceRGB, components)];
+            return [[UIColor alloc] initWithCGColor:CGColorCreate(colorSpaceRGB, components)];
         } else
             return color;
     };
@@ -107,8 +107,12 @@
         }
     }
     bufferInfo toReturn;
-    toReturn.buffer = [[OpenALManager sharedInstance] 
-                        bufferFromFile:minFileName];
+    ALBuffer * tempBuffer = [bufferFiles objectForKey:minFileName];
+    if (tempBuffer == nil) {
+        tempBuffer = [[OpenALManager sharedInstance] bufferFromFile:minFileName];
+        [bufferFiles setObject:tempBuffer forKey:minFileName];
+    }
+    toReturn.buffer = tempBuffer;
     NSDictionary *minFile = (NSDictionary *)[instrument objectAtIndex:minIndex];
     if ([minFile valueForKey:@"Loop Start"] != nil) {
         toReturn.loop = TRUE;
@@ -278,6 +282,7 @@
         }
     });
     tuningOffset = 0;
+    bufferFiles = [[NSMutableDictionary alloc] init];
 #ifdef macroIsFree
     NSLog(@"free version");
 #else
@@ -287,7 +292,11 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:patternImage];
     //[self fractionFromFloat:0.263157894737];
     NSString *path = [[NSBundle mainBundle] pathForResource:[userSettings stringForKey:@"Default Instrument"] ofType:@"sound"];
-    // Build the array from the plist  
+    // Build the array from the plist
+    for (int i=0;i<[instrument count];i++) {
+        [[instrument objectAtIndex:i] release];
+    }
+    [instrument release];
     instrument = [[NSArray alloc] initWithContentsOfFile:path];
     
     frequencyLabels = [[NSArray alloc] initWithArray:[frequencyLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {

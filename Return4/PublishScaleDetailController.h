@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "UIPlaceHolderTextView.h"
+#import "RegisterViewController.h"
 
 @interface PublishScaleDetailController : UITableViewController <UITextFieldDelegate>
 {
-NSString* authorName;  
-NSString* description;      
-
-UITextField* scaleNameField;  
-UITextField* authorNameField;  
-UIPlaceHolderTextView* descriptionField;
+    NSString* authorName;
+    NSString* description;
+    
+    UITextField* scaleNameField;
+    UITextField* authorNameField;
+    UIPlaceHolderTextView* descriptionField;
+    UITableViewCell *authorCell;
 }
 
 @property (strong) NSArray *scaleToSend;

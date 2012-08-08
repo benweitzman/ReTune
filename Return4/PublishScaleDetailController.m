@@ -7,28 +7,28 @@
 //
 
 #import "PublishScaleDetailController.h"
+#import "ASIHTTPRequest.h"
+#import "ASIFormDataRequest.h"
+#import "UITextViewTableViewCell.h"
 #import <CommonCrypto/CommonDigest.h>
 
-@interface UITextViewTableViewCell : UITableViewCell
+
+@interface NonDismissingAlertView : UIAlertView
+
+-(void) doDismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated;
 
 @end
-    
-@implementation UITextViewTableViewCell
 
-- (void) layoutSubviews 
-{
-    [super layoutSubviews]; 
-    
-    // Set top of textLabel to top of cell
-    CGRect newFrame = self.textLabel.frame;
-    newFrame.origin.y = CGRectGetMinY (self.contentView.bounds);
-    newFrame.size.height = 45;
-    [self.textLabel setFrame:newFrame];
-    
-    // Set top of detailTextLabel to bottom of textLabel
-    newFrame = self.detailTextLabel.frame;
-    newFrame.origin.y = CGRectGetMaxY (self.textLabel.frame);
-    [self.detailTextLabel setFrame:newFrame];
+@implementation NonDismissingAlertView 
+
+-(void)dismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
+    //if (buttonIndex should not dismiss the alert)
+     //   return;
+    //[super dismissWithClickedButtonIndex:buttonIndex animated:animated];
+}
+
+-(void) doDismissWithClickedButtonIndex:(NSInteger)buttonIndex animated:(BOOL)animated {
+    [super dismissWithClickedButtonIndex:buttonIndex animated:animated];
 }
 
 @end
@@ -46,7 +46,7 @@
     tf.autocapitalizationType = UITextAutocapitalizationTypeNone;  
     tf.adjustsFontSizeToFitWidth = YES;  
     tf.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];      
-    tf.frame = CGRectMake(180, 12, 320, 30); 
+    tf.frame = CGRectMake(180, 12, 320, 30);
     return tf ;  
 }  
 
@@ -146,6 +146,32 @@
     }
 }
 
+- (void) addLoginButtonsToCell:(UITableViewCell*)cell {
+    for (UIView *view in [cell subviews]) {
+        if ([view isKindOfClass:[UIButton class]] || [view isKindOfClass:[UIActivityIndicatorView class]]) {
+            [view removeFromSuperview];
+        }
+    }
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIButton *loginButton = [[UIButton alloc] initWithFrame:CGRectMake(180, 12, 180, 30)];
+    UIButton *registerButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+    [loginButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [loginButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [loginButton setTitle:@"Login to continue" forState:UIControlStateNormal];
+    [loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [registerButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [registerButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+    [registerButton setTitle:@"Register" forState:UIControlStateNormal];
+    [registerButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [cell addSubview:loginButton];
+    [cell addSubview:registerButton];
+    [loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [registerButton addTarget:self action:@selector(goToRegister) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -159,16 +185,54 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         switch (indexPath.row) {
             case 0:
-                cell.textLabel.text = @"Scale Name" ;  
+            {
+                cell.textLabel.text = @"Scale Name";
                 scaleNameField = [self makeTextField:scaleName placeholder:@"Scale name here"];  
-                [cell addSubview:scaleNameField];  
+                [cell addSubview:scaleNameField];
+            }
                 break;
             case 1:
-                cell.textLabel.text = @"Author Name" ;  
-                authorNameField = [self makeTextField:@"" placeholder:@"Your hame here"];  
-                [cell addSubview:authorNameField];  
+            {
+                cell.textLabel.text = @"Author Name";
+                UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                [activityIndicator setFrame:CGRectMake(180, 12, 30, 30)];
+                [activityIndicator startAnimating];
+                [cell addSubview:activityIndicator];
+                //authorNameField = [self makeTextField:@"" placeholder:@"Your hame here"];
+                NSURL *loginTestURL = [NSURL URLWithString:@"http://retuneapp.com/loginTest/"];
+                __weak ASIHTTPRequest *loginTestRequest = [ASIHTTPRequest requestWithURL:loginTestURL];
+                [loginTestRequest setCompletionBlock:^{
+                    NSString *loginTestResponse = [loginTestRequest responseString];
+                    NSLog(@"%@",loginTestResponse);
+                    if ([loginTestResponse isEqualToString:@"not logged in"]) {
+                        [self addLoginButtonsToCell:cell];
+                    } else {
+                        for (UIView *view in authorCell.subviews) {
+                            if ([view isKindOfClass:[UIActivityIndicatorView class]])
+                                [view removeFromSuperview];
+                        }
+                        authorNameField = [self makeTextField:loginTestResponse placeholder:@"Your hame here"];
+                        [authorNameField setEnabled:NO];
+                        [cell addSubview:authorNameField];
+                        UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                        UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                                         resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                        UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+                        [logoutButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+                        [logoutButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+                        [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+                        [logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                        [logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+                        [cell addSubview:logoutButton];
+                    }
+                }];
+                [loginTestRequest startAsynchronous];
+                authorCell = cell;
+            }
                 break;
             case 2:
+            {
                 cell.textLabel.text = @"Description";
                 descriptionField = [[UIPlaceHolderTextView alloc] init];  
                 descriptionField.text = @"" ;   
@@ -179,7 +243,8 @@
                 descriptionField.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];      
                 descriptionField.frame = CGRectMake(174, 5, 320, 60);
                 descriptionField.backgroundColor = [UIColor clearColor];
-                [cell addSubview:descriptionField];  
+                [cell addSubview:descriptionField];
+            }
                 break;
         }
     } else {
@@ -192,6 +257,117 @@
         
     }
     return cell;
+}
+
+- (void) goToRegister {
+    RegisterViewController *registerController = [[RegisterViewController alloc] initWithNibName:@"RegisterViewController" bundle:nil];
+    [self.navigationController pushViewController:registerController animated:YES];
+}
+
+- (void) login {
+    NonDismissingAlertView *alert = [[NonDismissingAlertView alloc] initWithTitle:@"Login" message:@"" delegate:self cancelButtonTitle:@"Cancel"  otherButtonTitles:@"Submit", nil];
+    [alert setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
+    [alert show];
+}
+
+- (void) logout {
+    NSURL *url = [NSURL URLWithString:@"http://retuneapp.com/logout/"];
+    __weak ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request setCompletionBlock:^{
+        [self addLoginButtonsToCell:authorCell];
+    }];
+    [request startAsynchronous];
+}
+
+
+- (void)shakeView:(UIView *)viewToShake
+{
+    CGFloat t = 10.0;
+    CGAffineTransform translateRight  = CGAffineTransformTranslate(CGAffineTransformIdentity, t, 0.0);
+    CGAffineTransform translateLeft = CGAffineTransformTranslate(CGAffineTransformIdentity, -t, 0.0);
+    
+    viewToShake.transform = translateLeft;
+    
+    [UIView animateWithDuration:0.07 delay:0.0 options:UIViewAnimationOptionAutoreverse|UIViewAnimationOptionRepeat animations:^{
+        [UIView setAnimationRepeatCount:2.0];
+        viewToShake.transform = translateRight;
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [UIView animateWithDuration:0.05 delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                viewToShake.transform = CGAffineTransformIdentity;
+            } completion:NULL];
+        }
+    }];
+}
+
+- (void)alertView:(NonDismissingAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView title];
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Cancel"]) {
+        [alertView doDismissWithClickedButtonIndex:buttonIndex animated:YES];
+    } else {
+        if([title isEqualToString:@"Login"])
+        {
+            UITextField *username = [alertView textFieldAtIndex:0];
+            UITextField *password = [alertView textFieldAtIndex:1];
+            
+            NSURL *url = [NSURL URLWithString:@"http://retuneapp.com/getAuth/"];
+            __weak ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+            [request setCompletionBlock:^{
+                NSString *responseString = [request responseString];
+                NSString* auth = [self sha1:[NSString stringWithFormat:@"%@%@",@"a4h398d",responseString]];
+                NSURL *loginURL = [NSURL URLWithString:@"http://retuneapp.com/login/"];
+                __weak ASIFormDataRequest *loginRequest = [ASIFormDataRequest requestWithURL:loginURL];
+                [loginRequest setPostValue:username.text forKey:@"username"];
+                [loginRequest setPostValue:password.text forKey:@"password"];
+                [loginRequest setPostValue:auth forKey:@"auth"];
+                [loginRequest setCompletionBlock:^{
+                    NSString *loginResponse = [loginRequest responseString];
+                    if ([loginResponse isEqualToString:@"Bad"]) {
+                        [self shakeView:alertView];
+                        return;
+                    }
+                    NSLog(@"%@",loginResponse);
+                    authorNameField = [self makeTextField:username.text placeholder:@"Your hame here"];
+                    [authorNameField setEnabled:NO];
+                    for (UIView *view in authorCell.subviews) {
+                        if ([view isKindOfClass:[UIButton class]])
+                            [view removeFromSuperview];
+                    }
+                    [authorCell addSubview:authorNameField];
+                    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                    UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+                    [logoutButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+                    [logoutButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+                    [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+                    [logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                    [logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+                    [authorCell addSubview:logoutButton];
+                    [alertView doDismissWithClickedButtonIndex:buttonIndex animated:YES];
+                    NSURL *loginTestURL = [NSURL URLWithString:@"http://retuneapp.com/loginTest/"];
+                    __weak ASIHTTPRequest *loginTestRequest = [ASIHTTPRequest requestWithURL:loginTestURL];
+                    [loginTestRequest setCompletionBlock:^{
+                        NSString *loginTestResponse = [loginTestRequest responseString];
+                        NSLog(@"%@",loginTestResponse);
+                    }];
+                    [loginTestRequest startAsynchronous];
+                }];
+                [loginRequest setFailedBlock:^{
+                    NSError *error = [loginRequest error];
+                    NSLog(@"%@",error);
+                }];
+                [loginRequest startAsynchronous];
+            }];
+            [request setFailedBlock:^{
+                NSError *error = [request error];
+                NSLog(@"%@",error);
+            }];
+            [request startAsynchronous];
+        }
+    }
 }
 
 /*
