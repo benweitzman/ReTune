@@ -32,7 +32,7 @@ typedef struct {
 } bufferInfo;
 
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UIScrollViewDelegate>
 {
     ALDevice* device;
     ALContext* context;
@@ -55,6 +55,7 @@ typedef struct {
     NSUserDefaults *userSettings;
     float tuningOffset;
     NSMutableDictionary *bufferFiles;
+    int currentPage;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -86,9 +87,11 @@ typedef struct {
 @property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* frequencyLabels;
 @property (nonatomic, retain) IBOutletCollection(UILabel) NSArray* centsLabels, *ratioLabels;
 @property (nonatomic, retain) IBOutletCollection(UIButton) NSArray* buttons;
+@property (nonatomic, retain) IBOutletCollection(UIView) NSArray* subViews;
 
 @property (nonatomic, strong) NSMutableArray *hotKeys,*tempSlots,*tempScales,*hotScales;
 
+@property (strong, nonatomic) IBOutlet UIScrollView *pageScroller;
 
 @property (nonatomic,strong) PGMidi *midi;
 -(IBAction)buttonTriggered:(id)sender;

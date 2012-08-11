@@ -28,7 +28,7 @@
 @interface UIColor (UIColorCategory)
 - (BOOL)isEqualToColor:(UIColor *)otherColor;
 @end
-
+          
 @implementation UIColor (UIColorCategory)
 - (BOOL)isEqualToColor:(UIColor *)otherColor {
     CGColorSpaceRef colorSpaceRGB = CGColorSpaceCreateDeviceRGB();
@@ -51,6 +51,8 @@
 @end
 
 @implementation ViewController
+
+@synthesize pageScroller, subViews;
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes, loopBuffers, scaleRatios;
 @synthesize playButton, pauseButton, stopButton, loadButton, saveButton, recordButton;
 @synthesize loadMidiButton, pc, ac, spc, sac, notePopover, noteViewController, infoViewController;
@@ -261,6 +263,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"hello");
     userSettings = [NSUserDefaults standardUserDefaults];
     NSDictionary *appDefaults = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  [NSNumber numberWithFloat:50],@"Slider Range",
@@ -289,7 +292,8 @@
     NSLog(@"paid version");
 #endif
     UIImage *patternImage = [UIImage imageNamed:@"diamond_upholstery.png"];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:patternImage];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) self.view.backgroundColor = [UIColor colorWithPatternImage:patternImage];
+    else [self.view setBackgroundColor: [UIColor scrollViewTexturedBackgroundColor]];
     //[self fractionFromFloat:0.263157894737];
     NSString *path = [[NSBundle mainBundle] pathForResource:[userSettings stringForKey:@"Default Instrument"] ofType:@"sound"];
     // Build the array from the plist
@@ -343,7 +347,7 @@
     for (int i=0;i<[sliders count];i++) {
         UISlider * slider = [sliders objectAtIndex:i];
         CGRect rect = slider.frame;
-        slider.frame = CGRectMake(584.0f/12*i-50, 350, rect.size.width, rect.size.height);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) slider.frame = CGRectMake(584.0f/12*i-50, 350, rect.size.width, rect.size.height);
         UITapGestureRecognizer * tapsRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSliderTap:)];
         tapsRecognizer.numberOfTapsRequired = 2;
         tapsRecognizer.numberOfTouchesRequired = 1;
@@ -354,19 +358,19 @@
         rect = label.frame;
         UILongPressGestureRecognizer *labelPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLabelPress:)];
         labelPress.minimumPressDuration = 0.6;
-        label.frame = CGRectMake(centerX-rect.size.width/2, 200, rect.size.width, rect.size.height);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) label.frame = CGRectMake(centerX-rect.size.width/2, 200, rect.size.width, rect.size.height);
         [label addGestureRecognizer:labelPress];
         label = [frequencyLabels objectAtIndex:i];
         label.userInteractionEnabled = YES;
         rect = label.frame;
-        label.frame = CGRectMake(centerX-rect.size.width/2, 250, rect.size.width, rect.size.height);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)  label.frame = CGRectMake(centerX-rect.size.width/2, 250, rect.size.width, rect.size.height);
         labelPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLabelPress:)];
         labelPress.minimumPressDuration = 0.6;
         [label addGestureRecognizer:labelPress];
         label = [centsLabels objectAtIndex:i];
         label.userInteractionEnabled = YES;
         rect = label.frame;
-        label.frame = CGRectMake(centerX-rect.size.width/2,225, rect.size.width, rect.size.height);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) label.frame = CGRectMake(centerX-rect.size.width/2,225, rect.size.width, rect.size.height);
         labelPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLabelPress:)];
         labelPress.minimumPressDuration = 0.6;
         [label addGestureRecognizer:labelPress];
@@ -374,7 +378,7 @@
             /* black keys */
            //slider.frame = CGRectMake(584.0f/12*i-50, 330, rect.size.width, rect.size.height);
         }
-        slider.transform = CGAffineTransformRotate(slider.transform, 270.0/180*M_PI);
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) slider.transform = CGAffineTransformRotate(slider.transform, 270.0/180*M_PI);
     }
     
     device = [[ALDevice alloc] initWithDeviceSpecifier:nil];
@@ -465,6 +469,34 @@
     [playButton setBackgroundImage:buttonImage forState:UIControlStateDisabled];
     UISlider * rootSlider = [sliders objectAtIndex:currentScaleDegree];
     rootSlider.enabled = false;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        NSLog(@"%@",subViews);
+        pageScroller.pagingEnabled = YES;
+        pageScroller.contentSize = CGSizeMake(pageScroller.frame.size.width * 3, pageScroller.frame.size.height);
+        pageScroller.showsHorizontalScrollIndicator = NO;
+        pageScroller.showsVerticalScrollIndicator = NO;
+        pageScroller.scrollsToTop = NO;
+        pageScroller.delegate = self;
+        pageScroller.delaysContentTouches = NO;
+        //[pageScroller setBackgroundColor:[UIColor colorWithPatternImage:patternImage]];
+        for (int i=0;i<[subViews count];i++) {
+            CGRect frame = pageScroller.frame;
+            frame.origin.x = frame.size.width * i;
+            frame.origin.y = 0;
+            ((UIView*)[subViews objectAtIndex:i]).frame = frame;
+            [pageScroller addSubview:(UIView*)[subViews objectAtIndex:i]];
+            [(UIView*)[subViews objectAtIndex:i] setBackgroundColor:[UIColor colorWithPatternImage:patternImage]];
+        }
+        currentPage = 0;
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
+
+    CGFloat pageWidth = pageScroller.frame.size.width;
+    currentPage = floor((pageScroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 }
 
 - (IBAction)playTemp:(id)sender {
@@ -621,6 +653,7 @@
 
 - (void)viewDidUnload
 {
+    [self setPageScroller:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -665,8 +698,9 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
+    NSLog(@"%d",currentPage);
     if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-        return YES;
+        return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
     }
     return NO;
 }
@@ -1362,7 +1396,5 @@
 
     }
 }
-
-
 
 @end

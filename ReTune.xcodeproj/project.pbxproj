@@ -30,6 +30,10 @@
 		DA187C1A15A6750900BF6DEE /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA187C1915A6750900BF6DEE /* UIPlaceHolderTextView.m */; };
 		DA18CB3A1548CBCA007B4DD7 /* LoadScaleController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */; };
 		DA18CB3B1548CBCA007B4DD7 /* LoadScaleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */; };
+		DA27634A15D5DC9C00D50C07 /* blackPianoDowniPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = DA27634615D5DC9C00D50C07 /* blackPianoDowniPhone.png */; };
+		DA27634B15D5DC9C00D50C07 /* blackPianoUpiPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = DA27634715D5DC9C00D50C07 /* blackPianoUpiPhone.png */; };
+		DA27634C15D5DC9C00D50C07 /* whitePianoDowniPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = DA27634815D5DC9C00D50C07 /* whitePianoDowniPhone.png */; };
+		DA27634D15D5DC9C00D50C07 /* whitePianoUpiPhone.png in Resources */ = {isa = PBXBuildFile; fileRef = DA27634915D5DC9C00D50C07 /* whitePianoUpiPhone.png */; };
 		DA28917A15D1E1DC0092A737 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = DA28916715D1E1DC0092A737 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA28917B15D1E1DC0092A737 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA28916A15D1E1DC0092A737 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		DA28917C15D1E1DC0092A737 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = DA28916C15D1E1DC0092A737 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -1114,6 +1118,7 @@
 		DA80B730154A2EA500D33D7E /* whitePianoUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B72B154A2EA500D33D7E /* whitePianoUp.png */; };
 		DA80B732154A339F00D33D7E /* hotKeyUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B731154A339F00D33D7E /* hotKeyUp.png */; };
 		DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B733154A35AA00D33D7E /* hotKeyDown.png */; };
+		DA95F40D15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA95F40C15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib */; };
 		DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F11548B92600E70868 /* ipad_icon.png */; };
 		DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */; };
 		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
@@ -1175,6 +1180,10 @@
 		DA18CB371548CBCA007B4DD7 /* LoadScaleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadScaleController.h; sourceTree = "<group>"; };
 		DA18CB381548CBCA007B4DD7 /* LoadScaleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadScaleController.m; sourceTree = "<group>"; };
 		DA18CB391548CBCA007B4DD7 /* LoadScaleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadScaleController.xib; sourceTree = "<group>"; };
+		DA27634615D5DC9C00D50C07 /* blackPianoDowniPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackPianoDowniPhone.png; sourceTree = "<group>"; };
+		DA27634715D5DC9C00D50C07 /* blackPianoUpiPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackPianoUpiPhone.png; sourceTree = "<group>"; };
+		DA27634815D5DC9C00D50C07 /* whitePianoDowniPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whitePianoDowniPhone.png; sourceTree = "<group>"; };
+		DA27634915D5DC9C00D50C07 /* whitePianoUpiPhone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whitePianoUpiPhone.png; sourceTree = "<group>"; };
 		DA28916615D1E1520092A737 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		DA28916715D1E1DC0092A737 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		DA28916815D1E1DC0092A737 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -1773,6 +1782,7 @@
 		DA80B72B154A2EA500D33D7E /* whitePianoUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whitePianoUp.png; path = Images/whitePianoUp.png; sourceTree = SOURCE_ROOT; };
 		DA80B731154A339F00D33D7E /* hotKeyUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyUp.png; path = Images/hotKeyUp.png; sourceTree = SOURCE_ROOT; };
 		DA80B733154A35AA00D33D7E /* hotKeyDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyDown.png; path = Images/hotKeyDown.png; sourceTree = SOURCE_ROOT; };
+		DA95F40C15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Viewcontroller~iPhone.xib"; sourceTree = "<group>"; };
 		DAAB03F11548B92600E70868 /* ipad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipad_icon.png; sourceTree = "<group>"; };
 		DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = EightDaysAWeek.mid; path = ../EightDaysAWeek.mid; sourceTree = "<group>"; };
 		DABA59031547B8860044B869 /* dixie.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = dixie.mid; sourceTree = "<group>"; };
@@ -2462,6 +2472,7 @@
 				DA3AC6891545EFDA00E1D705 /* ViewController.h */,
 				DA3AC68A1545EFDA00E1D705 /* ViewController.m */,
 				DA3AC68C1545EFDA00E1D705 /* ViewController.xib */,
+				DA95F40C15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib */,
 				DA3AC7511546283900E1D705 /* MidiParser.h */,
 				DA3AC7521546283900E1D705 /* MidiParser.m */,
 				DA3AC67E1545EFDA00E1D705 /* Supporting Files */,
@@ -2686,11 +2697,15 @@
 		DAAB03F01548B8F600E70868 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				DA376CDE15B4C387005561F7 /* Buttons */,
+				DA376D1915B504AF005561F7 /* Icons */,
+				DA27634615D5DC9C00D50C07 /* blackPianoDowniPhone.png */,
+				DA27634715D5DC9C00D50C07 /* blackPianoUpiPhone.png */,
+				DA27634815D5DC9C00D50C07 /* whitePianoDowniPhone.png */,
+				DA27634915D5DC9C00D50C07 /* whitePianoUpiPhone.png */,
 				DA54588E15CAFDCD000D83F1 /* retuneicon72-2.png */,
 				DA54588F15CAFDCD000D83F1 /* retuneicon144.png */,
 				DA54589015CAFDCD000D83F1 /* retuneicon512.png */,
-				DA376CDE15B4C387005561F7 /* Buttons */,
-				DA376D1915B504AF005561F7 /* Icons */,
 				DA80B727154A2EA500D33D7E /* black.png */,
 				DA80B728154A2EA500D33D7E /* blackPianoDown.png */,
 				DA80B729154A2EA500D33D7E /* blackPianoUp.png */,
@@ -3820,6 +3835,11 @@
 				DA54589D15CB0099000D83F1 /* Default-Landscape~ipad.png in Resources */,
 				DA28919015D1E6090092A737 /* README-GHUnit in Resources */,
 				DA35C96A15D2087B00DC833B /* RegisterViewController.xib in Resources */,
+				DA95F40D15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib in Resources */,
+				DA27634A15D5DC9C00D50C07 /* blackPianoDowniPhone.png in Resources */,
+				DA27634B15D5DC9C00D50C07 /* blackPianoUpiPhone.png in Resources */,
+				DA27634C15D5DC9C00D50C07 /* whitePianoDowniPhone.png in Resources */,
+				DA27634D15D5DC9C00D50C07 /* whitePianoUpiPhone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4139,6 +4159,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				NSAutoreleaseHaltOnNoPool = YES;
 				PRODUCT_NAME = ReTune;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4158,6 +4179,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				NSAutoreleaseHaltOnNoPool = YES;
 				PRODUCT_NAME = ReTune;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -127,4 +127,31 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        if ([usernameField.text length] == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please enter a username" delegate:self cancelButtonTitle:@"Try again" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        if ([emailField.text length] == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Please enter your email address" delegate:self cancelButtonTitle:@"Try again" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        if ([passwordField.text length] < 5) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Password must be at least 5 characters" delegate:self cancelButtonTitle:@"Try again" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+        if (![passwordField.text isEqualToString:passwordAgainField.text]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"Passwords don't match" delegate:self cancelButtonTitle:@"Try again" otherButtonTitles:nil];
+            [alert show];
+            return;
+        }
+    }
+}
+
 @end

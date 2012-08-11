@@ -26,7 +26,13 @@
     [Crashlytics startWithAPIKey:@"e15182a6b718cd3a2034de1f40245dbf89968515"];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];
+    NSString *nibTitle = @"ViewController";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+		nibTitle = @"Viewcontroller~iPhone";
+    }
+
+    self.viewController = [[ViewController alloc] initWithNibName:nibTitle bundle:nil];
     //self.window.rootViewController = self.viewController;
     
     [self.window addSubview:self.viewController.view];
