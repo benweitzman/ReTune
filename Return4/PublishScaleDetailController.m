@@ -46,7 +46,7 @@
     tf.autocapitalizationType = UITextAutocapitalizationTypeNone;  
     tf.adjustsFontSizeToFitWidth = YES;  
     tf.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];      
-    tf.frame = CGRectMake(180, 12, 320, 30);
+    tf.frame = CGRectMake(140, 12, 165, 30);
     return tf ;  
 }  
 
@@ -85,7 +85,10 @@
 }
 
 - (void) cancel {
-    [self dismissModalViewControllerAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self dismissModalViewControllerAnimated:YES];
+    else {}
+        [[self navigationController] dismissModalViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload
@@ -140,7 +143,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 2 ) {
-        return 12+60+12;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            return 12+60+12;
+        else
+            return 12+200+12;
     } else {
         return 12+30+12;
     }
@@ -148,7 +154,7 @@
 
 - (void) addLoginButtonsToCell:(UITableViewCell*)cell {
     for (UIView *view in [cell subviews]) {
-        if ([view isKindOfClass:[UIButton class]] || [view isKindOfClass:[UIActivityIndicatorView class]]) {
+        if ([view isKindOfClass:[UIButton class]] || [view isKindOfClass:[UIActivityIndicatorView class]] || [view isKindOfClass:[UITextField class]]) {
             [view removeFromSuperview];
         }
     }
@@ -156,11 +162,23 @@
                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIButton *loginButton = [[UIButton alloc] initWithFrame:CGRectMake(180, 12, 180, 30)];
-    UIButton *registerButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+    UIButton *loginButton, *registerButton;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        loginButton = [[UIButton alloc] initWithFrame:CGRectMake(180, 12, 180, 30)];
+        registerButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+    } else {
+        loginButton = [[UIButton alloc] initWithFrame:CGRectMake(140,12,60,30)];
+        registerButton = [[UIButton alloc] initWithFrame:CGRectMake(220,12,80, 30)];
+        [loginButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
+        [registerButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
+    }
     [loginButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [loginButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-    [loginButton setTitle:@"Login to continue" forState:UIControlStateNormal];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [loginButton setTitle:@"Login to continue" forState:UIControlStateNormal];
+    else {
+        [loginButton setTitle:@"Login" forState:UIControlStateNormal];
+    }
     [loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [registerButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [registerButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
@@ -187,48 +205,60 @@
             case 0:
             {
                 cell.textLabel.text = @"Scale Name";
-                scaleNameField = [self makeTextField:scaleName placeholder:@"Scale name here"];  
+                scaleNameField = [self makeTextField:scaleName placeholder:@"Scale name here"];
+                for (UIView *view in cell.subviews) {
+                    if ([view isKindOfClass:[UITextField class]])
+                        [view removeFromSuperview];
+                }
                 [cell addSubview:scaleNameField];
             }
                 break;
             case 1:
             {
-                cell.textLabel.text = @"Author Name";
-                UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-                [activityIndicator setFrame:CGRectMake(180, 12, 30, 30)];
-                [activityIndicator startAnimating];
-                [cell addSubview:activityIndicator];
-                //authorNameField = [self makeTextField:@"" placeholder:@"Your hame here"];
-                NSURL *loginTestURL = [NSURL URLWithString:@"http://retuneapp.com/loginTest/"];
-                __weak ASIHTTPRequest *loginTestRequest = [ASIHTTPRequest requestWithURL:loginTestURL];
-                [loginTestRequest setCompletionBlock:^{
-                    NSString *loginTestResponse = [loginTestRequest responseString];
-                    NSLog(@"%@",loginTestResponse);
-                    if ([loginTestResponse isEqualToString:@"not logged in"]) {
-                        [self addLoginButtonsToCell:cell];
-                    } else {
-                        for (UIView *view in authorCell.subviews) {
-                            if ([view isKindOfClass:[UIActivityIndicatorView class]])
-                                [view removeFromSuperview];
+                if ([cell.subviews count] == 1) {
+                    cell.textLabel.text = @"Author Name";
+                    UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                    [activityIndicator setFrame:CGRectMake(180, 12, 30, 30)];
+                    [activityIndicator startAnimating];
+                    [cell addSubview:activityIndicator];
+                    //authorNameField = [self makeTextField:@"" placeholder:@"Your hame here"];
+                    NSURL *loginTestURL = [NSURL URLWithString:@"http://retuneapp.com/loginTest/"];
+                    __weak ASIHTTPRequest *loginTestRequest = [ASIHTTPRequest requestWithURL:loginTestURL];
+                    [loginTestRequest setCompletionBlock:^{
+                        NSString *loginTestResponse = [loginTestRequest responseString];
+                        NSLog(@"%@",loginTestResponse);
+                        if ([loginTestResponse isEqualToString:@"not logged in"]) {
+                            [self addLoginButtonsToCell:cell];
+                        } else {
+                            for (UIView *view in authorCell.subviews) {
+                                if ([view isKindOfClass:[UIActivityIndicatorView class]])
+                                    [view removeFromSuperview];
+                            }
+                            authorNameField = [self makeTextField:loginTestResponse placeholder:@"Your hame here"];
+                            [authorNameField setEnabled:NO];
+                            [cell addSubview:authorNameField];
+                            UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                                                    resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                            UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+                            UIButton *logoutButton;
+                            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                                logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+                            else {
+                                logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(250, 12, 50, 30)];
+                                [logoutButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
+                            }
+                            [logoutButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
+                            [logoutButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+                            [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+                            [logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                            [logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+                            [cell addSubview:logoutButton];
                         }
-                        authorNameField = [self makeTextField:loginTestResponse placeholder:@"Your hame here"];
-                        [authorNameField setEnabled:NO];
-                        [cell addSubview:authorNameField];
-                        UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
-                                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-                        UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
-                                                         resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-                        UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
-                        [logoutButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
-                        [logoutButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-                        [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
-                        [logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                        [logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-                        [cell addSubview:logoutButton];
-                    }
-                }];
-                [loginTestRequest startAsynchronous];
-                authorCell = cell;
+                    }];
+                    [loginTestRequest startAsynchronous];
+                    authorCell = cell;
+                }
             }
                 break;
             case 2:
@@ -240,8 +270,12 @@
                 descriptionField.autocorrectionType = UITextAutocorrectionTypeNo ;  
                 descriptionField.autocapitalizationType = UITextAutocapitalizationTypeNone;  
                 //descriptionField.adjustsFontSizeToFitWidth = YES;  
-                descriptionField.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];      
-                descriptionField.frame = CGRectMake(174, 5, 320, 60);
+                descriptionField.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                    descriptionField.frame = CGRectMake(174, 5, 320, 60);
+                else {
+                    descriptionField.frame = CGRectMake(15,35,300, 170);
+                }
                 descriptionField.backgroundColor = [UIColor clearColor];
                 [cell addSubview:descriptionField];
             }
@@ -339,7 +373,13 @@
                                             resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
                     UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
                                                      resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-                    UIButton *logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+                    UIButton *logoutButton;
+                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                        logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(380, 12, 120, 30)];
+                    else {
+                        logoutButton = [[UIButton alloc] initWithFrame:CGRectMake(250, 12, 50, 30)];
+                        [logoutButton.titleLabel setFont:[UIFont systemFontOfSize:12]];
+                    }
                     [logoutButton setBackgroundImage:buttonImage forState:UIControlStateNormal];
                     [logoutButton setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
                     [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];

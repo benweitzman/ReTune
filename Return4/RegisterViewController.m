@@ -10,6 +10,8 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "UITextViewTableViewCell.h"
+#import <CommonCrypto/CommonDigest.h>
+
 
 @interface RegisterViewController ()
 
@@ -26,7 +28,11 @@
     tf.autocapitalizationType = UITextAutocapitalizationTypeNone;
     tf.adjustsFontSizeToFitWidth = YES;
     tf.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];
-    tf.frame = CGRectMake(200, 12, 320, 30);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        tf.frame = CGRectMake(200, 12, 320, 30);
+    else {
+        tf.frame = CGRectMake(25,12,280, 30);
+    }
     return tf ;
 }
 
@@ -42,6 +48,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UIImage *patternImage = [UIImage imageNamed:@"diamond_upholstery.png"];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:patternImage];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -87,34 +95,44 @@
         switch (indexPath.row) {
             case 0:
             {
+                if ([cell.subviews count] != 1) break;
                 cell.textLabel.text = @"Username";
-                usernameField = [self makeTextField:@"" placeholder:@"Username here"];
+                usernameField = [self makeTextField:@"" placeholder:@"Username"];
                 [cell addSubview:usernameField];
             }
                 break;
             case 1:
             {
+                if ([cell.subviews count] != 1) break;
                 cell.textLabel.text = @"Email";
-                emailField = [self makeTextField:@"" placeholder:@"Email here"];
+                emailField = [self makeTextField:@"" placeholder:@"Email"];
+                emailField.keyboardType = UIKeyboardTypeEmailAddress;
                 [cell addSubview:emailField];
             }
                 break;
             case 2:
             {
+                if ([cell.subviews count] != 1) break;
                 cell.textLabel.text = @"Password";
-                passwordField = [self makeTextField:@"" placeholder:@"Password here"];
+                passwordField = [self makeTextField:@"" placeholder:@"Password"];
                 [passwordField setSecureTextEntry:YES];
                 [cell addSubview:passwordField];
             }
                 break;
             case 3:
             {
+                if ([cell.subviews count] != 1) break;
                 cell.textLabel.text = @"Retype Password";
                 passwordAgainField = [self makeTextField:@"" placeholder:@"Password Again"];
                 [passwordAgainField setSecureTextEntry:YES];
                 [cell addSubview:passwordAgainField];
             }
                 break;
+        }
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            cell.textLabel.text = @"";
+            //[cell.textLabel removeFromSuperview];
         }
     } else {
         if (cell == nil) {
@@ -151,7 +169,43 @@
             [alert show];
             return;
         }
+        NSURL *url = [NSURL URLWithString:@"http://retuneapp.com/getAuth/"];
+        __weak ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+        [request setCompletionBlock:^{
+            NSString *responseString = [request responseString];
+            NSString* auth = [self sha1:[NSString stringWithFormat:@"%@%@",@"a4h398d",responseString]];
+            NSURL *registerURL = [NSURL URLWithString:@"http://retuneapp.com/register/"];
+            __weak ASIFormDataRequest *registerRequest = [ASIFormDataRequest requestWithURL:registerURL];
+            [registerRequest setPostValue:usernameField.text forKey:@"username"];
+            [registerRequest setPostValue:passwordField.text forKey:@"password"];
+            [registerRequest setPostValue:emailField.text forKey:@"email"];
+            [registerRequest setPostValue:auth forKey:@"auth"];
+            [registerRequest setCompletionBlock:^{
+                NSString *registerResponse = [registerRequest responseString];
+                if ([registerResponse isEqualToString:@"OK"]) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+            [registerRequest startAsynchronous];
+        }];
+        [request startAsynchronous];
     }
+}
+             
+- (NSString *) sha1:(NSString *)input {
+    const char *cstr = [input cStringUsingEncoding:NSUTF8StringEncoding];
+    NSData *data = [NSData dataWithBytes:cstr length:input.length];
+    
+    uint8_t digest[CC_SHA1_DIGEST_LENGTH];
+    
+    CC_SHA1(data.bytes, data.length, digest);
+    
+    NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+    
+    for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
+        [output appendFormat:@"%02x", digest[i]];
+    
+    return output;
 }
 
 @end

@@ -169,7 +169,6 @@
 		DA373BDA15D02D1C00A70DD9 /* PublishScaleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA187C0615A6626300BF6DEE /* PublishScaleController.xib */; };
 		DA373BDB15D02D1C00A70DD9 /* PublishScaleDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA187C1515A66DA700BF6DEE /* PublishScaleDetailController.xib */; };
 		DA373BDC15D02D1C00A70DD9 /* MoreScalesDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA01F29F15AA027800894D24 /* MoreScalesDetailController.xib */; };
-		DA373BDD15D02D1C00A70DD9 /* diamond_upholstery.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CD915B4C168005561F7 /* diamond_upholstery.png */; };
 		DA373BDE15D02D1C00A70DD9 /* blackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CDF15B4C39A005561F7 /* blackButton.png */; };
 		DA373BDF15D02D1C00A70DD9 /* blackButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CE015B4C39A005561F7 /* blackButton@2x.png */; };
 		DA373BE015D02D1C00A70DD9 /* blackButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CE115B4C39A005561F7 /* blackButtonHighlight.png */; };
@@ -607,7 +606,6 @@
 		DA373D9015D02D1C00A70DD9 /* retuneicon144.png in Resources */ = {isa = PBXBuildFile; fileRef = DA54589615CAFE1B000D83F1 /* retuneicon144.png */; };
 		DA373D9115D02D1C00A70DD9 /* retuneicon144-2.png in Resources */ = {isa = PBXBuildFile; fileRef = DA54589815CAFEE9000D83F1 /* retuneicon144-2.png */; };
 		DA373D9215D02D1C00A70DD9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = DA54589C15CB0099000D83F1 /* Default-Landscape~ipad.png */; };
-		DA376CDA15B4C168005561F7 /* diamond_upholstery.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CD915B4C168005561F7 /* diamond_upholstery.png */; };
 		DA376CFC15B4C39A005561F7 /* blackButton.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CDF15B4C39A005561F7 /* blackButton.png */; };
 		DA376CFD15B4C39A005561F7 /* blackButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CE015B4C39A005561F7 /* blackButton@2x.png */; };
 		DA376CFE15B4C39A005561F7 /* blackButtonHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = DA376CE115B4C39A005561F7 /* blackButtonHighlight.png */; };
@@ -1109,6 +1107,8 @@
 		DA60F30E159CD910004DDBD3 /* 6StgSteel.sound in Resources */ = {isa = PBXBuildFile; fileRef = DA60F30D159CD910004DDBD3 /* 6StgSteel.sound */; };
 		DA60F312159CDEE0004DDBD3 /* InstrumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA60F310159CDEE0004DDBD3 /* InstrumentController.m */; };
 		DA60F313159CDEE0004DDBD3 /* InstrumentController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA60F311159CDEE0004DDBD3 /* InstrumentController.xib */; };
+		DA6A803D15D6E0EF009EDFE1 /* diamond_upholstery.png in Resources */ = {isa = PBXBuildFile; fileRef = DA6A803C15D6E0EF009EDFE1 /* diamond_upholstery.png */; };
+		DA6A803F15D6FB8D009EDFE1 /* MoreScalesDetailController~iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA6A803E15D6FB8D009EDFE1 /* MoreScalesDetailController~iPhone.xib */; };
 		DA7FBB9215A2743B00D5D3A6 /* sine.wav in Resources */ = {isa = PBXBuildFile; fileRef = DA7FBB9115A2743B00D5D3A6 /* sine.wav */; };
 		DA7FBB9615A2745800D5D3A6 /* Sine.sound in Resources */ = {isa = PBXBuildFile; fileRef = DA7FBB9515A2745800D5D3A6 /* Sine.sound */; };
 		DA80B72C154A2EA500D33D7E /* black.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B727154A2EA500D33D7E /* black.png */; };
@@ -1223,7 +1223,6 @@
 		DA35C96C15D20B9600DC833B /* UITextViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITextViewTableViewCell.m; sourceTree = "<group>"; };
 		DA373D9715D02D1C00A70DD9 /* ReTune Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ReTune Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA373D9915D02D1C00A70DD9 /* ReTune Lite-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ReTune Lite-Info.plist"; path = "/Users/benweitzman/Documents/Code/ReTune/ReTune Lite-Info.plist"; sourceTree = "<absolute>"; };
-		DA376CD915B4C168005561F7 /* diamond_upholstery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamond_upholstery.png; sourceTree = "<group>"; };
 		DA376CDF15B4C39A005561F7 /* blackButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackButton.png; sourceTree = "<group>"; };
 		DA376CE015B4C39A005561F7 /* blackButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blackButton@2x.png"; sourceTree = "<group>"; };
 		DA376CE115B4C39A005561F7 /* blackButtonHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackButtonHighlight.png; sourceTree = "<group>"; };
@@ -1773,6 +1772,8 @@
 		DA60F30F159CDEE0004DDBD3 /* InstrumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstrumentController.h; sourceTree = "<group>"; };
 		DA60F310159CDEE0004DDBD3 /* InstrumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstrumentController.m; sourceTree = "<group>"; };
 		DA60F311159CDEE0004DDBD3 /* InstrumentController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstrumentController.xib; sourceTree = "<group>"; };
+		DA6A803C15D6E0EF009EDFE1 /* diamond_upholstery.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamond_upholstery.png; sourceTree = "<group>"; };
+		DA6A803E15D6FB8D009EDFE1 /* MoreScalesDetailController~iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MoreScalesDetailController~iPhone.xib"; sourceTree = "<group>"; };
 		DA7FBB9115A2743B00D5D3A6 /* sine.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = sine.wav; sourceTree = "<group>"; };
 		DA7FBB9515A2745800D5D3A6 /* Sine.sound */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Sine.sound; sourceTree = "<group>"; };
 		DA80B727154A2EA500D33D7E /* black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = black.png; path = Images/black.png; sourceTree = SOURCE_ROOT; };
@@ -2441,6 +2442,7 @@
 				DA01F29D15AA027700894D24 /* MoreScalesDetailController.h */,
 				DA01F29E15AA027700894D24 /* MoreScalesDetailController.m */,
 				DA01F29F15AA027800894D24 /* MoreScalesDetailController.xib */,
+				DA6A803E15D6FB8D009EDFE1 /* MoreScalesDetailController~iPhone.xib */,
 				DADBF5A215479F61001FD191 /* LoadMidiController.h */,
 				DADBF5A315479F61001FD191 /* LoadMidiController.m */,
 				DADBF5A415479F61001FD191 /* LoadMidiController.xib */,
@@ -2706,10 +2708,10 @@
 				DA54588E15CAFDCD000D83F1 /* retuneicon72-2.png */,
 				DA54588F15CAFDCD000D83F1 /* retuneicon144.png */,
 				DA54589015CAFDCD000D83F1 /* retuneicon512.png */,
+				DA6A803C15D6E0EF009EDFE1 /* diamond_upholstery.png */,
 				DA80B727154A2EA500D33D7E /* black.png */,
 				DA80B728154A2EA500D33D7E /* blackPianoDown.png */,
 				DA80B729154A2EA500D33D7E /* blackPianoUp.png */,
-				DA376CD915B4C168005561F7 /* diamond_upholstery.png */,
 				DA187C0015A63A9000BF6DEE /* gradBack.png */,
 				DA187C0215A63E5500BF6DEE /* hotkeybg.png */,
 				DA80B733154A35AA00D33D7E /* hotKeyDown.png */,
@@ -2889,7 +2891,6 @@
 				DA373BDA15D02D1C00A70DD9 /* PublishScaleController.xib in Resources */,
 				DA373BDB15D02D1C00A70DD9 /* PublishScaleDetailController.xib in Resources */,
 				DA373BDC15D02D1C00A70DD9 /* MoreScalesDetailController.xib in Resources */,
-				DA373BDD15D02D1C00A70DD9 /* diamond_upholstery.png in Resources */,
 				DA373BDE15D02D1C00A70DD9 /* blackButton.png in Resources */,
 				DA373BDF15D02D1C00A70DD9 /* blackButton@2x.png in Resources */,
 				DA373BE015D02D1C00A70DD9 /* blackButtonHighlight.png in Resources */,
@@ -3395,7 +3396,6 @@
 				DA187C0815A6626300BF6DEE /* PublishScaleController.xib in Resources */,
 				DA187C1715A66DA700BF6DEE /* PublishScaleDetailController.xib in Resources */,
 				DA01F2A115AA027800894D24 /* MoreScalesDetailController.xib in Resources */,
-				DA376CDA15B4C168005561F7 /* diamond_upholstery.png in Resources */,
 				DA376CFC15B4C39A005561F7 /* blackButton.png in Resources */,
 				DA376CFD15B4C39A005561F7 /* blackButton@2x.png in Resources */,
 				DA376CFE15B4C39A005561F7 /* blackButtonHighlight.png in Resources */,
@@ -3840,6 +3840,8 @@
 				DA27634B15D5DC9C00D50C07 /* blackPianoUpiPhone.png in Resources */,
 				DA27634C15D5DC9C00D50C07 /* whitePianoDowniPhone.png in Resources */,
 				DA27634D15D5DC9C00D50C07 /* whitePianoUpiPhone.png in Resources */,
+				DA6A803D15D6E0EF009EDFE1 /* diamond_upholstery.png in Resources */,
+				DA6A803F15D6FB8D009EDFE1 /* MoreScalesDetailController~iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

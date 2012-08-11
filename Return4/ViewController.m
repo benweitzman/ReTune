@@ -51,6 +51,7 @@
 @end
 
 @implementation ViewController
+@synthesize pageControl;
 
 @synthesize pageScroller, subViews;
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes, loopBuffers, scaleRatios;
@@ -263,7 +264,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"hello");
     userSettings = [NSUserDefaults standardUserDefaults];
     NSDictionary *appDefaults = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  [NSNumber numberWithFloat:50],@"Slider Range",
@@ -286,6 +286,7 @@
     });
     tuningOffset = 0;
     bufferFiles = [[NSMutableDictionary alloc] init];
+    keyboardLocked = false;
 #ifdef macroIsFree
     NSLog(@"free version");
 #else
@@ -418,6 +419,11 @@
     
     tempSlots = [[NSMutableArray alloc] initWithObjects:tempSlot0,tempSlot1,tempSlot2,nil];
     
+    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+    
     for (int i=0;i<[tempSlots count];i++) {
         pressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleTempPress:)];
         pressRecognizer.minimumPressDuration = 0.8;
@@ -432,15 +438,13 @@
         tempSlot.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];
         tempSlot.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         tempSlot.titleLabel.textAlignment = UITextAlignmentCenter;
+        [tempSlot setBackgroundImage:buttonImage forState:UIControlStateNormal];
+        [tempSlot setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
     }
     
     instrumentButton.titleLabel.textAlignment = UITextAlignmentCenter;
     publishButton.titleLabel.textAlignment = UITextAlignmentCenter;
 
-    UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
-                            resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
-    UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
-                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
     // Set the background for any states you plan to use
     // Add gesture recognizer to the view
     for (int i=0;i<[hotKeys count];i++) {
@@ -478,7 +482,7 @@
         pageScroller.showsVerticalScrollIndicator = NO;
         pageScroller.scrollsToTop = NO;
         pageScroller.delegate = self;
-        pageScroller.delaysContentTouches = NO;
+        //pageScroller.delaysContentTouches = NO;
         //[pageScroller setBackgroundColor:[UIColor colorWithPatternImage:patternImage]];
         for (int i=0;i<[subViews count];i++) {
             CGRect frame = pageScroller.frame;
@@ -488,15 +492,25 @@
             [pageScroller addSubview:(UIView*)[subViews objectAtIndex:i]];
             [(UIView*)[subViews objectAtIndex:i] setBackgroundColor:[UIColor colorWithPatternImage:patternImage]];
         }
-        currentPage = 0;
+        CGRect frame = pageScroller.frame;
+        frame.origin.x = frame.size.width * 1;
+        frame.origin.y = 0;
+        [pageScroller scrollRectToVisible:frame animated:YES];
+        currentPage = 1;
+        pageControl.currentPage = currentPage;
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender
 {
-
     CGFloat pageWidth = pageScroller.frame.size.width;
     currentPage = floor((pageScroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    pageControl.currentPage = currentPage;
+    if (currentPage == 1) {
+        pageScroller.delaysContentTouches = NO;
+    } else {
+        pageScroller.delaysContentTouches = YES;
+    }
 }
 
 - (IBAction)playTemp:(id)sender {
@@ -617,43 +631,78 @@
 - (void) handlePress:(UILongPressGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateBegan) {
         UIView *view = sender.view;
-        if ([spc isPopoverVisible]) {
-            [spc dismissPopoverAnimated:YES];
-        }
-        else {
-            sac = nil;
-            spc = nil;
-            sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
-            sac.delegate = self;
-            sac.button = (UIButton *)sender.view;
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:sac];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if ([spc isPopoverVisible]) {
+                [spc dismissPopoverAnimated:YES];
+            }
+            else {
+                sac = nil;
+                spc = nil;
+                sac = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
+                sac.delegate = self;
+                sac.button = (UIButton *)sender.view;
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:sac];
+                UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All Scales",@"Standard Scales",@"User Scales",nil]];
+                [segmentedControl addTarget:sac action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
+                //segmentedControl.frame = CGRectMake(0, 0, 320, 30);
+                [segmentedControl setSelectedSegmentIndex:0];
+                [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
+                segmentedControl.frame = CGRectMake(0.0f, 5.0f, 320.0f, 30.0f);
+                
+                UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
+                
+                NSArray *theToolbarItems = [NSArray arrayWithObjects:item, nil];
+                [sac setToolbarItems:theToolbarItems];
+                navController.toolbarHidden = NO;
+                sac.title = @"Select A Scale";
+                UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Get more scales" style:UIBarButtonItemStylePlain target:self action:@selector(getMoreScales)];
+                [sac.navigationItem setRightBarButtonItem:moreButton];
+                //[sac setToolbarItems:theToolbarItems];
+                spc = [[UIPopoverController alloc] initWithContentViewController:navController];
+                //[spc.contentViewController setToolbarItems:theToolbarItems];
+                //[navController.navigationBar.topItem setTitleView:segmentedControl];
+                [spc presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            }
+        } else {
+            NSLog(@"load scales");
+            LoadScaleController *scaleController = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
+            scaleController.delegate = self;
+            scaleController.button = (UIButton *)sender.view;
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:scaleController];
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"All Scales",@"Standard Scales",@"User Scales",nil]];
-            [segmentedControl addTarget:sac action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
+            [segmentedControl addTarget:scaleController action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
             //segmentedControl.frame = CGRectMake(0, 0, 320, 30);
             [segmentedControl setSelectedSegmentIndex:0];
             [segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
-            segmentedControl.frame = CGRectMake(0.0f, 5.0f, 320.0f, 30.0f);
+            segmentedControl.frame = CGRectMake(0.0f, 5.0f, 310.0f, 30.0f);
             
             UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:segmentedControl];
-            
+//            navController.navigationBar
             NSArray *theToolbarItems = [NSArray arrayWithObjects:item, nil];
-            [sac setToolbarItems:theToolbarItems];
-            navController.toolbarHidden = NO;
-            sac.title = @"Select A Scale";
-            UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"Get more scales" style:UIBarButtonItemStylePlain target:self action:@selector(getMoreScales)];
-            [sac.navigationItem setRightBarButtonItem:moreButton];
-            //[sac setToolbarItems:theToolbarItems];
-            spc = [[UIPopoverController alloc] initWithContentViewController:navController];
-            //[spc.contentViewController setToolbarItems:theToolbarItems];
-            //[navController.navigationBar.topItem setTitleView:segmentedControl];
-            [spc presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            [scaleController setToolbarItems:theToolbarItems];
+            [self navigationController].toolbarHidden = NO;
+            [self navigationController].navigationBarHidden = NO;
+            scaleController.title = @"Select A Scale";
+
+            UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithTitle:@"More Scales" style:UIBarButtonItemStylePlain target:self action:@selector(getMoreScales)];
+            [scaleController.navigationItem setRightBarButtonItem:moreButton];
+            [scaleController.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleDone target:self action:@selector(closeScaleController)]];
+            //[[self navigationController] pushViewController:scaleController animated:YES];
+            navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+            navController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self presentModalViewController:navController animated:YES];
         }
     }
+}
+
+- (void)closeScaleController {
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)viewDidUnload
 {
     [self setPageScroller:nil];
+    [self setPageControl:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -702,6 +751,7 @@
     if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
         return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
     }
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
     return NO;
 }
 
@@ -1050,7 +1100,7 @@
     
     if (ac == nil && pc == nil) {
         ac = [[LoadMidiController alloc] initWithNibName:@"LoadMidiController" bundle:nil];
-        pc = [[UIPopoverController alloc] initWithContentViewController:ac];
+        //pc = [[UIPopoverController alloc] initWithContentViewController:ac];
         //ac.delegate = self;
         ac.delegate = self;
     }
@@ -1061,7 +1111,7 @@
         ac = nil;
         pc = nil;
         ac = [[LoadMidiController alloc] initWithNibName:@"LoadMidiController" bundle:nil];
-        pc = [[UIPopoverController alloc] initWithContentViewController:ac];
+        //pc = [[UIPopoverController alloc] initWithContentViewController:ac];
         //ac.delegate = self;
         ac.delegate = self;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Save first" 
@@ -1140,7 +1190,11 @@
     [button setTitle:selection forState:UIControlStateHighlighted];
     [[hotScales objectAtIndex:button.tag] release];
     [hotScales replaceObjectAtIndex:button.tag withObject:[[NSMutableArray alloc] initWithArray:loadedScale copyItems:YES]];
-    [spc dismissPopoverAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [spc dismissPopoverAnimated:YES];
+    else {
+        [self dismissModalViewControllerAnimated:YES];
+    }
     [loadedScale release];
 }
 
@@ -1365,7 +1419,7 @@
 
 
 -(void) getMoreScales {
-    if ([spc isPopoverVisible]) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [spc isPopoverVisible]) {
         [spc dismissPopoverAnimated:YES];
         MoreScalesController * moreViewController = [[MoreScalesController alloc] initWithNibName:@"MoreScalesController" bundle:nil];
         moreViewController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -1373,11 +1427,15 @@
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:moreViewController];
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
         [self presentModalViewController:navController animated:YES];
+    } else {
+        NSLog(@"more");
+        MoreScalesController * moreViewController = [[MoreScalesController alloc] initWithNibName:@"MoreScalesController" bundle:nil];
+        [(UINavigationController*)[self presentedViewController] pushViewController:moreViewController animated:YES];
     }
 }
 
 - (void)LoadScaleController:(LoadScaleController *)scaleController didPublishAScaleWithName:(NSString *)scaleName {
-    if ([spc isPopoverVisible]) {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad && [spc isPopoverVisible]) {
         [spc dismissPopoverAnimated:YES];
         PublishScaleController *publishController = [[PublishScaleController alloc] initWithNibName:@"PublishScaleController" bundle:nil];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:publishController];
@@ -1393,7 +1451,13 @@
         publishDetailController.scaleName = scaleName;
         [navController pushViewController:publishDetailController animated:NO];
         [self presentModalViewController:navController animated:YES];
-
+    } else {
+        PublishScaleDetailController *publishDetailController = [[PublishScaleDetailController alloc] initWithNibName:@"PublishScaleDetailController" bundle:nil];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        publishDetailController.scaleToSend = [[NSArray alloc] initWithContentsOfFile:[NSBundle pathForResource:scaleName ofType:@"scale" inDirectory:documentsDirectory]];
+        publishDetailController.scaleName = scaleName;
+        [(UINavigationController*)[self presentedViewController] pushViewController:publishDetailController animated:YES];
     }
 }
 

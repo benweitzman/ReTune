@@ -130,19 +130,27 @@
     
     self.scalesTable.delegate = self;
     [self.scalesTable reloadData];
-    typeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Sort by Name",@"Sort by Date",@"Sort by Downloads",nil]];
+    NSArray *sortBy = [NSArray arrayWithObjects:@"Sort by Name",@"Sort by Date",@"Sort by Downloads",nil];
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        sortBy = [NSArray arrayWithObjects:@"Name",@"Date",@"Downloads",nil];
+    }
+    typeControl = [[UISegmentedControl alloc] initWithItems:sortBy];
     [typeControl addTarget:self action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
     //segmentedControl.frame = CGRectMake(0, 0, 320, 30);
     [typeControl setSelectedSegmentIndex:0];
     [typeControl setSegmentedControlStyle:UISegmentedControlStyleBar];
-    typeControl.frame = CGRectMake(0.0f, 0.0f, 377.0f, 30.0f);
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        typeControl.frame = CGRectMake(0.0f, 0.0f, 377.0f, 30.0f);
+    else
+        typeControl.frame = CGRectMake(0.0f, 0.0f, 220.0f, 30.0f);
     directionControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Asc",@"Desc", nil]];
     [directionControl addTarget:self  action:@selector(segmentChanged:) forControlEvents:UIControlEventValueChanged];
     [directionControl setSelectedSegmentIndex:0];
     [directionControl setSegmentedControlStyle:UISegmentedControlStyleBar];
-    directionControl.frame = CGRectMake(387.0f, 0.0f, 139.0f, 30.0f);
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        directionControl.frame = CGRectMake(387.0f, 0.0f, 139.0f, 30.0f);
+    else
+        directionControl.frame = CGRectMake(210.0f, 0.0f, 80.0f, 30.0f);
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:typeControl];
     UIBarButtonItem *item2 = [[UIBarButtonItem alloc] initWithCustomView:directionControl];
     NSArray *theToolbarItems = [NSArray arrayWithObjects:item,item2, nil];

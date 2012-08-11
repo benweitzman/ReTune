@@ -56,6 +56,7 @@ typedef struct {
     float tuningOffset;
     NSMutableDictionary *bufferFiles;
     int currentPage;
+    bool keyboardLocked;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -92,6 +93,8 @@ typedef struct {
 @property (nonatomic, strong) NSMutableArray *hotKeys,*tempSlots,*tempScales,*hotScales;
 
 @property (strong, nonatomic) IBOutlet UIScrollView *pageScroller;
+
+@property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @property (nonatomic,strong) PGMidi *midi;
 -(IBAction)buttonTriggered:(id)sender;

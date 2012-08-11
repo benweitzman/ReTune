@@ -215,6 +215,7 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"No"]) return;
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     // Point to Document directory
     NSString *documentsDirectory = [NSHomeDirectory()

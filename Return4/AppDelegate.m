@@ -30,12 +30,20 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 	{
 		nibTitle = @"Viewcontroller~iPhone";
+        [application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     }
 
     self.viewController = [[ViewController alloc] initWithNibName:nibTitle bundle:nil];
     //self.window.rootViewController = self.viewController;
-    
-    [self.window addSubview:self.viewController.view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.window addSubview:self.viewController.view];
+    } else {
+        //UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
+        //navController.navigationBarHidden = YES;
+        [self.window addSubview:self.viewController.view];
+
+        //[self.window addSubview:navController.view];
+    }
     [self.window makeKeyAndVisible];
     IF_IOS_HAS_COREMIDI
     (
