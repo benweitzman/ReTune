@@ -9,7 +9,19 @@
 #import "InfoController.h"
 #import <QuartzCore/QuartzCore.h>
 
+@implementation CustomScroller
+
+- (BOOL) touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view {
+    if ([view isKindOfClass:[UISlider class]]) return YES;
+    return NO;
+}
+
+@end
+
 @implementation InfoController
+@synthesize pageScroller;
+@synthesize tabBar;
+@synthesize subViews;
 
 @synthesize rangeLabel,rangeSlider, hertzLabel, hertzSlider, methodControl, instrumentsTable;
 
@@ -45,11 +57,79 @@
     [instrumentsTable.layer setCornerRadius:7.0f];
     [instrumentsTable.layer setBorderColor:[UIColor grayColor].CGColor];
     [instrumentsTable.layer setBorderWidth:1];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+	{
+        subViews = [[NSArray alloc] initWithArray:[subViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+            else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+            return NSOrderedSame;
+        }]];
+        pageScroller.pagingEnabled = YES;
+        pageScroller.contentSize = CGSizeMake(pageScroller.frame.size.width * [subViews count], pageScroller.frame.size.height);
+        pageScroller.showsHorizontalScrollIndicator = NO;
+        pageScroller.showsVerticalScrollIndicator = NO;
+        pageScroller.scrollsToTop = NO;
+        pageScroller.delegate = self;
+        pageScroller.delaysContentTouches = NO;
+        //[pageScroller setBackgroundColor:[UIColor colorWithPatternImage:patternImage]];
+        for (int i=0;i<[subViews count];i++) {
+            CGRect frame = pageScroller.frame;
+            frame.origin.x = frame.size.width * i;
+            frame.origin.y = 0;
+            ((UIView*)[subViews objectAtIndex:i]).frame = frame;
+            [pageScroller addSubview:(UIView*)[subViews objectAtIndex:i]];
+            [(UIView*)[subViews objectAtIndex:i] setBackgroundColor:[UIColor colorWithPatternImage:patternImage]];
+            if ([[subViews objectAtIndex:i] isKindOfClass:[UIScrollView class]]) {
+                ((UIScrollView*)[subViews objectAtIndex:i]).delaysContentTouches = NO;
+            }
+        }
+        CGRect frame = pageScroller.frame;
+        frame.origin.x = frame.size.width * 0;
+        frame.origin.y = 0;
+        [pageScroller scrollRectToVisible:frame animated:YES];
+        currentPage = 1;
+        [tabBar setSelectedItem:[tabBar.items objectAtIndex:0]];
+        tabBarSelect = false;
+        self.view.backgroundColor = [UIColor underPageBackgroundColor];
+
+    }
     // Do any additional setup after loading the view from its nib.
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
+    if (!tabBarSelect) {
+        CGFloat pageWidth = pageScroller.frame.size.width;
+        currentPage = floor((pageScroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+        [tabBar setSelectedItem:[tabBar.items objectAtIndex:currentPage]];
+    }
+    /*if (currentPage == 0) {
+        pageScroller.delaysContentTouches = NO;
+    } else {
+        pageScroller.delaysContentTouches = YES;
+    }*/
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    tabBarSelect = false;
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    tabBarSelect = true;
+    NSLog(@"tab select");
+    CGRect frame = pageScroller.frame;
+    frame.origin.x = frame.size.width * item.tag;
+    frame.origin.y = 0;
+    [pageScroller scrollRectToVisible:frame animated:YES];
+    currentPage = item.tag;
+    //[tabBar setSelectedItem:[tabBar.items objectAtIndex:0]];
 }
 
 - (void)viewDidUnload
 {
+    [self setPageScroller:nil];
+    [self setTabBar:nil];
+    [self setSubViews:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

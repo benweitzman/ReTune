@@ -56,6 +56,41 @@
     cancel.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];      
     save.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];
     [intervalControl addTarget:self action:@selector(intervalChanged:) forControlEvents:UIControlEventValueChanged];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        UIFont *font = [UIFont boldSystemFontOfSize:12.0f];
+        NSDictionary *attributes = [NSDictionary dictionaryWithObject:font
+                                                               forKey:UITextAttributeFont];
+        [intervalControl setTitleTextAttributes:attributes
+                                        forState:UIControlStateNormal];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelled:)];
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:self action:@selector(saved:)];
+        [self.navigationItem setLeftBarButtonItem:backButton];
+        [self.navigationItem setRightBarButtonItem:saveButton];
+        UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+        numberToolbar.barStyle = UIBarStyleBlackTranslucent;
+        numberToolbar.items = [NSArray arrayWithObjects:
+                               [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                               [[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(doneWithNumberPad)],
+                               nil];
+        [numberToolbar sizeToFit];
+        centsField.inputAccessoryView = numberToolbar;
+        frequencyField.inputAccessoryView = numberToolbar;
+        numeratorField.inputAccessoryView = numberToolbar;
+        denominatorField.inputAccessoryView = numberToolbar;
+        centsField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        frequencyField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+        if (([[[UIDevice currentDevice] systemVersion] doubleValue] >= 4.1)) {
+            centsField.keyboardType = UIKeyboardTypeDecimalPad;
+            frequencyField.keyboardType = UIKeyboardTypeDecimalPad;
+        }
+    }
+}
+
+-(void)doneWithNumberPad{
+    [centsField resignFirstResponder];
+    [frequencyField resignFirstResponder];
+    [numeratorField resignFirstResponder];
+    [denominatorField resignFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -69,6 +104,7 @@
     currentInterval = 0;
     [intervalField setText:[NSString stringWithFormat:@"Ratio to %@ in the key of %@",[intervalControl titleForSegmentAtIndex:intervalControl.selectedSegmentIndex],[noteNames objectAtIndex:[delegate getScaleDegree]]]];
     [header setText:[NSString stringWithFormat:@"Changing note: %@",[noteNames objectAtIndex:[degree intValue]]]];
+    self.title = [NSString stringWithFormat:@"Changing %@",[noteNames objectAtIndex:[degree intValue]]];
     [numeratorField setText:[NSString stringWithFormat:@"%d",[numerator intValue]]];
     [denominatorField setText:[NSString stringWithFormat:@"%d",[denominator intValue]]];
     [centsField setText:[NSString stringWithFormat:@"%.1f",[cents floatValue]]];
@@ -195,8 +231,10 @@
 }
 
 -(IBAction)cancelled:(id)sender {
-    if ([pop isPopoverVisible]) {
-        [pop dismissPopoverAnimated:YES];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) [[self navigationController] dismissModalViewControllerAnimated:YES]; else {
+        if ([pop isPopoverVisible]) {
+            [pop dismissPopoverAnimated:YES];
+        }
     }
 }
 
@@ -207,6 +245,7 @@
             //NSLog(@"%f",[centsField.text floatValue]);
             float freq = [frequencyField.text floatValue];
             [delegate SetNoteController:self didFinishWithFrequency:freq forDegree:[degree intValue]];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) [[self navigationController] dismissModalViewControllerAnimated:YES];
         }
     }        
 }
@@ -227,6 +266,43 @@
         [denominatorField setText:[NSString stringWithFormat:@"%d", [[f numberFromString:[parts objectAtIndex:1]] intValue]]];
     }
 
+}
+
+- (IBAction)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self animateTextField: textField up: YES];
+}
+
+
+- (IBAction)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self animateTextField: textField up: NO];
+}
+
+- (void) animateTextField: (UITextField*) textField up: (BOOL) up
+{
+    const int movementDistance = 110; // tweak as needed
+    const float movementDuration = 0.3f; // tweak as needed
+    
+    int movement = (up ? -movementDistance : movementDistance);
+    
+    [UIView beginAnimations: @"anim" context: nil];
+    [UIView setAnimationBeginsFromCurrentState: YES];
+    [UIView setAnimationDuration: movementDuration];
+    self.view.frame = CGRectOffset(self.view.frame, 0, movement);
+    [UIView commitAnimations];
+}
+
+-(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return 12;
+}
+
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [noteNames objectAtIndex:row];
 }
 
 @end

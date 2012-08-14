@@ -169,17 +169,17 @@
 - (IBAction)segmentChanged:(id)sender {
     int direction = (directionControl.selectedSegmentIndex*2-1)*-1;
     if (typeControl.selectedSegmentIndex == 0) {
-        scales = [scales sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        scales = [[scales sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             return [[obj1 objectForKey:@"scaleName"] compare:[obj2 objectForKey:@"scaleName"] options:NSCaseInsensitiveSearch]*direction;
-        }];
+        }] mutableCopy];
     } else if (typeControl.selectedSegmentIndex == 1) {
-        scales = [scales sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        scales = [[scales sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             return [(NSNumber*)[obj1 objectForKey:@"id"] compare:(NSNumber*)[obj2 objectForKey:@"id"]]*direction;
-        }];
+        }] mutableCopy];
     } else {
-        scales = [scales sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        scales = [[scales sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
             return [(NSNumber*)[obj1 objectForKey:@"downloads"] compare:(NSNumber*)[obj2 objectForKey:@"downloads"]]*direction;
-        }];
+        }] mutableCopy];
     }
     [self.scalesTable reloadData];
 }

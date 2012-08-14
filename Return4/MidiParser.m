@@ -124,7 +124,7 @@
     sequenceNumber |= [self readByteAtRelativeOffset:0];
     sequenceNumber <<= 8;
     sequenceNumber |= [self readByteAtRelativeOffset:1];
-    [self.log appendFormat:@"Meta Sequence Number: %d\n", sequenceNumber];
+    [self.log appendFormat:@"Meta Sequence Number: %ld\n", sequenceNumber];
 }
 
 - (void) readMetaTextEvent: (UInt32) length
@@ -190,7 +190,7 @@
     microPerQuarter |= [self readByteAtRelativeOffset:2];
     
     bpm = MICRO_PER_MINUTE / microPerQuarter;
-    [self.log appendFormat:@"Meta Set Tempo: Micro Per Quarter: %d, Beats Per Minute: %d\n", microPerQuarter, bpm];
+    [self.log appendFormat:@"Meta Set Tempo: Micro Per Quarter: %d, Beats Per Minute: %ld\n", microPerQuarter, bpm];
 }
 
 - (void) readMetaSMPTEOffset
@@ -232,29 +232,29 @@
     NSString *accidentalsType = nil;
     if((value & 0x80) != 0)
     {
-        accidentalsType = [NSString stringWithString:@"Flats"];
+        accidentalsType = @"Flats";
         sharps = NO;
     }
     else
     {
-        accidentalsType = [NSString stringWithString:@"Sharps"];
+        accidentalsType = @"Sharps";
     }
     UInt8 scale = [self readByteAtRelativeOffset:1];
     NSString *scaleType = nil;
     if(scale == 0)
     {
-        scaleType = [NSString stringWithString:@"Major"];
+        scaleType = @"Major";
     }
     else
     {
-        scaleType = [NSString stringWithString:@"Minor"];
+        scaleType = @"Minor";
     }
     [self.log appendFormat:@"Meta Key Signature: %d %@ Type: %@\n", accidentals, accidentalsType, scaleType];
 }
 
 - (void) readMetaSeqSpecific: (UInt32) length
 {
-    [self.log appendFormat:@"Meta Event Sequencer Specific: - Length: %d\n", length];
+    [self.log appendFormat:@"Meta Event Sequencer Specific: - Length: %ld\n", length];
 }
 
 - (void) readNoteOff: (UInt8) channel parameter1: (UInt8) p1 parameter2: (UInt8) p2
@@ -292,7 +292,7 @@
     UInt32 value = p1;
     value <<= 8;
     value |= p2;
-    [self.log appendFormat:@"Pitch Bend (Channel %d): %d\n", channel, value];
+    [self.log appendFormat:@"Pitch Bend (Channel %d): %ld\n", channel, value];
 }
 
 - (BOOL) parseData:(NSData *)midiData
@@ -331,7 +331,7 @@
         offset += 4;
         
         UInt32 chunkSize = [self readDWord];
-        [self.log appendFormat:@"Header Chunk Size: %d\n", chunkSize];
+        [self.log appendFormat:@"Header Chunk Size: %ld\n", chunkSize];
         
         // Read format
         format = [self readWord];
@@ -363,7 +363,7 @@
         {
             if(offset != expectedTrackOffset)
             {
-                [self.log appendFormat:@"Track Offset Incorrect for Track %d - Offset: %d, Expected: %d", track, offset, expectedTrackOffset];
+                [self.log appendFormat:@"Track Offset Incorrect for Track %d - Offset: %d, Expected: %ld", track, offset, expectedTrackOffset];
                 offset = expectedTrackOffset;
             }
             
@@ -379,7 +379,7 @@
             
             UInt32 trackSize = [self readDWord];
             expectedTrackOffset = offset + trackSize;
-            [self.log appendFormat:@"Track %d : %d bytes\n", track, trackSize];
+            [self.log appendFormat:@"Track %d : %ld bytes\n", track, trackSize];
             
             UInt32 trackEnd = offset + trackSize;
             UInt32 deltaTime;
@@ -390,7 +390,7 @@
                 deltaTime = [self readVariableValue];
                 currentTime += deltaTime;
                 noteOnDelta += deltaTime;
-                [self.log appendFormat:@"  (%05d): ", deltaTime];
+                [self.log appendFormat:@"  (%05ld): ", deltaTime];
                 
                 // Peak at next byte
                 peekByte = [self readByteAtRelativeOffset:0];
@@ -473,7 +473,7 @@
                             break;
                             
                         default:
-                            [self.log appendFormat:@"Meta Event Type: 0x%x, Length: %d\n", metaEventType, metaEventLength];
+                            [self.log appendFormat:@"Meta Event Type: 0x%x, Length: %ld\n", metaEventType, metaEventLength];
                             break;
                     }
                     
@@ -483,7 +483,7 @@
                 {
                     // SysEx event
                     UInt32 sysExDataLength = [self readVariableValue];
-                    [self.log appendFormat:@"SysEx Event - Length: %d\n", sysExDataLength];
+                    [self.log appendFormat:@"SysEx Event - Length: %ld\n", sysExDataLength];
                     offset += sysExDataLength;
                 }
                 else

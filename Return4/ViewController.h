@@ -32,7 +32,7 @@ typedef struct {
 } bufferInfo;
 
 
-@interface ViewController : UIViewController <UIScrollViewDelegate>
+@interface ViewController : UIViewController <UIScrollViewDelegate, UITabBarDelegate>
 {
     ALDevice* device;
     ALContext* context;
@@ -57,6 +57,7 @@ typedef struct {
     NSMutableDictionary *bufferFiles;
     int currentPage;
     bool keyboardLocked;
+    bool tabBarSelect;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -94,7 +95,7 @@ typedef struct {
 
 @property (strong, nonatomic) IBOutlet UIScrollView *pageScroller;
 
-@property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (strong, nonatomic) IBOutlet UITabBar *tabBar;
 
 @property (nonatomic,strong) PGMidi *midi;
 -(IBAction)buttonTriggered:(id)sender;

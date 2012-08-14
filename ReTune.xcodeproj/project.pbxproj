@@ -1120,6 +1120,8 @@
 		DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B733154A35AA00D33D7E /* hotKeyDown.png */; };
 		DA95F40D15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA95F40C15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib */; };
 		DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F11548B92600E70868 /* ipad_icon.png */; };
+		DAAC4C5915D81FE000001476 /* SetNoteController~iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAAC4C5815D81FE000001476 /* SetNoteController~iPhone.xib */; };
+		DAAC4C5B15D9CEFC00001476 /* InfoController~iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAAC4C5A15D9CEFC00001476 /* InfoController~iPhone.xib */; };
 		DABA58F81547B4AE0044B869 /* EightDaysAWeek.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */; };
 		DABA59041547B8860044B869 /* dixie.mid in Resources */ = {isa = PBXBuildFile; fileRef = DABA59031547B8860044B869 /* dixie.mid */; };
 		DABBB0051559D2E0004B9250 /* SetNoteController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBB0031559D2E0004B9250 /* SetNoteController.m */; };
@@ -1785,6 +1787,8 @@
 		DA80B733154A35AA00D33D7E /* hotKeyDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyDown.png; path = Images/hotKeyDown.png; sourceTree = SOURCE_ROOT; };
 		DA95F40C15D5C32B00DA70C9 /* Viewcontroller~iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Viewcontroller~iPhone.xib"; sourceTree = "<group>"; };
 		DAAB03F11548B92600E70868 /* ipad_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ipad_icon.png; sourceTree = "<group>"; };
+		DAAC4C5815D81FE000001476 /* SetNoteController~iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "SetNoteController~iPhone.xib"; sourceTree = "<group>"; };
+		DAAC4C5A15D9CEFC00001476 /* InfoController~iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "InfoController~iPhone.xib"; sourceTree = "<group>"; };
 		DABA58F71547B4AE0044B869 /* EightDaysAWeek.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; name = EightDaysAWeek.mid; path = ../EightDaysAWeek.mid; sourceTree = "<group>"; };
 		DABA59031547B8860044B869 /* dixie.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = dixie.mid; sourceTree = "<group>"; };
 		DABBB0021559D2E0004B9250 /* SetNoteController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetNoteController.h; sourceTree = "<group>"; };
@@ -2452,9 +2456,11 @@
 				DABBB0021559D2E0004B9250 /* SetNoteController.h */,
 				DABBB0031559D2E0004B9250 /* SetNoteController.m */,
 				DABBB0041559D2E0004B9250 /* SetNoteController.xib */,
+				DAAC4C5815D81FE000001476 /* SetNoteController~iPhone.xib */,
 				DA510F42158FAE2600B36A4C /* InfoController.h */,
 				DA510F43158FAE2600B36A4C /* InfoController.m */,
 				DA510F44158FAE2600B36A4C /* InfoController.xib */,
+				DAAC4C5A15D9CEFC00001476 /* InfoController~iPhone.xib */,
 				DA60F30F159CDEE0004DDBD3 /* InstrumentController.h */,
 				DA60F310159CDEE0004DDBD3 /* InstrumentController.m */,
 				DA60F311159CDEE0004DDBD3 /* InstrumentController.xib */,
@@ -3842,6 +3848,8 @@
 				DA27634D15D5DC9C00D50C07 /* whitePianoUpiPhone.png in Resources */,
 				DA6A803D15D6E0EF009EDFE1 /* diamond_upholstery.png in Resources */,
 				DA6A803F15D6FB8D009EDFE1 /* MoreScalesDetailController~iPhone.xib in Resources */,
+				DAAC4C5915D81FE000001476 /* SetNoteController~iPhone.xib in Resources */,
+				DAAC4C5B15D9CEFC00001476 /* InfoController~iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

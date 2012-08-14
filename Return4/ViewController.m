@@ -51,8 +51,7 @@
 @end
 
 @implementation ViewController
-@synthesize pageControl;
-
+@synthesize tabBar;
 @synthesize pageScroller, subViews;
 @synthesize buffers, pitches, ratios, soundFiles, majorScale, midi,recordedNotes, loopBuffers, scaleRatios;
 @synthesize playButton, pauseButton, stopButton, loadButton, saveButton, recordButton;
@@ -304,6 +303,13 @@
     [instrument release];
     instrument = [[NSArray alloc] initWithContentsOfFile:path];
     
+    subViews = [[NSArray alloc] initWithArray:[subViews sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
+        else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
+        return NSOrderedSame;
+    }]];
+    
+    
     frequencyLabels = [[NSArray alloc] initWithArray:[frequencyLabels sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         if ([obj1 tag] < [obj2 tag]) return NSOrderedAscending;
         else if ([obj1 tag] > [obj2 tag]) return NSOrderedDescending;
@@ -477,7 +483,7 @@
 	{
         NSLog(@"%@",subViews);
         pageScroller.pagingEnabled = YES;
-        pageScroller.contentSize = CGSizeMake(pageScroller.frame.size.width * 3, pageScroller.frame.size.height);
+        pageScroller.contentSize = CGSizeMake(pageScroller.frame.size.width * [subViews count], pageScroller.frame.size.height);
         pageScroller.showsHorizontalScrollIndicator = NO;
         pageScroller.showsVerticalScrollIndicator = NO;
         pageScroller.scrollsToTop = NO;
@@ -493,24 +499,42 @@
             [(UIView*)[subViews objectAtIndex:i] setBackgroundColor:[UIColor colorWithPatternImage:patternImage]];
         }
         CGRect frame = pageScroller.frame;
-        frame.origin.x = frame.size.width * 1;
+        frame.origin.x = frame.size.width * 0;
         frame.origin.y = 0;
         [pageScroller scrollRectToVisible:frame animated:YES];
         currentPage = 1;
-        pageControl.currentPage = currentPage;
+        [tabBar setSelectedItem:[tabBar.items objectAtIndex:0]];
+        tabBarSelect = false;
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender
 {
-    CGFloat pageWidth = pageScroller.frame.size.width;
-    currentPage = floor((pageScroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    pageControl.currentPage = currentPage;
-    if (currentPage == 1) {
+    if (!tabBarSelect) {
+        CGFloat pageWidth = pageScroller.frame.size.width;
+        currentPage = floor((pageScroller.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+        [tabBar setSelectedItem:[tabBar.items objectAtIndex:currentPage]];
+    }
+    if (currentPage > 1) {
         pageScroller.delaysContentTouches = NO;
     } else {
         pageScroller.delaysContentTouches = YES;
     }
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    tabBarSelect = false;
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    tabBarSelect = true;
+    NSLog(@"tab select");
+    CGRect frame = pageScroller.frame;
+    frame.origin.x = frame.size.width * item.tag;
+    frame.origin.y = 0;
+    [pageScroller scrollRectToVisible:frame animated:YES];
+    currentPage = item.tag;
+    //[tabBar setSelectedItem:[tabBar.items objectAtIndex:0]];
 }
 
 - (IBAction)playTemp:(id)sender {
@@ -537,40 +561,67 @@
         UILabel *label= (UILabel *)sender.view;
         if (label.tag != currentScaleDegree) {
         UIView *view = sender.view;
-            if (noteViewController == nil && notePopover == nil) {
-                noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
-                notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
-                noteViewController.delegate = self;
-                noteViewController.pop = notePopover;
-                noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
-                noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
-                float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
-                float cents = roundf((1200*log2f(ratio))*10)/10;
-                noteViewController.cents = [NSNumber numberWithFloat:cents];
-                
-                float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
-                if (noteRatio < 1) {
-                    noteRatio *= 2;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                if (noteViewController == nil && notePopover == nil) {
+                    noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
+                    notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
+                    noteViewController.delegate = self;
+                    noteViewController.pop = notePopover;
+                    noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
+                    noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
+                    float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
+                    float cents = roundf((1200*log2f(ratio))*10)/10;
+                    noteViewController.cents = [NSNumber numberWithFloat:cents];
+                    
+                    float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
+                    if (noteRatio < 1) {
+                        noteRatio *= 2;
+                    }
+                    NSString *ratioString = [self fractionFromFloat:noteRatio];
+                    NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+                    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                    noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
+                    noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
+                    UIPopoverArrowDirection direction = UIPopoverArrowDirectionLeft;
+                    if (label.tag > 9) {
+                        direction = UIPopoverArrowDirectionRight;
+                    }
+                    [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:direction animated:YES];
+                    //sac.button = (UIButton *)sender.view;
+                } else if ([notePopover isPopoverVisible]) {
+                    [notePopover dismissPopoverAnimated:YES];
+                } else {
+                    [notePopover release];
+                    [noteViewController release];
+                    noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
+                    notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
+                    noteViewController.delegate = self;
+                    noteViewController.pop = notePopover;
+                    noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
+                    noteViewController.frequency = [pitches objectAtIndex:label.tag+60];
+                    float ratio = [[pitches objectAtIndex:label.tag+12] floatValue]/[[majorScale objectAtIndex:label.tag+12] floatValue];
+                    float cents = roundf((1200*log2f(ratio))*10)/10;
+                    noteViewController.cents = [NSNumber numberWithFloat:cents];
+                    float noteRatio = [[pitches objectAtIndex:label.tag] floatValue]/[[pitches objectAtIndex:currentScaleDegree] floatValue];
+                    if (noteRatio < 1) {
+                        noteRatio *= 2;
+                    }
+                    NSString *ratioString = [self fractionFromFloat:noteRatio];
+                    NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
+                    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+                    [f setNumberStyle:NSNumberFormatterDecimalStyle];
+                    noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
+                    noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
+                    UIPopoverArrowDirection direction = UIPopoverArrowDirectionLeft;
+                    if (label.tag > 9) {
+                        direction = UIPopoverArrowDirectionRight;
+                    }
+                    [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:direction animated:YES];
                 }
-                NSString *ratioString = [self fractionFromFloat:noteRatio];
-                NSArray *parts = [ratioString componentsSeparatedByString:@"/"];
-                NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-                [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
-                noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
-                UIPopoverArrowDirection direction = UIPopoverArrowDirectionLeft;
-                if (label.tag > 9) {
-                    direction = UIPopoverArrowDirectionRight;
-                }
-                [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:direction animated:YES];
-                //sac.button = (UIButton *)sender.view;
-            } else if ([notePopover isPopoverVisible]) {
-                [notePopover dismissPopoverAnimated:YES];
             } else {
-                [notePopover release];
-                [noteViewController release];
                 noteViewController = [[SetNoteController alloc] initWithNibName:@"SetNoteController" bundle:nil];
-                notePopover = [[UIPopoverController alloc] initWithContentViewController:noteViewController];
+                UINavigationController *navController = [[ UINavigationController alloc] initWithRootViewController:noteViewController];
                 noteViewController.delegate = self;
                 noteViewController.pop = notePopover;
                 noteViewController.degree = [[NSNumber alloc] initWithInt:label.tag];
@@ -588,11 +639,8 @@
                 [f setNumberStyle:NSNumberFormatterDecimalStyle];
                 noteViewController.numerator = [f numberFromString:[parts objectAtIndex:0]];
                 noteViewController.denominator = [f numberFromString:[parts objectAtIndex:1]];
-                UIPopoverArrowDirection direction = UIPopoverArrowDirectionLeft;
-                if (label.tag > 9) {
-                    direction = UIPopoverArrowDirectionRight;
-                }
-                [notePopover presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:direction animated:YES];
+                [self presentModalViewController:navController animated:YES];
+                
             }
         }
     }
@@ -702,7 +750,7 @@
 - (void)viewDidUnload
 {
     [self setPageScroller:nil];
-    [self setPageControl:nil];
+    [self setTabBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -1384,10 +1432,8 @@
                                              initWithRootViewController:infoViewController];
     navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     infoViewController.title = @"Settings and Info";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:infoViewController action:@selector(cancel)];
-    [infoViewController.navigationItem setRightBarButtonItem:backButton];
-    UIBarButtonItem *settingsSaveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleDone target:infoViewController action:@selector(save)];
-    [infoViewController.navigationItem setLeftBarButtonItem:settingsSaveButton];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:infoViewController action:@selector(cancel)];
+    [infoViewController.navigationItem setLeftBarButtonItem:backButton];
     [self presentModalViewController:navController animated:YES];
 }
 
