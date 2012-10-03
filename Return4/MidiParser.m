@@ -190,7 +190,7 @@
     microPerQuarter |= [self readByteAtRelativeOffset:2];
     
     bpm = MICRO_PER_MINUTE / microPerQuarter;
-    [self.log appendFormat:@"Meta Set Tempo: Micro Per Quarter: %d, Beats Per Minute: %ld\n", microPerQuarter, bpm];
+    [self.log appendFormat:@"Meta Set Tempo: Micro Per Quarter: %ld, Beats Per Minute: %ld\n", microPerQuarter, bpm];
 }
 
 - (void) readMetaSMPTEOffset
@@ -575,16 +575,18 @@
         success = NO;
         [self.log appendString:[exception reason]];
     }
-    /*for (int i=0;i<[noteOns count];i++) {
-        NoteObject *current = [noteOns objectAtIndex:i];
-        NSLog(@"%d %d",current.time,current.note);
+    /*for (int i=0;i<[events count];i++) {
+        NoteObject *current = [events objectAtIndex:i];
+        if (current.noteOn)
+            NSLog(@"%d %d",current.time,current.note);
     }*/
     if (timeFormat == MidiTimeFormatFramesPerSecond) {
         ticksPerSecond = framesPerSecond*ticksPerFrame;
     } else {
         ticksPerSecond = ticksPerBeat*bpm/60;
     }
-    //NSLog(@"bpm: %d",bpm);
+   // NSLog(@"%@",events);
+    //NSLog(@"bpm: %ld",bpm);
     //NSLog(@"%@",log);
     return success;
 }

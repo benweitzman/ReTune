@@ -12,6 +12,7 @@
 @implementation CustomScroller
 
 - (BOOL) touchesShouldBegin:(NSSet *)touches withEvent:(UIEvent *)event inContentView:(UIView *)view {
+    return YES;
     if ([view isKindOfClass:[UISlider class]]) return YES;
     return NO;
 }
@@ -162,7 +163,7 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-- (void) cancel {
+- (void) goBack {
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -173,6 +174,7 @@
 
 - (void)rangeChanged:(id)sender {
     rangeSlider.value = roundf(rangeSlider.value);
+    NSLog(@"%f",rangeSlider.value);
     rangeLabel.text = [NSString stringWithFormat:@"%.f cents",rangeSlider.value];
     [userSettings setFloat:rangeSlider.value forKey:@"Slider Range"];
 }

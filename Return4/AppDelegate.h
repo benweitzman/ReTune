@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "PGMidi.h"
 
-@class ViewController;
+#import "ViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {

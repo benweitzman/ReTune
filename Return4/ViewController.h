@@ -15,6 +15,8 @@
 #import "SetNoteController.h"
 #import "InfoController.h"
 #import "InstrumentController.h"
+#import "BButton.h"
+#import "TintedButton.h"
 
 @class PGMidi;
 
@@ -58,6 +60,7 @@ typedef struct {
     int currentPage;
     bool keyboardLocked;
     bool tabBarSelect;
+    bool editedScale;
 }
 @property (strong) NSMutableArray* pitches;
 @property (strong) NSMutableArray* ratios;
@@ -79,7 +82,8 @@ typedef struct {
 @property (nonatomic, retain) UILongPressGestureRecognizer * pressRecognizer;
 @property (nonatomic, retain) UITapGestureRecognizer *tapRecognizer;
 
-@property (nonatomic,strong) IBOutlet UIButton *hotKey0,*hotKey1,*hotKey2,*hotKey3,*hotKey4,*hotKey5,*hotKey6,*hotKey7,*hotKey8,*hotKey9,*hotKey10,*hotKey11,*tempSlot0,*tempSlot1,*tempSlot2;
+@property (nonatomic, strong) IBOutlet TintedButton *hotKey0,*hotKey1,*hotKey2,*hotKey3,*hotKey4,*hotKey5,*hotKey6,*hotKey7,*hotKey8,*hotKey9,*hotKey10,*hotKey11;
+@property (nonatomic,strong) IBOutlet TintedButton *tempSlot0,*tempSlot1,*tempSlot2;
 
 @property (nonatomic, strong) IBOutlet UIButton *instrumentButton, *publishButton;
 

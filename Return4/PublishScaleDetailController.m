@@ -45,9 +45,13 @@
     tf.autocorrectionType = UITextAutocorrectionTypeNo ;  
     tf.autocapitalizationType = UITextAutocapitalizationTypeNone;  
     tf.adjustsFontSizeToFitWidth = YES;  
-    tf.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];      
-    tf.frame = CGRectMake(140, 12, 165, 30);
-    return tf ;  
+    tf.textColor = [UIColor colorWithRed:56.0f/255.0f green:84.0f/255.0f blue:135.0f/255.0f alpha:1.0f];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        tf.frame = CGRectMake(180, 12, 320, 30);
+    } else {
+        tf.frame = CGRectMake(140,12,165,30);
+    }
+    return tf ;
 }  
 
 - (id)initWithStyle:(UITableViewStyle)style

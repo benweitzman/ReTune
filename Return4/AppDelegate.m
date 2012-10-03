@@ -29,21 +29,13 @@
     NSString *nibTitle = @"ViewController";
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 	{
-		nibTitle = @"Viewcontroller~iPhone";
+		nibTitle = @"ViewController~iphone";
         [application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
     }
 
-    self.viewController = [[ViewController alloc] initWithNibName:nibTitle bundle:nil];
-    //self.window.rootViewController = self.viewController;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.window addSubview:self.viewController.view];
-    } else {
-        //UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
-        //navController.navigationBarHidden = YES;
-        [self.window addSubview:self.viewController.view];
-
-        //[self.window addSubview:navController.view];
-    }
+    self.viewController = [[[ViewController alloc] initWithNibName:nibTitle bundle:nil] retain];
+    self.window.rootViewController = self.viewController;
+    [self.window addSubview:self.viewController.view];
     [self.window makeKeyAndVisible];
     IF_IOS_HAS_COREMIDI
     (
@@ -93,6 +85,10 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

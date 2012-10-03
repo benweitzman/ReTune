@@ -20,6 +20,9 @@
 #import "PublishScaleController.h"
 #import "PublishScaleDetailController.h"
 #import "JSONKit.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import "BButton.h"
+#import "TintedButton.h"
 
 @interface ViewController () <PGMidiDelegate, PGMidiSourceDelegate, LoadMidiControllerDelegate, UIAlertViewDelegate, LoadScaleControllerDelegate, SetNoteControllerDelegate, InstrumentControllerDelegate>
 - (void) addString:(NSString*)string;
@@ -200,7 +203,7 @@
                 [buffers addObject:info.buffer];
                 [loopBuffers addObject:[NSNull null]];
             } else {
-                NSLog(@"%d",info.loopStart);
+                //NSLog(@"%d",info.loopStart);
                 [buffers addObject:[info.buffer sliceWithName:nil offset:0 size:info.loopStart]];
                 [loopBuffers addObject:[info.buffer sliceWithName:nil offset:info.loopStart size:info.loopEnd-info.loopStart]];
             }
@@ -247,8 +250,8 @@
 - (void) checkForUpdate:(NSData *)responseData {
     NSDictionary *data = [responseData objectFromJSONData];
     NSNumber *version =  [NSNumber numberWithFloat:[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] floatValue]];
-    NSLog(@"%@",data);
-    NSLog(@"%@",version);
+    //NSLog(@"%@",data);
+    //NSLog(@"%@",version);
     if (![version isEqualToNumber:[data objectForKey:@"version"]]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Updates available"
                                                         message:@"There are updates available for ReTune. Would you like to update now?"
@@ -263,6 +266,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    editedScale = false;
     userSettings = [NSUserDefaults standardUserDefaults];
     NSDictionary *appDefaults = [[NSDictionary alloc] initWithObjectsAndKeys:
                                  [NSNumber numberWithFloat:50],@"Slider Range",
@@ -280,16 +284,16 @@
                                    withObject:data
                                 waitUntilDone:YES];
         } else {
-            NSLog(@"fda");
+            //NSLog(@"fda");
         }
     });
     tuningOffset = 0;
     bufferFiles = [[NSMutableDictionary alloc] init];
     keyboardLocked = false;
 #ifdef macroIsFree
-    NSLog(@"free version");
+    //NSLog(@"free version");
 #else
-    NSLog(@"paid version");
+    //NSLog(@"paid version");
 #endif
     UIImage *patternImage = [UIImage imageNamed:@"diamond_upholstery.png"];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) self.view.backgroundColor = [UIColor colorWithPatternImage:patternImage];
@@ -458,30 +462,34 @@
     
     // The number of fingers that must be on the screen
         pressRecognizer.minimumPressDuration = 0.8;
-        UIButton * hotKey = [hotKeys objectAtIndex:i];
-        
+        TintedButton * hotKey = [hotKeys objectAtIndex:i];
         [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateNormal];
         [hotKey setTitle:@"Press and hold\nto load a scale" forState:UIControlStateHighlighted]; 
         hotKey.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:12.0f];      
         hotKey.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         hotKey.titleLabel.textAlignment = UITextAlignmentCenter;
         [hotKey addGestureRecognizer:pressRecognizer];
-        [hotKey setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        [hotKey setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
-        
+        //[hotKey setColor:[UIColor colorWithRed:.9 green:.9 blue:.9 alpha:1]];
+        [hotKey setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [hotKey.titleLabel setShadowOffset:CGSizeMake(0, 0)];
+        //[hotKey setTintColor:[UIColor colorWithRed:i&1 green:i&2 blue:i&4 alpha:.30]];
     }
     NSArray *controlButtons = [NSArray arrayWithObjects: playButton, pauseButton, stopButton, loadButton, saveButton, recordButton, tempSlot0, tempSlot1,tempSlot2, instrumentButton,  nil];
     for (int i=0;i<[controlButtons count];i++) {
         UIButton *button = [controlButtons objectAtIndex:i];
         [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
         [button setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (![[NSArray arrayWithObjects:tempSlot0,tempSlot1,tempSlot2, nil] containsObject:button])
+                button.transform = CGAffineTransformRotate(button.transform, 90.0/180*M_PI);
+        }
     }
     [playButton setBackgroundImage:buttonImage forState:UIControlStateDisabled];
     UISlider * rootSlider = [sliders objectAtIndex:currentScaleDegree];
     rootSlider.enabled = false;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 	{
-        NSLog(@"%@",subViews);
+        //NSLog(@"%@",subViews);
         pageScroller.pagingEnabled = YES;
         pageScroller.contentSize = CGSizeMake(pageScroller.frame.size.width * [subViews count], pageScroller.frame.size.height);
         pageScroller.showsHorizontalScrollIndicator = NO;
@@ -528,7 +536,7 @@
 
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     tabBarSelect = true;
-    NSLog(@"tab select");
+    //NSLog(@"tab select");
     CGRect frame = pageScroller.frame;
     frame.origin.x = frame.size.width * item.tag;
     frame.origin.y = 0;
@@ -672,7 +680,7 @@
         [tempScales replaceObjectAtIndex:view.tag withObject:currentScale];
         [button setTitle:@"Tap to play\nDouble tap to save" forState:UIControlStateNormal]; 
         [button setTitle:@"Tap to play\nDouble tap to save" 
-                  forState:UIControlStateHighlighted]; 
+                  forState:UIControlStateHighlighted];
     }
 }
 
@@ -712,7 +720,7 @@
                 [spc presentPopoverFromRect:[view bounds] inView:view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             }
         } else {
-            NSLog(@"load scales");
+            //NSLog(@"load scales");
             LoadScaleController *scaleController = [[LoadScaleController alloc] initWithNibName:@"LoadScaleController" bundle:nil];
             scaleController.delegate = self;
             scaleController.button = (UIButton *)sender.view;
@@ -792,12 +800,24 @@
 	[super viewDidDisappear:animated];
 }
 
+-(NSUInteger)supportedInterfaceOrientations {
+    NSLog(@"check one two");
+    return UIInterfaceOrientationMaskAll;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return UIInterfaceOrientationMaskLandscape;
+    } else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    NSLog(@"%d",currentPage);
+    //NSLog(@"%d",currentPage);
     if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
         return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad;
+    } else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:NO];
     }
     if (UIInterfaceOrientationIsPortrait(interfaceOrientation)) return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone;
     return NO;
@@ -825,6 +845,7 @@
 }
 
 - (void) noteOff:(int)noteValue {
+    //NSLog(@"off");
     if (noteValue>=0 && noteValue<127) {
         ALSource * source = [sources objectAtIndex:noteValue];
         ALSource *loopSource = [loopSources objectAtIndex:noteValue];
@@ -834,7 +855,7 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 float timeDone = 0;
                 float duration = 0.2;
-                float timeStep = 0.0001;
+                float timeStep = 0.01;
                 float valStep = source.gain*timeStep/duration;
                 float loopStep = loopSource.gain*timeStep/duration;
                 while (timeDone < duration) {
@@ -899,7 +920,7 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 float timeDone = 0;
                 float duration = [(ALBuffer*)[buffers objectAtIndex:noteValue] duration]-.4;
-                float timeStep = 0.0001;
+                float timeStep = 0.01;
                 float valStep = source.gain*timeStep/duration;
                 float loopStep = valStep;
                 while (timeDone < duration) {
@@ -957,6 +978,16 @@
     //label = [ratioLabels objectAtIndex:(slider.tag+1)%12];
     //displayRatio = [[pitches objectAtIndex:12] floatValue]/(newPitch*2);
     //[label setText:[self fractionFromFloat:displayRatio]]
+    if (!editedScale) {
+        editedScale = true;
+        for (int i=0;i<[hotKeys count];i++) {
+            TintedButton *hotKey = [hotKeys objectAtIndex:i];
+            if ([[hotKey titleColorForState:UIControlStateNormal] isEqualToColor:[UIColor whiteColor]]) {
+                [hotKey setTintColor:[UIColor colorWithRed:0.1 green:0.5 blue:0.1 alpha:0.2]];
+                [hotKey setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            }
+        }
+    }
     changingPitch = false;
 }
 
@@ -1100,6 +1131,45 @@
     [self stopAllNotes];
 }
 
+-(void)playNote:(NSTimer *)timer
+{
+    if (stopped || [parser.events count] == 0) {
+        playing = false;
+        stopped = false;
+        paused = false;
+        playButton.enabled = true;
+        return;
+    }
+    int index = [[timer userInfo] intValue];
+    NoteObject *n = [parser.events objectAtIndex:index];
+    double ticksPerSecond = [parser ticksPerSecond];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (n.noteOn) {
+            [self noteOn:n.note withVelocity:n.velocity];
+        } else {
+            [self noteOff:n.note];
+        }
+    });
+    if (index != [parser.events count]-1) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            while (paused);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                /* Do somthing here with UIKit here */
+
+                NoteObject *nextNote = [parser.events objectAtIndex:index+1];
+                [NSTimer scheduledTimerWithTimeInterval:(nextNote.time/ticksPerSecond) target:self selector:@selector(playNote:) userInfo:[NSNumber numberWithInt:index+1] repeats:NO];
+            });
+        });
+    } else {
+        playing = false;
+        stopped = false;
+        paused = false;
+        playButton.enabled = true;
+    }
+
+}
+
 - (IBAction)playMidi:(id)sender {
     UIButton *button = (UIButton*)sender;
     button.enabled = false;
@@ -1107,7 +1177,8 @@
         playing = true;
         paused = false;
         stopped = false;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [NSTimer scheduledTimerWithTimeInterval:0 target:self selector:@selector(playNote:) userInfo:[NSNumber numberWithInt:0] repeats:NO];
+        /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSMutableArray *events = parser.events;
             double ticksPerSecond = [parser ticksPerSecond];
             //int ticksPerSecond = [parser 
@@ -1131,7 +1202,7 @@
             stopped = false;
             paused = false;
             button.enabled = true;
-        });
+        });*/
     } else {
         paused = false;
     }
@@ -1220,17 +1291,17 @@
 
 -(void)LoadScaleController:(LoadScaleController *)scaleController didFinishWithSelection:(NSString *)selection {
     NSMutableArray *loadedScale = [[NSMutableArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:selection ofType: @"scale"]];
-    NSLog(@"%@",selection);
-    NSLog(@"%@",[[NSBundle mainBundle] pathForResource:selection ofType: @"scale"]);
-    NSLog(@"%@",loadedScale);
+    ////NSLog(@"%@",selection);
+    ////NSLog(@"%@",[[NSBundle mainBundle] pathForResource:selection ofType: @"scale"]);
+    ////NSLog(@"%@",loadedScale);
     if (loadedScale == nil || [loadedScale count] == 0) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         loadedScale = nil;
         loadedScale = [[NSMutableArray alloc] initWithContentsOfFile:[NSBundle pathForResource:selection ofType:@"scale" inDirectory:documentsDirectory]];
-        NSLog(@"%@",selection);
-        NSLog(@"%@",[NSBundle pathForResource:selection ofType:@"scale" inDirectory:documentsDirectory]);
-        NSLog(@"%@",loadedScale);
+        //NSLog(@"%@",selection);
+        //NSLog(@"%@",[NSBundle pathForResource:selection ofType:@"scale" inDirectory:documentsDirectory]);
+        //NSLog(@"%@",loadedScale);
     }
     
     UIButton *button = scaleController.button;
@@ -1364,13 +1435,31 @@
 }
 
 -(IBAction)loadScale:(id)sender {
-    
     UIButton * button = sender;
     if (!loadingScale) {
     NSMutableArray *newScale = [hotScales objectAtIndex:button.tag];
     loadingScale = true;
     //[buffers release];
     if ([newScale count] != 0) {
+        /*UIImage *buttonImage = [[UIImage imageNamed:@"greyButton.png"]
+                                resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+        UIImage *buttonImageHighlight = [[UIImage imageNamed:@"greyButtonHighlight.png"]
+                                         resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];*/
+        for (int i=0;i<[hotKeys count];i++) {
+            TintedButton *hotKey = [hotKeys objectAtIndex:i];
+            //[hotKey setBackgroundImage:buttonImage forState:UIControlStateNormal];
+            //[hotKey setBackgroundImage:buttonImageHighlight forState:UIControlStateHighlighted];
+            [hotKey setTintColor:[UIColor clearColor]];
+            [hotKey setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        }
+        /*UIImage *greenButtonImage = [[UIImage imageNamed:@"greenButton.png"]
+                                     resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];
+        UIImage *greenButtonImageHighlight = [[UIImage imageNamed:@"greenButtonHighlight.png"]
+                                              resizableImageWithCapInsets:UIEdgeInsetsMake(18, 18, 18, 18)];*/
+        //[button setBackgroundImage:greenButtonImage forState:UIControlStateNormal];
+        //[button setBackgroundImage:greenButtonImageHighlight forState:UIControlStateHighlighted];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTintColor:[UIColor colorWithRed:0.1 green:0.8 blue:0.1 alpha:0.3]];
         for (int i=0;i<127;i++) {
             float lowPitch = [[newScale objectAtIndex:i%12] floatValue];
             int octave = i/12;
@@ -1385,6 +1474,7 @@
         //[self initBuffers];
         loadingScale = false;
         [self changeRootNote:rootNote];
+        editedScale = false;
     }
         loadingScale = false;
     }
@@ -1432,7 +1522,7 @@
                                              initWithRootViewController:infoViewController];
     navController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     infoViewController.title = @"Settings and Info";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:infoViewController action:@selector(cancel)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:infoViewController action:@selector(goBack)];
     [infoViewController.navigationItem setLeftBarButtonItem:backButton];
     [self presentModalViewController:navController animated:YES];
 }
@@ -1474,7 +1564,7 @@
         navController.modalPresentationStyle = UIModalPresentationFormSheet;
         [self presentModalViewController:navController animated:YES];
     } else {
-        NSLog(@"more");
+        //NSLog(@"more");
         MoreScalesController * moreViewController = [[MoreScalesController alloc] initWithNibName:@"MoreScalesController" bundle:nil];
         [(UINavigationController*)[self presentedViewController] pushViewController:moreViewController animated:YES];
     }

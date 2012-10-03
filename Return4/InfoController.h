@@ -29,6 +29,7 @@
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *subViews;
 
 - (IBAction) backButtonClick:(id) sender;
+-(void)goBack;
 - (void)rangeChanged:(id)sender;
 - (void)methodChanged:(id)sender;
 - (void)hertzChanged:(id)sender;
