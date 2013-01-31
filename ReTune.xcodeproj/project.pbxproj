@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5562CDB16B1A9CD000ACD2A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5562CDA16B1A9CD000ACD2A /* Crashlytics.framework */; };
+		B580AC3116BA354100BBB36D /* BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B580AC3016BA354100BBB36D /* BButton.m */; };
 		DA01F2A015AA027800894D24 /* MoreScalesDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA01F29E15AA027700894D24 /* MoreScalesDetailController.m */; };
 		DA01F2A115AA027800894D24 /* MoreScalesDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA01F29F15AA027800894D24 /* MoreScalesDetailController.xib */; };
 		DA03121915465EBF00781172 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA03121815465EBF00781172 /* QuartzCore.framework */; };
@@ -113,7 +115,6 @@
 		DA373B9B15D02D1C00A70DD9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6771545EFDA00E1D705 /* UIKit.framework */; };
 		DA373B9C15D02D1C00A70DD9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC6791545EFDA00E1D705 /* Foundation.framework */; };
 		DA373B9D15D02D1C00A70DD9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA3AC67B1545EFDA00E1D705 /* CoreGraphics.framework */; };
-		DA373B9E15D02D1C00A70DD9 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA54588C15CAD03B000D83F1 /* Crashlytics.framework */; };
 		DA373BA015D02D1C00A70DD9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6801545EFDA00E1D705 /* InfoPlist.strings */; };
 		DA373BA115D02D1C00A70DD9 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC68C1545EFDA00E1D705 /* ViewController.xib */; };
 		DA373BA215D02D1C00A70DD9 /* LICENSE.ObjectAL.txt in Resources */ = {isa = PBXBuildFile; fileRef = DA3AC6C01545F05C00E1D705 /* LICENSE.ObjectAL.txt */; };
@@ -1093,7 +1094,6 @@
 		DA3AC7531546283900E1D705 /* MidiParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA3AC7521546283900E1D705 /* MidiParser.m */; };
 		DA510F45158FAE2600B36A4C /* InfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA510F43158FAE2600B36A4C /* InfoController.m */; };
 		DA510F46158FAE2600B36A4C /* InfoController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA510F44158FAE2600B36A4C /* InfoController.xib */; };
-		DA54588D15CAD03B000D83F1 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA54588C15CAD03B000D83F1 /* Crashlytics.framework */; };
 		DA54589115CAFDCD000D83F1 /* retuneicon72-2.png in Resources */ = {isa = PBXBuildFile; fileRef = DA54588E15CAFDCD000D83F1 /* retuneicon72-2.png */; };
 		DA54589215CAFDCD000D83F1 /* retuneicon144.png in Resources */ = {isa = PBXBuildFile; fileRef = DA54588F15CAFDCD000D83F1 /* retuneicon144.png */; };
 		DA54589315CAFDCD000D83F1 /* retuneicon512.png in Resources */ = {isa = PBXBuildFile; fileRef = DA54589015CAFDCD000D83F1 /* retuneicon512.png */; };
@@ -1126,7 +1126,6 @@
 		DA80B730154A2EA500D33D7E /* whitePianoUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B72B154A2EA500D33D7E /* whitePianoUp.png */; };
 		DA80B732154A339F00D33D7E /* hotKeyUp.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B731154A339F00D33D7E /* hotKeyUp.png */; };
 		DA80B734154A35AA00D33D7E /* hotKeyDown.png in Resources */ = {isa = PBXBuildFile; fileRef = DA80B733154A35AA00D33D7E /* hotKeyDown.png */; };
-		DA8AF80C15EBBC8500325776 /* BButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8AF80B15EBBC8500325776 /* BButton.m */; };
 		DA8AF81315EBF59200325776 /* TintedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA8AF81215EBF59200325776 /* TintedButton.m */; };
 		DA95F40D15D5C32B00DA70C9 /* ViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA95F40C15D5C32B00DA70C9 /* ViewController~iphone.xib */; };
 		DAAB03F21548B92600E70868 /* ipad_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DAAB03F11548B92600E70868 /* ipad_icon.png */; };
@@ -1163,6 +1162,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B5562CDA16B1A9CD000ACD2A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		B580AC2F16BA354100BBB36D /* BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BButton.h; sourceTree = "<group>"; };
+		B580AC3016BA354100BBB36D /* BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BButton.m; sourceTree = "<group>"; };
 		DA01F29D15AA027700894D24 /* MoreScalesDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreScalesDetailController.h; sourceTree = "<group>"; };
 		DA01F29E15AA027700894D24 /* MoreScalesDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreScalesDetailController.m; sourceTree = "<group>"; };
 		DA01F29F15AA027800894D24 /* MoreScalesDetailController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MoreScalesDetailController.xib; sourceTree = "<group>"; };
@@ -1769,7 +1771,6 @@
 		DA510F42158FAE2600B36A4C /* InfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfoController.h; sourceTree = "<group>"; };
 		DA510F43158FAE2600B36A4C /* InfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfoController.m; sourceTree = "<group>"; };
 		DA510F44158FAE2600B36A4C /* InfoController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoController.xib; sourceTree = "<group>"; };
-		DA54588C15CAD03B000D83F1 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		DA54588E15CAFDCD000D83F1 /* retuneicon72-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retuneicon72-2.png"; sourceTree = "<group>"; };
 		DA54588F15CAFDCD000D83F1 /* retuneicon144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retuneicon144.png; sourceTree = "<group>"; };
 		DA54589015CAFDCD000D83F1 /* retuneicon512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retuneicon512.png; sourceTree = "<group>"; };
@@ -1803,8 +1804,6 @@
 		DA80B72B154A2EA500D33D7E /* whitePianoUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = whitePianoUp.png; path = Images/whitePianoUp.png; sourceTree = SOURCE_ROOT; };
 		DA80B731154A339F00D33D7E /* hotKeyUp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyUp.png; path = Images/hotKeyUp.png; sourceTree = SOURCE_ROOT; };
 		DA80B733154A35AA00D33D7E /* hotKeyDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hotKeyDown.png; path = Images/hotKeyDown.png; sourceTree = SOURCE_ROOT; };
-		DA8AF80A15EBBC8500325776 /* BButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BButton.h; sourceTree = "<group>"; };
-		DA8AF80B15EBBC8500325776 /* BButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BButton.m; sourceTree = "<group>"; };
 		DA8AF81115EBF59200325776 /* TintedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TintedButton.h; sourceTree = "<group>"; };
 		DA8AF81215EBF59200325776 /* TintedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TintedButton.m; sourceTree = "<group>"; };
 		DA95F40C15D5C32B00DA70C9 /* ViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ViewController~iphone.xib"; sourceTree = "<group>"; };
@@ -1847,7 +1846,6 @@
 				DA373B9B15D02D1C00A70DD9 /* UIKit.framework in Frameworks */,
 				DA373B9C15D02D1C00A70DD9 /* Foundation.framework in Frameworks */,
 				DA373B9D15D02D1C00A70DD9 /* CoreGraphics.framework in Frameworks */,
-				DA373B9E15D02D1C00A70DD9 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1867,7 +1865,7 @@
 				DA3AC7361545F08200E1D705 /* AVFoundation.framework in Frameworks */,
 				DA3AC6781545EFDA00E1D705 /* UIKit.framework in Frameworks */,
 				DA3AC67A1545EFDA00E1D705 /* Foundation.framework in Frameworks */,
-				DA54588D15CAD03B000D83F1 /* Crashlytics.framework in Frameworks */,
+				B5562CDB16B1A9CD000ACD2A /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1884,6 +1882,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B580AC2E16BA354100BBB36D /* BButton */ = {
+			isa = PBXGroup;
+			children = (
+				B580AC2F16BA354100BBB36D /* BButton.h */,
+				B580AC3016BA354100BBB36D /* BButton.m */,
+			);
+			path = BButton;
+			sourceTree = "<group>";
+		};
 		DA28916515D1E1330092A737 /* ASIHTTP */ = {
 			isa = PBXGroup;
 			children = (
@@ -2411,8 +2418,8 @@
 				DA30559F154904490099DE59 /* Scales */,
 				DAAB03F11548B92600E70868 /* ipad_icon.png */,
 				DAAB03F01548B8F600E70868 /* Images */,
-				DA8AF80915EBBC8500325776 /* BButton */,
 				DA3AC73B1545F4DC00E1D705 /* PGMidi */,
+				B580AC2E16BA354100BBB36D /* BButton */,
 				DA28916515D1E1330092A737 /* ASIHTTP */,
 				DA3AC6AC1545F05C00E1D705 /* ObjectAL */,
 				DA3AC6EF1545F05C00E1D705 /* Sounds */,
@@ -2438,11 +2445,11 @@
 		DA3AC6761545EFDA00E1D705 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B5562CDA16B1A9CD000ACD2A /* Crashlytics.framework */,
 				DA28918815D1E24C0092A737 /* libz.dylib */,
 				DA28918615D1E22C0092A737 /* MobileCoreServices.framework */,
 				DA28918415D1E2250092A737 /* SystemConfiguration.framework */,
 				DA28918215D1E21D0092A737 /* CFNetwork.framework */,
-				DA54588C15CAD03B000D83F1 /* Crashlytics.framework */,
 				DA03121815465EBF00781172 /* QuartzCore.framework */,
 				DA3AC7491545F53000E1D705 /* CoreMIDI.framework */,
 				DA3AC7391545F09200E1D705 /* AudioToolbox.framework */,
@@ -2733,16 +2740,6 @@
 				DA7FBB9515A2745800D5D3A6 /* Sine.sound */,
 			);
 			name = Sine;
-			sourceTree = "<group>";
-		};
-		DA8AF80915EBBC8500325776 /* BButton */ = {
-			isa = PBXGroup;
-			children = (
-				DA8AF80A15EBBC8500325776 /* BButton.h */,
-				DA8AF80B15EBBC8500325776 /* BButton.m */,
-			);
-			name = BButton;
-			path = "../../../Downloads/mattlawer-BButton-fc6929f/BButton";
 			sourceTree = "<group>";
 		};
 		DAAB03F01548B8F600E70868 /* Images */ = {
@@ -4067,8 +4064,8 @@
 				DA28919115D1E6090092A737 /* Reachability.m in Sources */,
 				DA35C96915D2087B00DC833B /* RegisterViewController.m in Sources */,
 				DA35C96D15D20B9600DC833B /* UITextViewTableViewCell.m in Sources */,
-				DA8AF80C15EBBC8500325776 /* BButton.m in Sources */,
 				DA8AF81315EBF59200325776 /* TintedButton.m in Sources */,
+				B580AC3116BA354100BBB36D /* BButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
